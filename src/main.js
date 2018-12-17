@@ -2,6 +2,7 @@ import 'babel-polyfill';
 import Vue from 'vue';
 import iView from 'iview';
 import VueRouter from 'vue-router';
+import axios from 'axios';
 
 import app from './components/app';
 import store from './store';
@@ -10,6 +11,8 @@ import 'iview/dist/styles/iview.css';
 
 Vue.use(VueRouter);
 Vue.use(iView);
+Vue.prototype.axios = axios;
+axios.defaults.baseURL = 'http://localhost/back-stage';
 
 const debug = process.env.NODE_ENV !== 'production';
 Vue.config.debug = debug;
