@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { GET_MRSZ_SR_LX, GET_ADD_INCOME } from '@store/common/cwgl/mrsz/index';
+import { GET_MRSZ_SR_LX, GET_ADD_INCOME, GET_BH, GET_DATA } from '@store/common/cwgl/mrsz/index';
 import { mapGetters } from 'vuex';
 export default {
   components: {
@@ -48,13 +48,20 @@ export default {
   },
   computed: {
     ...mapGetters({
-      srlx: GET_MRSZ_SR_LX
+      srlx: GET_MRSZ_SR_LX,
+      bh: GET_DATA
     })
   },
   mounted() {
-
+    this.getBh();
   },
   methods: {
+    getBh() {
+      this.$store.dispatch(GET_BH).then(res => {
+        // 回显赋值
+        this.data.bh = this.bh;
+      });
+    },
     select(value) {
       console.log(value);
     },
@@ -65,8 +72,12 @@ export default {
       this.$refs[name].resetFields();
     },
     ok() {
-      console.log(this.data);
-      this.$store.dispatch(GET_ADD_INCOME, this.data);
+      this.$store.dispatch(GET_ADD_INCOME, this.data).then(res => {
+        // 重置表单
+        this.reset('data');
+        // 获取新的编号
+        this.getBh();
+      });
     }
   }
 };

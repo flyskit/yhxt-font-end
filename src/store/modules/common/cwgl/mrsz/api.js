@@ -4,7 +4,11 @@ import axios from 'axios';
 
 export default {
   addIncome(params) {
-    console.log({params});
-    return axios.post('/finance-management/addIncome', params);
+    let res = axios.post('/finance-management/addIncome', params);
+    return res;
+  },
+  getBh() {
+    let res = axios.post('/finance-management/getBh');
+    return res;
   }
 };
