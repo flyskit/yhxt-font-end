@@ -5,9 +5,9 @@
       FormItem(label="编号" prop="bh")
         Input.input-width-in-form(v-model="data.bh" placeholder="输入编号")
       FormItem(label="录入日期" prop="lrrq")
-        DatePicker.input-width-in-form(v-model="data.lrrq" format="yyyy-MM-dd" type="date" placeholder="输入录入日期")
+        DatePicker.input-width-in-form(v-model="data.lrrq" format="yyyy-MM-dd" @on-change="data.lrrq=$event" type="date" placeholder="输入录入日期")
       FormItem(label="收账日期" prop="szrq")
-        DatePicker.input-width-in-form(v-model="data.szrq" format="yyyy-MM-dd" type="date" placeholder="输入收账日期")
+        DatePicker.input-width-in-form(v-model="data.szrq" format="yyyy-MM-dd" @on-change="data.szrq=$event" type="date" placeholder="输入收账日期")
       FormItem(label="客户姓名" prop="khxm")
         Input.input-width-in-form(v-model="data.khxm" placeholder="输入客户姓名")
       pre
@@ -40,7 +40,7 @@ export default {
         lrrq: '',
         szrq: '',
         khxm: '',
-        srlx: [],
+        srlx: '',
         srje: '',
         bz: ''
       }
@@ -66,9 +66,7 @@ export default {
     },
     ok() {
       console.log(this.data);
-      this.$store.dispatch(GET_ADD_INCOME, this.data).then(() => {
-        // console.log(this.data);
-      });
+      this.$store.dispatch(GET_ADD_INCOME, this.data);
     }
   }
 };

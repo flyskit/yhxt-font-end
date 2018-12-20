@@ -11,6 +11,7 @@ import 'iview/dist/styles/iview.css';
 
 Vue.use(VueRouter);
 Vue.use(iView);
+// 加载axios
 Vue.prototype.axios = axios;
 axios.defaults.baseURL = 'http://localhost/back-stage';
 

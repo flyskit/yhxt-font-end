@@ -8,6 +8,7 @@ import api from './api';
 export const GET_MRSZ_SR_LX = 'GET_MRSZ_SR_LX';
 export const GET_MRSZ_ZC_LX = 'GET_MRSZ_ZC_LX';
 export const GET_ADD_INCOME = 'GET_ADD_INCOME';
+// export const SET_ADD_INCOME = 'SET_ADD_INCOME';
 
 export default {
   state: {
@@ -17,13 +18,14 @@ export default {
     GET_MRSZ_ZC_LX: (state) => MRSZ_ZC_LX
   },
   mutations: {
-
+    // [SET_ADD_INCOME](state, data) {
+    // }
   },
   actions: {
-    [GET_ADD_INCOME](data) {
-      console.log('----请求参数' + data);
-      let res = api.addIncome(data);
-      console.log('----反馈结果' + res);
+    [GET_ADD_INCOME]({ commit }, param) {
+      console.log(param);
+      let res = api.addIncome(param);
+      console.log(res);
     }
   }
 };
