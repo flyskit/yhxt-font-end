@@ -23,16 +23,14 @@
       FormItem
         Button.button-position-in-form(@click="reset('data')") 重置
         Button(type="primary" @click="ok") 添加
-
+    lsjl(ref="lsjl")
 </template>
 
 <script>
 import { GET_MRSZ_SR_LX, GET_ADD_INCOME, GET_BH, GET_DATA } from '@store/common/cwgl/mrsz/index';
 import { mapGetters } from 'vuex';
+import lsjl from './lsjl/lsjl-sr';
 export default {
-  components: {
-
-  },
   data () {
     return {
       data: {
@@ -45,6 +43,9 @@ export default {
         bz: ''
       }
     };
+  },
+  components: {
+    lsjl
   },
   computed: {
     ...mapGetters({
@@ -66,7 +67,7 @@ export default {
       console.log(value);
     },
     historyButton() {
-
+      this.$refs.lsjl.show();
     },
     reset(name) {
       this.$refs[name].resetFields();
