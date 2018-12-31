@@ -27,7 +27,8 @@
 </template>
 
 <script>
-import { GET_MRSZ_SR_LX, GET_ADD_INCOME, GET_BH, GET_DATA } from '@store/common/cwgl/mrsz/index';
+import { GET_ADD_INCOME, GET_BH, GET_DATA } from '@store/common/cwgl/mrsz/index';
+import { MRSZ_SR_LX } from '@store/common/cwgl/mrsz/sr';
 import { mapGetters } from 'vuex';
 import lsjl from './lsjl/lsjl-sr';
 export default {
@@ -41,7 +42,8 @@ export default {
         srlx: '',
         srje: '',
         bz: ''
-      }
+      },
+      srlx: MRSZ_SR_LX
     };
   },
   components: {
@@ -49,7 +51,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      srlx: GET_MRSZ_SR_LX,
       bh: GET_DATA
     })
   },

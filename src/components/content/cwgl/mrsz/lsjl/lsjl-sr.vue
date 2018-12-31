@@ -26,7 +26,8 @@
 </template>
 
 <script>
-import { GET_TABLE_DATA, GET_MRSZ_SR_LX, GET_MRSZ_SR_COLUMNS, GET_MRSZ_SR_DATA, GET_TOTAL_PAGE, GET_TOTAL_ELEMENT } from '@store/common/cwgl/mrsz/index';
+import { GET_TABLE_DATA, GET_MRSZ_SR_COLUMNS, GET_MRSZ_SR_DATA, GET_TOTAL_PAGE, GET_TOTAL_ELEMENT } from '@store/common/cwgl/mrsz/index';
+import { MRSZ_SR_LX } from '@store/common/cwgl/mrsz/sr';
 import { mapGetters } from 'vuex';
 export default {
   data () {
@@ -42,7 +43,8 @@ export default {
         pageSize: 10,
         page: 1
       },
-      visible: false
+      visible: false,
+      srlx: MRSZ_SR_LX
     };
   },
   components: {
@@ -50,7 +52,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      srlx: GET_MRSZ_SR_LX,
       srColumns: GET_MRSZ_SR_COLUMNS,
       dataTable: GET_TABLE_DATA,
       totalElement: GET_TOTAL_ELEMENT,

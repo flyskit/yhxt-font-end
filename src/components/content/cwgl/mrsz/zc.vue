@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { GET_MRSZ_ZC_LX } from '@store/common/cwgl/mrsz/index';
+import { MRSZ_ZC_LX } from '@store/common/cwgl/mrsz/zc';
 import { mapGetters } from 'vuex';
 export default {
   components: {
@@ -36,12 +36,13 @@ export default {
         je: '',
         sj: '',
         bz: ''
-      }
+      },
+      lx: MRSZ_ZC_LX
     };
   },
   computed: {
     ...mapGetters({
-      lx: GET_MRSZ_ZC_LX
+
     })
   },
   mounted() {
