@@ -1,21 +1,21 @@
 <template lang='pug'>
   div.mrsz
-    Button(type="primary" @click="historyButton" style="float: right") 历史记录
+    Button(type="error" @click="historyButton" style="float: right") 历史记录
     Form(ref="data" :model="data" :label-width="80" inline)
       FormItem(label="编号" prop="bh")
-        Input.input-width-in-form(v-model="data.bh" placeholder="输入编号")
+        Input.input-width-in-form(v-model="data.bh" clearable  placeholder="输入编号")
       FormItem(label="录入日期" prop="lrrq")
         DatePicker.input-width-in-form(v-model="data.lrrq" format="yyyy-MM-dd" @on-change="data.lrrq=$event" type="date" placeholder="输入录入日期")
       FormItem(label="收账日期" prop="szrq")
         DatePicker.input-width-in-form(v-model="data.szrq" format="yyyy-MM-dd" @on-change="data.szrq=$event" type="date" placeholder="输入收账日期")
       FormItem(label="客户姓名" prop="khxm")
-        Input.input-width-in-form(v-model="data.khxm" placeholder="输入客户姓名")
+        Input.input-width-in-form(v-model="data.khxm" clearable placeholder="输入客户姓名")
       pre
       FormItem(label="收入类型" prop="srlx")
         Select.input-width-in-form(v-model="data.srlx" @on-change="select" clearable filterable remote)
           Option(v-for="item in srlx" :value="item.value" :key="item.value") {{ item.label }}
       FormItem(label="收入金额" prop="srje")
-        Input.input-width-in-form(v-model="data.srje" placeholder="输入金额")
+        Input.input-width-in-form(v-model="data.srje" clearable placeholder="输入金额")
       pre
       FormItem(label="备注" prop="bz")
         Input.input-width-in-form(v-model="data.bz" type="textarea" :rows="3" style="width: 68vw" placeholder="备注")

@@ -45,7 +45,7 @@ export default {
     })
   },
   mounted() {
-    // console.log(11111111111);
+    console.log(11111111111);
   },
   methods: {
     select(value) {

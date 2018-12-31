@@ -40,7 +40,7 @@ export const MRSZ_SR_COLUMNS = [
   },
   {
     title: '收账日期',
-    key: 'zsrq'
+    key: 'szrq'
   },
   {
     title: '客户姓名',

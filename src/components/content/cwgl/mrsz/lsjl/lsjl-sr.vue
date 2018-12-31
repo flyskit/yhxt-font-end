@@ -1,6 +1,6 @@
 <template lang='pug'>
   div.lsjl-sr
-    Modal(v-model="visible" width="90vw" @on-ok="ok" @on-cancel="cancel")
+    Modal(v-model="visible" width="90vw" height="60vh" @on-ok="ok" @on-cancel="cancel")
       p(slot="header" style="color:#f60")
         Icon(type="ios-information-circle")
         span 历史记录
@@ -8,24 +8,25 @@
         div.form-style
           Form(ref="dataModal" :model="dataModal" :label-width="60" inline)
             FormItem(label="编号" prop="bh")
-              Input.input-width-in-form(v-model="dataModal.bh" placeholder="输入编号")
+              Input.input-width-in-form(v-model="dataModal.bh" @on-change="select" clearable  placeholder="输入编号")
             FormItem(label="录入日期" prop="lrrq")
-              DatePicker.input-width-in-form(v-model="dataModal.lrrq" format="yyyy-MM-dd" @on-change="dataModal.lrrq=$event" type="date" placeholder="输入录入日期")
+              DatePicker.input-width-in-form(v-model="dataModal.lrrq" format="yyyy-MM-dd" @on-change="chooseDateLrrq" type="date" placeholder="输入录入日期")
             FormItem(label="收账日期" prop="szrq")
-              DatePicker.input-width-in-form(v-model="dataModal.szrq" format="yyyy-MM-dd" @on-change="dataModal.szrq=$event" type="date" placeholder="输入收账日期")
+              DatePicker.input-width-in-form(v-model="dataModal.szrq" format="yyyy-MM-dd" @on-change="chooseDateSzrq" type="date" placeholder="输入收账日期")
             FormItem(label="客户姓名" prop="khxm")
-              Input.input-width-in-form(v-model="dataModal.khxm" placeholder="输入客户姓名")
+              Input.input-width-in-form(v-model="dataModal.khxm" @on-change="select" clearable placeholder="输入客户姓名")
             FormItem(label="收入类型" prop="srlx")
               Select.input-width-in-form(v-model="dataModal.srlx" @on-change="select" clearable filterable remote)
                 Option(v-for="item in srlx" :value="item.value" :key="item.value") {{ item.label }}
         div.table-style
-          Table(:columns="srColumns" no-data-text="暂无数据显示" border)
+          Table(:columns="srColumns" :data="dataTable" no-data-text="暂无数据显示" border)
+          Page(:total="totalElement" show-total)
       div(slot="footer")
         <Button type="error" @click="cancel">关闭</Button>
 </template>
 
 <script>
-import { GET_DATA, GET_MRSZ_SR_LX, GET_MRSZ_SR_COLUMNS, GET_MRSZ_SR_DATA } from '@store/common/cwgl/mrsz/index';
+import { GET_TABLE_DATA, GET_MRSZ_SR_LX, GET_MRSZ_SR_COLUMNS, GET_MRSZ_SR_DATA, GET_TOTAL_PAGE, GET_TOTAL_ELEMENT } from '@store/common/cwgl/mrsz/index';
 import { mapGetters } from 'vuex';
 export default {
   data () {
@@ -35,7 +36,11 @@ export default {
         lrrq: '',
         szrq: '',
         khxm: '',
-        srlx: []
+        srlx: ''
+      },
+      page: {
+        pageSize: 10,
+        page: 1
       },
       visible: false
     };
@@ -47,25 +52,47 @@ export default {
     ...mapGetters({
       srlx: GET_MRSZ_SR_LX,
       srColumns: GET_MRSZ_SR_COLUMNS,
-      dataTable: GET_DATA
+      dataTable: GET_TABLE_DATA,
+      totalElement: GET_TOTAL_ELEMENT,
+      totalPage: GET_TOTAL_PAGE
     })
   },
   mounted() {
-    console.log('测试');
+
   },
   methods: {
     show() {
       this.visible = true;
     },
+    // 获取后台数据
     select() {
-
+      this.$store.dispatch(GET_MRSZ_SR_DATA, {...this.dataModal, page: this.page});
+    },
+    // 录入日期-修改时间格式
+    chooseDateLrrq(value) {
+      this.dataModal.lrrq = value;
+      this.select();
+    },
+    // 收账日期-修改时间格式
+    chooseDateSzrq(value) {
+      this.dataModal.szrq = value;
+      this.select();
+    },
+    // 分页
+    pageChange(value) {
+      console.log(value);
+    },
+    // 重置表单
+    reset(name) {
+      this.$refs[name].resetFields();
     },
     ok() {
-      this.$store.dispatch(GET_MRSZ_SR_DATA);
+      // this.$store.dispatch(GET_MRSZ_SR_DATA);
       this.$Message.info('点击确认');
     },
     cancel() {
-      this.$Message.info('取消');
+      this.reset('dataModal');
+      this.visible = false;
     }
   }
 };
