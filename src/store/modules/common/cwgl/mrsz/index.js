@@ -52,12 +52,12 @@ export default {
     // 查询-根据条件查询记录
     async [GET_MRSZ_SR_DATA]({ commit }, param) {
       let res = await api.getDataByCond(param);
+      console.log(res.data.map.data.content);
       commit(SET_MRSZ_SR_DATA, res.data.map.data);
     },
     // 查询-编号
     async [GET_BH]({ commit }) {
       let res = await api.getBh();
-      console.log(res.data);
       commit(SET_BH, res.data);
     }
   }

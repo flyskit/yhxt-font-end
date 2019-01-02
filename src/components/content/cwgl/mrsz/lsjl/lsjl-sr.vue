@@ -19,8 +19,9 @@
               Select.input-width-in-form(v-model="dataModal.srlx" @on-change="select" clearable filterable remote)
                 Option(v-for="item in srlx" :value="item.value" :key="item.value") {{ item.label }}
         div.table-style
-          Table(:columns="srColumns" :data="dataTable" no-data-text="暂无数据显示" border)
-          Page(:total="totalElement" show-total)
+          Table(:columns="srColumns" ref="selection" :data="dataTable" height="400" no-data-text="暂无数据显示" border)
+          pre
+          Page(:total="totalElement" @on-change="pageChange" show-total)
       div(slot="footer")
         <Button type="error" @click="cancel">关闭</Button>
 </template>
@@ -30,14 +31,15 @@ import { GET_TABLE_DATA, GET_MRSZ_SR_COLUMNS, GET_MRSZ_SR_DATA, GET_TOTAL_PAGE, 
 import { MRSZ_SR_LX } from '@store/common/cwgl/mrsz/sr';
 import { mapGetters } from 'vuex';
 export default {
+  inject: ['reload'],
   data () {
     return {
       dataModal: {
         bh: '',
-        lrrq: '',
-        szrq: '',
+        lrrq: null,
+        szrq: null,
         khxm: '',
-        srlx: ''
+        srlx: null
       },
       page: {
         pageSize: 10,
@@ -67,6 +69,9 @@ export default {
     },
     // 获取后台数据
     select() {
+      // 重置页码
+      this.page.page = 1;
+      // 搜索
       this.$store.dispatch(GET_MRSZ_SR_DATA, {...this.dataModal, page: this.page});
     },
     // 录入日期-修改时间格式
@@ -81,18 +86,22 @@ export default {
     },
     // 分页
     pageChange(value) {
-      console.log(value);
+      this.page.page = value;
+      this.$store.dispatch(GET_MRSZ_SR_DATA, {...this.dataModal, page: this.page});
     },
-    // 重置表单
     reset(name) {
       this.$refs[name].resetFields();
+      this.$refs.selection.selectAll(false);
     },
     ok() {
-      // this.$store.dispatch(GET_MRSZ_SR_DATA);
-      this.$Message.info('点击确认');
+      this.reset('dataModal');
+      this.reload();
     },
     cancel() {
       this.reset('dataModal');
+      // 刷新表单
+      this.reload();
+      // 关闭弹框
       this.visible = false;
     }
   }

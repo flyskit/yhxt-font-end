@@ -15,6 +15,7 @@ export default {
   },
   // 获取-根据条件查询记录
   getDataByCond(param) {
+    console.log(param);
     let res = axios.post('/finance-management/getDataByCond', param);
     return res;
   }
