@@ -44,6 +44,7 @@ export const MRSZ_SR_COLUMNS = [
   {
     title: '录入日期',
     key: 'lrrq',
+    width: 200,
     sortable: true,
     align: 'center'
   },

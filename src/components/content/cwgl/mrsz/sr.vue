@@ -4,8 +4,6 @@
     Form(ref="data" :model="data" :label-width="80" inline)
       FormItem(label="编号" prop="bh")
         Input.input-width-in-form(v-model="data.bh" clearable  placeholder="输入编号")
-      FormItem(label="录入日期" prop="lrrq")
-        DatePicker.input-width-in-form(v-model="data.lrrq" format="yyyy-MM-dd" @on-change="chooseDateLrrq" type="date" placeholder="输入录入日期")
       FormItem(label="收账日期" prop="szrq")
         DatePicker.input-width-in-form(v-model="data.szrq" format="yyyy-MM-dd" @on-change="chooseDateSzrq" type="date" placeholder="输入收账日期")
       FormItem(label="客户姓名" prop="khxm")
@@ -27,7 +25,7 @@
 </template>
 
 <script>
-import { GET_ADD_INCOME, GET_BH, GET_DATA } from '@store/common/cwgl/mrsz/index';
+import { GET_ADD_INCOME, GET_BH_DATA, GET_BH } from '@store/common/cwgl/mrsz/index';
 import { MRSZ_SR_LX } from '@store/common/cwgl/mrsz/sr';
 import { mapGetters } from 'vuex';
 import lsjl from './lsjl/lsjl-sr';
@@ -37,7 +35,6 @@ export default {
     return {
       data: {
         bh: '',
-        lrrq: '',
         szrq: '',
         khxm: '',
         srlx: '',
@@ -52,7 +49,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      bh: GET_DATA
+      bh: GET_BH
     })
   },
   mounted() {
@@ -60,7 +57,7 @@ export default {
   },
   methods: {
     getBh() {
-      this.$store.dispatch(GET_BH).then(res => {
+      this.$store.dispatch(GET_BH_DATA).then(res => {
         // 回显赋值
         this.data.bh = this.bh;
       });

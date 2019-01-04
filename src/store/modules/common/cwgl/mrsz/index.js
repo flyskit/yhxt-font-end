@@ -5,7 +5,7 @@ import api from './api';
 
 // getters
 export const GET_MRSZ_SR_COLUMNS = 'GET_MRSZ_SR_COLUMNS';
-export const GET_DATA = 'GET_DATA';
+export const GET_BH = 'GET_BH';
 export const GET_TABLE_DATA = 'GET_TABLE_DATA';
 export const GET_TOTAL_PAGE = 'GET_TOTAL_PAGE';
 export const GET_TOTAL_ELEMENT = 'GET_TOTAL_ELEMENT';
@@ -13,7 +13,7 @@ export const GET_TOTAL_ELEMENT = 'GET_TOTAL_ELEMENT';
 // actions
 export const GET_ADD_INCOME = 'GET_ADD_INCOME';
 export const GET_MRSZ_SR_DATA = 'GET_MRSZ_SR_DATA';
-export const GET_BH = 'GET_BH';
+export const GET_BH_DATA = 'GET_BH_DATA';
 
 // mutations
 export const SET_BH = 'SET_BH';
@@ -22,20 +22,21 @@ export const SET_MRSZ_SR_DATA = 'SET_MRSZ_SR_DATA';
 export default {
   state: {
     data: '',
+    bh: '',
     tableData: [],
     totalPage: 0,
     totalElement: 0
   },
   getters: {
     GET_MRSZ_SR_COLUMNS: (state) => MRSZ_SR_COLUMNS,
-    GET_DATA: (state) => state.data,
+    GET_BH: (state) => state.bh,
     GET_TABLE_DATA: (state) => state.tableData,
     GET_TOTAL_PAGE: (state) => state.totalPage,
     GET_TOTAL_ELEMENT: (state) => state.totalElement
   },
   mutations: {
-    [SET_BH](state, data) {
-      state.data = data;
+    [SET_BH](state, res) {
+      state.bh = res;
     },
     [SET_MRSZ_SR_DATA](state, res) {
       state.tableData = res.content;
@@ -56,9 +57,10 @@ export default {
       commit(SET_MRSZ_SR_DATA, res.data.map.data);
     },
     // 查询-编号
-    async [GET_BH]({ commit }) {
+    async [GET_BH_DATA]({ commit }) {
       let res = await api.getBh();
-      commit(SET_BH, res.data);
+      console.log(res);
+      commit(SET_BH, res.data.map.data);
     }
   }
 };
