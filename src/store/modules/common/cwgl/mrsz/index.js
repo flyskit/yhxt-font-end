@@ -59,8 +59,7 @@ export default {
     // 查询-编号
     async [GET_BH_DATA]({ commit }) {
       let res = await api.getBh();
-      console.log(res);
-      commit(SET_BH, res.data.map.data);
+      res.data.status === 200 ? commit(SET_BH, res.data.map.data) : alert(res.data.info);
     }
   }
 };

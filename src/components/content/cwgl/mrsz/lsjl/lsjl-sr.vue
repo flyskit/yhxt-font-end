@@ -1,6 +1,6 @@
 <template lang='pug'>
   div.lsjl-sr
-    Modal(v-model="visible" width="90vw" height="60vh" @on-ok="ok" @on-cancel="cancel")
+    Modal(v-model="visible" width="90vw" height="60vh" @on-ok="ok" @on-cancel="cancel" scrollable=true)
       p(slot="header" style="color:#f60")
         Icon(type="ios-information-circle")
         span 历史记录

@@ -1,6 +1,9 @@
 <template lang='pug'>
   div.mrsz
-    Button(type="error" @click="historyButton" style="float: right") 历史记录
+    Button(type="error" @click="historyButton" style="float: left;margin: 0 10px 15px 0") 历史记录
+    Button(type="error" @click="historyButton" style="float: left;margin: 0 10px 15px 0") 图表统计
+    Button(type="error" @click="historyButton" style="float: left;margin: 0 10px 15px 0") 图表统计
+    Divider
     Form(ref="data" :model="data" :label-width="80" inline)
       FormItem(label="编号" prop="bh")
         Input.input-width-in-form(v-model="data.bh" clearable  placeholder="输入编号")
@@ -8,7 +11,6 @@
         DatePicker.input-width-in-form(v-model="data.szrq" format="yyyy-MM-dd" @on-change="chooseDateSzrq" type="date" placeholder="输入收账日期")
       FormItem(label="客户姓名" prop="khxm")
         Input.input-width-in-form(v-model="data.khxm" clearable placeholder="输入客户姓名")
-      pre
       FormItem(label="收入类型" prop="srlx")
         Select.input-width-in-form(v-model="data.srlx" clearable filterable remote)
           Option(v-for="item in srlx" :value="item.value" :key="item.value") {{ item.label }}

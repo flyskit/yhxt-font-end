@@ -82,6 +82,7 @@ export const MRSZ_SR_COLUMNS = [
   {
     title: '备注',
     key: 'bz',
+    width: 240,
     align: 'center',
     tooltip: true
   }
