@@ -36,8 +36,8 @@ export default {
     return {
       dataModal: {
         bh: '',
-        lrrq: null,
-        szrq: null,
+        lrrq: '',
+        szrq: '',
         khxm: '',
         srlx: null
       },
@@ -91,7 +91,7 @@ export default {
     },
     reset(name) {
       this.$refs[name].resetFields();
-      this.$refs.selection.selectAll(false);
+      this.select();
     },
     ok() {
       this.reset('dataModal');

@@ -7,6 +7,7 @@ import kcjl from '@/components/content/clgl/kcjl/main';
 import khxd from '@/components/content/sclc/khxd/main';
 import xjbd from '@/components/content/khxd/xjbd/main';
 import mrsz from '@/components/content/cwgl/mrsz/main';
+import jgm from '@/components/content/khxd/jgm/main';
 
 Vue.use(Router);
 
@@ -36,6 +37,11 @@ export default new Router({
       path: '/order-new',
       name: 'xjbd',
       component: xjbd
+    },
+    {
+      path: '/khxd-jgm',
+      name: 'jgm',
+      component: jgm
     },
     {
       path: '/finance-everyday',

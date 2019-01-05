@@ -4,6 +4,7 @@ import Vue from 'vue';
 import sclsModule from './modules/sclc/index';
 import doorType from './modules/common/static-fields/index';
 import mrsz from './modules/common/cwgl/mrsz/index';
+import khxdJgmXjbd from './modules/common/khxd/jgm/xjbd/index';
 import dataColumns from './modules/common/static-data/index';
 
 Vue.use(Vuex);
@@ -14,7 +15,8 @@ let store = new Vuex.Store({
     sclsModule,
     doorType,
     dataColumns,
-    mrsz
+    mrsz,
+    khxdJgmXjbd
   },
   strict: process.env.NODE_ENV !== 'production' // 开启严格模式
 });

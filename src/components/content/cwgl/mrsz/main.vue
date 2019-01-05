@@ -28,7 +28,6 @@ export default {
   },
   methods: {
     currentTabChange(name) {
-      console.log(name);
       this.changeTab(name);
     },
     changeTab(name) {
