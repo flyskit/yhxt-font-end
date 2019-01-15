@@ -31,13 +31,29 @@ export const KHXD_JGM_COLUMNS = [
     title: '尺寸类型',
     key: 'cclx',
     align: 'center',
-    render: function (h, v) {
-      KHXD_JGM_CCLX.forEach(function (element) {
-        if (v.row.cclx === element.value) {
-          v.row.cclx = element.label;
-        }
-      });
-      return h('div', v.row.cclx);
+    // render: function (h, v) {
+    //   KHXD_JGM_CCLX.forEach(function (element) {
+    //     if (v.row.cclx === element.value) {
+    //       v.row.cclx = element.label;
+    //     }
+    //   });
+    //   return h('div', v.row.cclx);
+    // }
+    render: (h, params) => {
+      if (params.row.$isEdit) {
+        return h('input', {
+          domProps: {
+            value: params.row.cclx
+          },
+          on: {
+            input: (event) => {
+              params.row.cclx = event.target.value;
+            }
+          }
+        });
+      } else {
+        return h('div', params.row.cclx);
+      }
     }
   },
   {
@@ -84,25 +100,46 @@ export const KHXD_JGM_COLUMNS = [
     tooltip: true
   },
   {
-    title: '玻璃尺寸',
-    key: 'blcc',
-    align: 'center',
-    children: [
-      {
-        title: '高度',
-        key: 'blgd',
-        align: 'center'
-      },
-      {
-        title: '宽度',
-        key: 'blkd',
-        align: 'center'
-      }
-    ]
-  },
-  {
-    title: '玻璃平方',
-    key: 'blpf',
-    align: 'center'
+    title: '操作',
+    key: 'action',
+    render: (h, params) => {
+      return h('button', {
+        props: {
+          type: 'text',
+          size: 'small'
+        },
+        on: {
+          click: () => {
+            if (params.row.$isEdit) {
+              this.handleSave(params.row);
+            } else {
+              this.handleEdit(params.row);
+            }
+          }
+        }
+      }, params.row.$isEdit ? '保存' : '编辑');
+    }
   }
+  // {
+  //   title: '玻璃尺寸',
+  //   key: 'blcc',
+  //   align: 'center',
+  //   children: [
+  //     {
+  //       title: '高度',
+  //       key: 'blgd',
+  //       align: 'center'
+  //     },
+  //     {
+  //       title: '宽度',
+  //       key: 'blkd',
+  //       align: 'center'
+  //     }
+  //   ]
+  // },
+  // {
+  //   title: '玻璃平方',
+  //   key: 'blpf',
+  //   align: 'center'
+  // }
 ];
