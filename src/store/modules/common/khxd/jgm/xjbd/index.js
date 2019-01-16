@@ -5,6 +5,7 @@ import { KHXD_JGM_COLUMNS } from './module';
 
 // actions
 export const GET_DATA = 'GET_DATA';
+export const ADD_DATA = 'ADD_DATA';
 
 // mutations
 export const SET_DATA = 'SET_DATA';
@@ -35,10 +36,15 @@ export default {
     }
   },
   actions: {
-    // 查询
+    /** 查询数据 */
     async [GET_DATA]({ commit }) {
       let res = await api.getBh();
       res.data.status === 200 ? commit(SET_DATA, res.data.map.data) : alert(res.data.info);
+    },
+    /** 提交数据 */
+    async [ADD_DATA]({ commit }, param) {
+      let res = await api.addData(param);
+      alert(res.data.info);
     }
   }
 };

@@ -24,8 +24,11 @@
 <script>
 import { mapGetters } from 'vuex';
 import tableJgm from '@component_table/summary/editJgm.vue';
+import _ from 'lodash';
 import { KHXD_JGM_COLUMNS, KHXD_JGM_CCLX, KHXD_JGM_XDLX } from '@store/common/khxd/jgm/xjbd/module';
+import { ADD_DATA } from '@store/common/khxd/jgm/xjbd/index';
 export default {
+  inject: ['reload'],
   components: {
     tableJgm
   },
@@ -37,8 +40,9 @@ export default {
         dz: '',
         dh: '',
         xdlx: '',
-        gh: '',
+        gq: '',
         bz: '',
+        status: '',
         ccxx: []
       },
       xdlx: KHXD_JGM_XDLX,
@@ -59,21 +63,17 @@ export default {
     changeXdlx(value) {
       this.data.xdlx = value;
     },
-    /** 将表格数据放入data */
-    pushData(tableData) {
-      this.data.ccxx.push(tableData);
-    },
     /** 获取table表格数据-提交订单 */
-    getTableData(tableData) {
-      console.log(tableData);
+    getTableData(tableData, status) {
+      this.data.status = status;
+      this.data.ccxx = _.cloneDeep(tableData);
+      this.addData();
     },
-    /** 重置表单 */
-    reset(name) {
-      this.$refs[name].resetField();
-    },
-    ok() {
-      console.log(this.ccxx);
-      this.pushData(this.ccxx);
+    /** 提交数据 */
+    addData() {
+      this.$store.dispatch(ADD_DATA, this.data).then(res => {
+        this.reload();
+      });
     }
   }
 };

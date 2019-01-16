@@ -64,21 +64,23 @@ export default {
         this.data.bh = this.bh;
       });
     },
-    // 录入日期-修改时间格式
+    /** 选择录入日期，修改时间格式 */
     chooseDateLrrq(value) {
       this.data.lrrq = value;
     },
-    // 收账日期-修改时间格式
+    /** 选择收账日期，修改时间格式 */
     chooseDateSzrq(value) {
       this.data.szrq = value;
     },
-    // 历史记录-弹框显示
+    /** 历史记录 */
     historyButton() {
       this.$refs.lsjl.show();
     },
+    /** 重置 */
     reset() {
       this.reload();
     },
+    /** 提交数据 */
     ok() {
       this.$store.dispatch(GET_ADD_INCOME, this.data).then(res => {
         // 刷新表单

@@ -1,9 +1,12 @@
 import axios from 'axios';
 
 export default {
-  // 获取-编号
+  /** 获取编号 */
   getBh() {
-    let res = axios.post('/finance-management/getBh');
-    return res;
+    return axios.post('/finance-management/getBh');
+  },
+  addData(params) {
+    console.log(params);
+    return axios.post('/finance-management/addData', params);
   }
 };

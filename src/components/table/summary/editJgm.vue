@@ -2,8 +2,9 @@
   div.table-jgm-edit
     Button.operate-button(@click="addDiGui") 添加地柜
     Button.operate-button(@click="addDiaoGui") 添加吊柜
+    Input.operate-button(v-model="kjcc" style="width:100px;" placeholder="玻璃扣减尺寸")
     Button.operate-button(@click="addData" style="float:right;") 添加订单
-    Poptip(@on-ok="addData" confirm title="是否暂存?" style="float:right;" transfer)
+    Poptip(@on-ok="storageData" confirm title="是否暂存?" style="float:right;" transfer)
       Button.operate-button 暂存订单
     Table(ref="myTable" border :columns="columns" size="small" :data="data")
       template(slot="cclx" slot-scope="props")
@@ -47,11 +48,17 @@ export default {
         lhjkd: '',
         ps: '',
         lhjpf: '',
-        bz: ''
+        bz: '',
+        kjcc: '',
+        blgd: '',
+        blkd: '',
+        blpf: ''
       },
+      kjcc: '',
       cclx: '',
       ys: '',
       ls: '',
+      status: 0,
       columns: [
         {
           title: '尺寸类型',
@@ -230,7 +237,15 @@ export default {
     },
     /** 计算平方 */
     computedPf(idx) {
-      this.data[idx].lhjpf = (this.data[idx].lhjgd * 0.001 * this.data[idx].lhjkd * 0.001 * this.data[idx].ps).toFixed(3);
+      if (this.kjcc === '') {
+        this.$Message.error('请输入玻璃扣减尺寸');
+      } else {
+        this.data[idx].kjcc = this.kjcc;
+        this.data[idx].lhjpf = (this.data[idx].lhjgd * 0.001 * this.data[idx].lhjkd * 0.001 * this.data[idx].ps).toFixed(3);
+        this.data[idx].blgd = this.data[idx].lhjgd - this.kjcc;
+        this.data[idx].blkd = this.data[idx].lhjkd - this.kjcc;
+        this.data[idx].blpf = (this.data[idx].blgd * 0.001 * this.data[idx].blkd * 0.001 * this.data[idx].ps).toFixed(3);
+      }
     },
     /** 添加行 */
     addRow() {
@@ -239,13 +254,37 @@ export default {
         this.act = !this.act;
       });
     },
-    /** 提交订单-把数据返回父组件 */
+    /** 提交订单 */
     addData() {
       if (this.data.length === 0) {
         this.$Message.info('请填写尺寸信息');
       } else {
-        this.$emit('getTableData', this.data);
+        this.status = 1;
+        this.returnData();
       }
+    },
+    /** 暂存订单 */
+    storageData() {
+      if (this.data.length === 0) {
+        this.$Message.info('请填写尺寸信息');
+      } else {
+        this.status = 0;
+        this.returnData();
+      }
+    },
+    /** 把数据返回父组件 */
+    returnData() {
+      this.$emit('getTableData', this.data, this.status);
+      // this.resetTableData();
+    },
+    /** 重置table数据 */
+    resetTableData() {
+      this.data = [];
+      this.status = 0;
+      this.kjcc = '';
+      this.cclx = '';
+      this.ys = '';
+      this.ls = '';
     }
   }
 };
