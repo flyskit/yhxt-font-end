@@ -5,8 +5,8 @@ export default {
   getBh() {
     return axios.post('/finance-management/getBh');
   },
-  addData(params) {
-    console.log(params);
-    return axios.post('/finance-management/addData', params);
+  addData(param) {
+    console.log(param);
+    return axios.post('/khxd/jgm/addData', param);
   }
 };
