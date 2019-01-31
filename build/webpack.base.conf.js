@@ -40,6 +40,7 @@ module.exports = {
       '@component_form': path.resolve(__dirname, '../src/components/form'),
       '@component_table': path.resolve(__dirname, '../src/components/table'),
       '@store': path.resolve(__dirname, '../src/store/modules'),
+      '@component': path.resolve(__dirname, '../src/components'),
     }
   },
   module: {

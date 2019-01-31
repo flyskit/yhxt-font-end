@@ -37,6 +37,13 @@ npm test
 7.模块文件组织：模块名称/页面配置 如：系统配置/数据字典：(store、components、routes)的文件组织应该是 src/components/xtpz/sjzd/
 8.路由的命：模块名称-页面名称：系统配置/数据字典：xtpz-sjzd 不能写成 xtpz/sjzd。如果是嵌套路由就写成 xtpz/sjzd
 
+# Git提交规则
+[add | delete | fix | cmpe]:提交信息
+1.add：增加文件/模块
+2.delete：删除文件/模块
+3.fix：修复bug/模块功能
+4.cmpe：模块功能交互完成
+
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 

@@ -22,13 +22,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import tableJgm from '@component_table/summary/editJgm.vue';
 import _ from 'lodash';
-import { KHXD_JGM_COLUMNS, KHXD_JGM_CCLX, KHXD_JGM_XDLX } from '@store/common/khxd/jgm/xjbd/module';
+import tableJgm from '@component_table/summary/editJgm.vue';
+import { mixin } from '@component/mixins/mixin';
+import { KHXD_JGM_XDLX } from '@store/common/khxd/jgm/xjbd/module';
 import { ADD_DATA } from '@store/common/khxd/jgm/xjbd/index';
 export default {
   inject: ['reload'],
+  mixins: [mixin],
   components: {
     tableJgm
   },
@@ -50,20 +51,8 @@ export default {
         },
         ccxx: []
       },
-      hjpf: '',
-      hjps: '',
-      xdlx: KHXD_JGM_XDLX,
-      cclx: KHXD_JGM_CCLX,
-      tableColumns: KHXD_JGM_COLUMNS
+      xdlx: KHXD_JGM_XDLX
     };
-  },
-  computed: {
-    ...mapGetters({
-      // tableColumns: GETTER_TABLE_COLUMNS
-    })
-  },
-  mounted() {
-
   },
   methods: {
     /** 更改下单类型 */
@@ -77,10 +66,10 @@ export default {
         this.data.xdxx.hjlhjpf = ((this.data.xdxx.hjlhjpf - 0) + (e.lhjpf - 0)).toFixed(3);
         this.data.xdxx.hjblpf = ((this.data.xdxx.hjblpf - 0) + (e.blpf - 0)).toFixed(3);
         this.data.xdxx.hjps = (this.data.xdxx.hjps - 0) + (e.ps - 0);
+        this.defineProperty(e, '_index', '_rowKey');
       });
       this.data.ccxx = _.cloneDeep(tableData);
-      console.log(this.data);
-      // this.addData();
+      this.addData();
     },
     /** 提交数据 */
     addData() {

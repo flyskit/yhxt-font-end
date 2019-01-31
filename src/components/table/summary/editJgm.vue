@@ -7,7 +7,7 @@
       Button.operate-button 暂存订单
     Table(border :columns="columns" size="small" :data="data")
       template(slot="cclx" slot-scope="{ row, index }")
-        Select.editjgm-table-input-style(v-model="row.cclx" clearable transfer=true v-if="editIndex === index")
+        Select(v-model="row.cclx" clearable transfer=true v-if="editIndex === index")
           Option(v-for="item in cclxColumns" :value="item.value" :key="item.value") {{ item.label }}
         span(v-else) {{ row.cclx === 0 ? '地柜' : '吊柜' }}
       template(slot="ls" slot-scope="{ row, index }")
@@ -49,8 +49,8 @@
 </template>
 
 <script>
-import { KHXD_JGM_CCLX } from '@store/common/khxd/jgm/xjbd/module';
 import _ from 'lodash';
+import { KHXD_JGM_CCLX } from '@store/common/khxd/jgm/xjbd/module';
 export default {
   data () {
     return {
@@ -75,11 +75,6 @@ export default {
       status: 0,
       cclxColumns: KHXD_JGM_CCLX,
       columns: [
-        {
-          type: 'selection',
-          width: 60,
-          align: 'center'
-        },
         {
           title: '尺寸类型',
           align: 'center',
@@ -135,6 +130,10 @@ export default {
     };
   },
   methods: {
+    /** 删除行 */
+    delRow(index) {
+      this.data.splice(index, 1);
+    },
     /** 添加最后一条数据 */
     addLastRow(row, index) {
       this.data[index] = _.cloneDeep(row);
@@ -171,14 +170,14 @@ export default {
       this.data.push(this.tableData);
       this.editIndex = this.data.length - 1;
     },
-    /** 暂存订单 */
-    storageData() {
-      this.status = 0;
-      this.returnData();
-    },
     /** 提交订单 */
     addData() {
       this.status = 1;
+      this.returnData();
+    },
+    /** 暂存订单 */
+    storageData() {
+      this.status = 0;
       this.returnData();
     },
     /** 把数据返回父组件 */
@@ -190,30 +189,11 @@ export default {
       } else {
         this.$emit('getTableData', this.data, this.status);
       }
-      // this.resetTableData();
-    },
-    /** 删除行 */
-    delRow(index) {
-      this.data.splice(index, 1);
-    },
-    /** 重置table数据 */
-    resetTableData() {
-      this.data = [];
-      this.status = 0;
-      this.kjcc = '';
-      this.cclx = '';
-      this.ys = '';
-      this.ls = '';
     }
   }
 };
 </script>
 <style lang='less' scoped>
-.editjgm-table-input-style {
-  border:none;
-  overflow:hidden;
-  // margin-left:-20%;
-}
 .operate-button {
   margin-right: 5px;
   margin-bottom: 5px;
