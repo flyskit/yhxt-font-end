@@ -10,11 +10,10 @@
 </template>
 
 <script>
-import xjbd from './xjbd';
-import jryxd from './jryxd';
 export default {
   components: {
-    xjbd, jryxd
+    'xjbd': (resolve) => require(['./xjbd'], resolve),
+    'jryxd': (resolve) => require(['./jryxd'], resolve)
   },
   data () {
     return {

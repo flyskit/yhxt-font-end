@@ -3,9 +3,9 @@
     Button.operate-button(@click="addRow") 添加行
     Input.operate-button(v-model="kjcc" style="width:100px;" placeholder="玻璃扣减尺寸")
     Button.operate-button(@click="addData" style="float:right;") 添加订单
-    Poptip(@on-ok="storageData" confirm title="是否暂存?" style="float:right;" transfer)
+    Poptip(@on-ok="storageData" title="是否暂存?" style="float:right;" confirm transfer)
       Button.operate-button 暂存订单
-    Table(border :columns="columns" size="small" :data="data")
+    Table(:columns="columns" :data="data" size="small" border)
       template(slot="cclx" slot-scope="{ row, index }")
         Select(v-model="row.cclx" clearable transfer=true v-if="editIndex === index")
           Option(v-for="item in cclxColumns" :value="item.value" :key="item.value") {{ item.label }}

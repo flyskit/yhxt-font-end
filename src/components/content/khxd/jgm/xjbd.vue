@@ -23,10 +23,11 @@
 
 <script>
 import _ from 'lodash';
-import tableJgm from '@component_table/summary/editJgm.vue';
+import { mapGetters } from 'vuex';
 import { mixin } from '@component/mixins/mixin';
+import tableJgm from '@component_table/summary/editJgm.vue';
 import { KHXD_JGM_XDLX } from '@store/common/khxd/jgm/xjbd/module';
-import { ADD_DATA } from '@store/common/khxd/jgm/xjbd/index';
+import { ADD_DATA, GET_KHXD_BH, GET_BH_DATA } from '@store/common/khxd/jgm/xjbd/index';
 export default {
   inject: ['reload'],
   mixins: [mixin],
@@ -54,7 +55,21 @@ export default {
       xdlx: KHXD_JGM_XDLX
     };
   },
+  computed: {
+    ...mapGetters({
+      bh: 'khxdJgmXjbd/' + GET_KHXD_BH
+    })
+  },
+  mounted () {
+    this.getBh();
+  },
   methods: {
+    /** 获取编号 */
+    getBh() {
+      this.$store.dispatch('khxdJgmXjbd/' + GET_BH_DATA).then(res => {
+        this.data.xdxx.bh = this.bh;
+      });
+    },
     /** 更改下单类型 */
     changeXdlx(value) {
       this.data.xdxx.xdlx = value;
@@ -75,6 +90,7 @@ export default {
     addData() {
       this.$store.dispatch(ADD_DATA, this.data).then(res => {
         this.reload();
+        this.getBh();
       });
     }
   }
