@@ -7,7 +7,7 @@
       Button.operate-button 暂存订单
     Table(:columns="columns" :data="data" size="small" border)
       template(slot="cclx" slot-scope="{ row, index }")
-        Select(v-model="row.cclx" clearable transfer=true v-if="editIndex === index")
+        Select(v-model="row.cclx" transfer=true v-if="editIndex === index")
           Option(v-for="item in cclxColumns" :value="item.value" :key="item.value") {{ item.label }}
         span(v-else) {{ row.cclx === 0 ? '地柜' : '吊柜' }}
       template(slot="ls" slot-scope="{ row, index }")

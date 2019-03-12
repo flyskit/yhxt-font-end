@@ -20,7 +20,6 @@ export const SET_BH = 'SET_BH';
 export const SET_MRSZ_SR_DATA = 'SET_MRSZ_SR_DATA';
 
 export default {
-  namespaced: true,
   state: {
     data: '',
     bh: '',

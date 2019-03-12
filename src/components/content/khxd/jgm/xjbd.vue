@@ -27,7 +27,7 @@ import { mapGetters } from 'vuex';
 import { mixin } from '@component/mixins/mixin';
 import tableJgm from '@component_table/summary/editJgm.vue';
 import { KHXD_JGM_XDLX } from '@store/common/khxd/jgm/xjbd/module';
-import { ADD_DATA, GET_KHXD_BH, GET_BH_DATA } from '@store/common/khxd/jgm/xjbd/index';
+import { ADD_DATA, GET_BH, GETTER_BH } from '@store/common/khxd/jgm/xjbd/index';
 export default {
   inject: ['reload'],
   mixins: [mixin],
@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      bh: 'khxdJgmXjbd/' + GET_KHXD_BH
+      bh: 'khxd/' + GETTER_BH
     })
   },
   mounted () {
@@ -66,7 +66,7 @@ export default {
   methods: {
     /** 获取编号 */
     getBh() {
-      this.$store.dispatch('khxdJgmXjbd/' + GET_BH_DATA).then(res => {
+      this.$store.dispatch('khxd/' + GET_BH).then(res => {
         this.data.xdxx.bh = this.bh;
       });
     },
@@ -88,7 +88,7 @@ export default {
     },
     /** 提交数据 */
     addData() {
-      this.$store.dispatch(ADD_DATA, this.data).then(res => {
+      this.$store.dispatch('khxd/' + ADD_DATA, this.data).then(res => {
         this.reload();
         this.getBh();
       });
