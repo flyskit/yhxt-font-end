@@ -4,13 +4,15 @@
       tr
         td.jgm-table-style-title(colspan="11") 艺合橱柜门生产订单
       tr
+        th(width="100px") 编号：
+        td(align="left" style="margin-left: 5px;") {{ test_data.kh }}
         th(width="100px") 客户：
         td(align="left" style="margin-left: 5px;") {{ test_data.kh }}
         th(width="100px") 地址：
-        td(align="left" colspan="8") {{ test_data.dz }}
+        td(align="left" colspan="6") {{ test_data.dz }}
       tr
-        th(width="100px") 编号：
-        td(align="left") {{ test_data.bh }}
+        th(width="100px") 下单类型：
+        td(align="left") {{ row.xdlx === 0 ? '新订单' : '返工重做' }}
         th(width="100px") 生产日期：
         td(align="left") {{ test_data.scsj }}
         th 备注：
@@ -64,6 +66,22 @@ export default {
   data () {
     return {
       cc_length: '5',
+      data: {
+        xdxx: {
+          bh: '',
+          khxm: '',
+          dz: '',
+          dh: '',
+          xdlx: '',
+          gq: '',
+          bz: '',
+          hjlhjpf: 0.000,
+          hjblpf: 0.000,
+          hjps: 0,
+          zt: ''
+        },
+        ccxx: []
+      },
       test_data: {
         kh: '李四',
         dz: '四川省成都市龙泉驿区成龙大道二段1819号',
@@ -182,7 +200,9 @@ export default {
 
   },
   methods: {
-
+    show(data) {
+      console.log(data);
+    }
   }
 };
 </script>

@@ -18,21 +18,23 @@
       FormItem(label="备注" prop="bz")
         Input.input-width-in-form(v-model="data.xdxx.bz" placeholder="备注")
       Divider 尺寸信息
-    tableJgm(refs="tableJgm" @getTableData="getTableData")
+    tableJgm(ref="tableJgm" @getTableData="getTableData")
+    printModal(ref="printModal")
 </template>
 
 <script>
 import _ from 'lodash';
 import { mapGetters } from 'vuex';
 import { mixin } from '@component/mixins/mixin';
-import tableJgm from '@component_table/summary/editJgm.vue';
+import tableJgm from '@component_table/summary/edit-jgm.vue';
 import { KHXD_JGM_XDLX } from '@store/common/khxd/jgm/xjbd/module';
 import { ADD_DATA, GET_BH, GETTER_BH } from '@store/common/khxd/jgm/xjbd/index';
 export default {
   inject: ['reload'],
   mixins: [mixin],
   components: {
-    tableJgm
+    tableJgm,
+    'printModal': (resolve) => require(['./modal/print-data'], resolve)
   },
   data () {
     return {
@@ -84,14 +86,22 @@ export default {
         this.defineProperty(e, '_index', '_rowKey');
       });
       this.data.ccxx = _.cloneDeep(tableData);
-      this.addData();
+      // this.addData();
+      this.showModal();
     },
     /** 提交数据 */
     addData() {
       this.$store.dispatch('khxd/' + ADD_DATA, this.data).then(res => {
-        this.reload();
-        this.getBh();
+        // this.viewForm();
+        // this.reload();
+        // this.getBh();
       });
+    },
+    showModal() {
+      this.$refs.printModal.show(this.data);
+    },
+    toDoData() {
+
     }
   }
 };

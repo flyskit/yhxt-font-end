@@ -20,7 +20,7 @@
 import { GET_DOOR_TYPE } from '@store/common/static-fields/index';
 import {mapGetters} from 'vuex';
 import jgm from '@component_form/jgm';
-import tableJgm from '@component_table/summary/jgm.vue';
+import tableJgm from '@component_table/summary/sum-jgm.vue';
 export default {
   data () {
     return {
