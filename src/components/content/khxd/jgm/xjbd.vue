@@ -2,7 +2,7 @@
   div.khxd-jgm-xjbd
     Form(ref="data" :model="data" :label-width="80" inline)
       FormItem(label="编号" prop="bh")
-        Input.input-width-in-form(v-model="data.xdxx.bh" clearable  placeholder="输入编号")
+        Input.input-width-in-form(v-model="data.xdxx.bh" placeholder="输入编号")
       FormItem(label="客户" prop="khxm")
         Input.input-width-in-form(v-model="data.xdxx.khxm" placeholder="输入客户名称")
       FormItem(label="地址" prop="dz")

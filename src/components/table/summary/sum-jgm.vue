@@ -5,22 +5,22 @@
         td.jgm-table-style-title(colspan="11") 艺合橱柜门生产订单
       tr
         th(width="100px") 编号：
-        td(align="left" style="margin-left: 5px;") {{ test_data.kh }}
+        td(align="left" colspan="2" style="margin-left: 5px;") {{ data.bh }}
         th(width="100px") 客户：
-        td(align="left" style="margin-left: 5px;") {{ test_data.kh }}
+        td(align="left" colspan="2" style="margin-left: 5px;") {{ data.khxm }}
         th(width="100px") 地址：
-        td(align="left" colspan="6") {{ test_data.dz }}
+        td(align="left" colspan="4") {{ data.dz }}
       tr
-        th(width="100px") 下单类型：
-        td(align="left") {{ row.xdlx === 0 ? '新订单' : '返工重做' }}
-        th(width="100px") 生产日期：
-        td(align="left") {{ test_data.scsj }}
+        th(width="100px") 类型：
+        td(align="left" colspan="2") {{ data.xdlx === 0 ? '新订单' : '返工重做' }}
+        th(width="100px") 日期：
+        td(align="left" colspan="2") {{ time }}
         th 备注：
-        td(aling="left" colspan="6") {{ test_data.ddbz }}
+        td(aling="left" colspan="4") {{ data.bz }}
       tr
         th(width="100px") 名称
-        th 色号
-        th(width="100px") 拉手
+        th 拉手
+        th(width="100px") 颜色
         th(colspan="2" width="100px") 铝合金尺寸
           tr
             th.inline-style-left(width="100px") 高
@@ -33,175 +33,108 @@
             th.inline-style-left(width="100px") 高
             th.inline-style-right(width="100px") 宽
         th(width="100px") 平方
-      tbody(v-for="(tr_item, index) in test_data.fl" :key="index")
+      tbody(v-for="(tr_item, index) in data.fl" :key="index")
         tr
-          td(:rowspan = "cc_length") {{ tr_item.lx }}
-          td(:rowspan = "cc_length") {{ tr_item.ys }}
+          td(:rowspan = "cc_length") {{ tr_item.cclx === 0 ? '地柜' : '吊柜' }}
           td(:rowspan = "cc_length") {{ tr_item.ls }}
+          td(:rowspan = "cc_length") {{ tr_item.ys }}
         tr(v-for="(item_0, index) in tr_item.cc" :key="index")
-          td {{ item_0.cc_hight }}
-          td {{ item_0.cc_width }}
-          td {{ item_0.cc_pf }}
+          td {{ item_0.lhjgd }}
+          td {{ item_0.lhjkd }}
+          td {{ item_0.lhjpf }}
           td {{ item_0.ps }}
           td {{ item_0.bz }}
-          td {{ item_0.bl_hight }}
-          td {{ item_0.bl_width }}
-          td {{ item_0.bl_pf }}
+          td {{ item_0.blgd }}
+          td {{ item_0.blkd }}
+          td {{ item_0.blpf }}
       tr
         td 合计
         td
         td
         td
         td
-        td {{ test_data.hj_lhj_pf }}
-        td {{ test_data.hj_lhj_ps }}
+        td {{ data.hjlhjpf }}
+        td {{ data.hjps }}
         td
         td
         td
-        td {{ test_data.hj_bl_pf }}
+        td {{ data.hjblpf }}
 </template>
 
 <script>
+import _ from 'lodash';
 export default {
   data () {
     return {
-      cc_length: '5',
+      cc_length: 10,
+      time: '2019-03-13',
       data: {
-        xdxx: {
-          bh: '',
-          khxm: '',
-          dz: '',
-          dh: '',
-          xdlx: '',
-          gq: '',
-          bz: '',
-          hjlhjpf: 0.000,
-          hjblpf: 0.000,
-          hjps: 0,
-          zt: ''
-        },
-        ccxx: []
+        bh: '',
+        khxm: '',
+        dz: '',
+        dh: '',
+        xdlx: '',
+        gq: '',
+        bz: '',
+        hjlhjpf: 0.000,
+        hjblpf: 0.000,
+        hjps: 0,
+        fl: []
       },
-      test_data: {
-        kh: '李四',
-        dz: '四川省成都市龙泉驿区成龙大道二段1819号',
-        bh: '1001',
-        scsj: '2018-01-01',
-        ddbz: '注意质量，切勿漏单',
-        hj_lhj_pf: 3.08,
-        hj_lhj_ps: 10,
-        hj_bl_pf: 3.00,
-        fl: [
-          {
-            lx: '吊柜',
-            ys: 'YH-669',
-            ls: '2号银白隐框',
-            cc: [
-              {
-                cc_hight: 660,
-                cc_width: 320,
-                cc_pf: 0.235,
-                ps: 1,
-                bz: '',
-                bl_hight: 660,
-                bl_width: 320,
-                bl_pf: 0.235
-              },
-              {
-                cc_hight: 660,
-                cc_width: 320,
-                cc_pf: 0.235,
-                ps: 1,
-                bz: '开孔',
-                bl_hight: 660,
-                bl_width: 320,
-                bl_pf: 0.235
-              },
-              {
-                cc_hight: 660,
-                cc_width: 320,
-                cc_pf: 0.235,
-                ps: 4,
-                bz: '',
-                bl_hight: 660,
-                bl_width: 320,
-                bl_pf: 0.235
-              },
-              {
-                cc_hight: 660,
-                cc_width: 320,
-                cc_pf: 0.235,
-                ps: 2,
-                bz: '阿斯顿发明是东方马山东两句话就我那',
-                bl_hight: 660,
-                bl_width: 320,
-                bl_pf: 0.235
-              }
-            ]
-          },
-          {
-            lx: '地柜',
-            ys: 'YH-671',
-            ls: '2号银白隐框',
-            cc: [
-              {
-                cc_hight: 660,
-                cc_width: 320,
-                cc_pf: 0.235,
-                ps: 1,
-                bz: '',
-                bl_hight: 660,
-                bl_width: 320,
-                bl_pf: 0.235
-              },
-              {
-                cc_hight: 660,
-                cc_width: 320,
-                cc_pf: 0.235,
-                ps: 1,
-                bz: '开孔',
-                bl_hight: 660,
-                bl_width: 320,
-                bl_pf: 0.235
-              },
-              {
-                cc_hight: 660,
-                cc_width: 320,
-                cc_pf: 0.235,
-                ps: 4,
-                bz: '',
-                bl_hight: 660,
-                bl_width: 320,
-                bl_pf: 0.235
-              },
-              {
-                cc_hight: 660,
-                cc_width: 320,
-                cc_pf: 0.235,
-                ps: 2,
-                bz: '阿斯顿发明是东方马山东两句话就我那',
-                bl_hight: 660,
-                bl_width: 320,
-                bl_pf: 0.235
-              }
-            ]
-          }
-        ]
-      }
+      jbxx: {
+        cclx: '',
+        ls: '',
+        ys: '',
+        cc: []
+      },
+      sumIdx: 0,
+      sumJudge: true
     };
-  },
-  components: {
-
-  },
-  computed: {
-
-  },
-  mounted() {
-
   },
   methods: {
     show(data) {
-      console.log(data);
+      this.computedData(data);
+    },
+    computedData(data) {
+      let idx = 0;
+      this.data.bh = data.xdxx.bh;
+      this.data.khxm = data.xdxx.khxm;
+      this.data.dz = data.xdxx.dz;
+      this.data.dh = data.xdxx.dh;
+      this.data.xdlx = data.xdxx.xdlx;
+      this.data.gq = data.xdxx.gq;
+      this.data.bz = data.xdxx.bz;
+      this.data.hjlhjpf = data.xdxx.hjlhjpf;
+      this.data.hjblpf = data.xdxx.hjblpf;
+      this.data.hjps = data.xdxx.hjps;
+      data.ccxx.forEach((e) => {
+        if (this.sumJudge) {
+          this.addJbxx(e, idx);
+          this.sumIdx = this.sumIdx + 1;
+          idx = idx + 1;
+          this.sumJudge = false;
+        } else {
+          if (this.jbxx.cclx === e.cclx) {
+            this.jbxx.cc[idx] = _.cloneDeep(e);
+            idx = idx + 1;
+          } else {
+            this.data.fl[this.sumIdx - 1] = _.cloneDeep(this.jbxx);
+            this.cc_length = this.cc_length < this.jbxx.cc.length ? this.jbxx.cc.length : this.cc_length;
+            idx = 1;
+            this.sumJudge = true;
+            this.jbxx.cc = [];
+            this.addJbxx(e, 0);
+          }
+        }
+      }, this);
+      this.data.fl[this.sumIdx - 1] = _.cloneDeep(this.jbxx);
+      this.cc_length = this.cc_length < this.jbxx.cc.length ? this.jbxx.cc.length : this.cc_length;
+    },
+    addJbxx(e, idx) {
+      this.jbxx.cclx = e.cclx;
+      this.jbxx.ls = e.ls;
+      this.jbxx.ys = e.ys;
+      this.jbxx.cc[idx] = _.cloneDeep(e);
     }
   }
 };
@@ -222,6 +155,7 @@ export default {
 }
 .jgm-table-style td {
   width: 100px;
+  text-align: center;
 }
 .jgm-table-style-title {
   font-size: 2.5em;

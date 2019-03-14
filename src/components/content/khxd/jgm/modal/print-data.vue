@@ -6,6 +6,9 @@
         span 预览打印
       Keep-alive
         summaryJgm(ref="summaryJgm")
+      div(slot="footer")
+        Button(type="primary" style="width: 200px;" @click="printPage") 打印
+        Button(type="error" @click="closePage") 关闭
 </template>
 
 <script>
@@ -28,6 +31,12 @@ export default {
     show(data) {
       this.visible = true;
       this.$refs.summaryJgm.show(data);
+    },
+    printPage() {
+
+    },
+    closePage() {
+
     }
   }
 };
