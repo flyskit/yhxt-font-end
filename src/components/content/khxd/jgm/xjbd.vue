@@ -50,6 +50,8 @@ export default {
           hjlhjpf: 0.000,
           hjblpf: 0.000,
           hjps: 0,
+          cjr: '',
+          cjsj: '',
           zt: ''
         },
         ccxx: []
@@ -80,28 +82,24 @@ export default {
     getTableData(tableData, status) {
       this.data.xdxx.zt = status;
       tableData.forEach((e) => {
-        this.data.xdxx.hjlhjpf = ((this.data.xdxx.hjlhjpf - 0) + (e.lhjpf - 0)).toFixed(3);
-        this.data.xdxx.hjblpf = ((this.data.xdxx.hjblpf - 0) + (e.blpf - 0)).toFixed(3);
-        this.data.xdxx.hjps = (this.data.xdxx.hjps - 0) + (e.ps - 0);
         this.defineProperty(e, '_index', '_rowKey');
       });
       this.data.ccxx = _.cloneDeep(tableData);
-      // this.addData();
-      this.showModal();
+      this.addData();
     },
     /** 提交数据 */
     addData() {
       this.$store.dispatch('khxd/' + ADD_DATA, this.data).then(res => {
-        // this.viewForm();
-        // this.reload();
-        // this.getBh();
+        if (res.data.status !== 200) {
+          this.$Message.error(res.data.info);
+        } else {
+          this.showPrintPage(res.data.map.data);
+        }
       });
     },
-    showModal() {
-      this.$refs.printModal.show(this.data);
-    },
-    toDoData() {
-
+    /** 打印页面 */
+    showPrintPage(data) {
+      this.$refs.printModal.show(data);
     }
   }
 };

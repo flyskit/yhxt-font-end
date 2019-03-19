@@ -1,7 +1,6 @@
 <template lang='pug'>
   div.table-jgm-edit
     Button.operate-button(@click="addRow") 添加行
-    Input.operate-button(v-model="kjcc" style="width:100px;" placeholder="玻璃扣减尺寸")
     Button.operate-button(@click="addData" style="float:right;") 添加订单
     Poptip(@on-ok="storageData" title="是否暂存?" style="float:right;" confirm transfer)
       Button.operate-button 暂存订单
@@ -64,12 +63,10 @@ export default {
         ps: '',
         lhjpf: '',
         bz: '',
-        kjcc: '',
         blgd: '',
         blkd: '',
         blpf: ''
       },
-      kjcc: '',
       editIndex: -1,
       editEnd: false,
       status: 0,
@@ -155,15 +152,7 @@ export default {
     },
     /** 计算平方 */
     computedPf(row) {
-      if (this.kjcc === '') {
-        this.$Message.error('请输入玻璃扣减尺寸');
-      } else {
-        row.kjcc = this.kjcc;
-        row.lhjpf = (row.lhjgd * 0.001 * row.lhjkd * 0.001 * row.ps).toFixed(3);
-        row.blgd = row.lhjgd - this.kjcc;
-        row.blkd = row.lhjkd - this.kjcc;
-        row.blpf = (row.blgd * 0.001 * row.blkd * 0.001 * row.ps).toFixed(3);
-      }
+      row.lhjpf = (row.lhjgd * 0.001 * row.lhjkd * 0.001 * row.ps).toFixed(3);
     },
     /** 添加行 */
     addRow() {

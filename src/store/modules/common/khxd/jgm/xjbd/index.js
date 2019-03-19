@@ -1,8 +1,6 @@
 
 import api from './api';
 
-import { KHXD_JGM_COLUMNS } from './module';
-
 // actions
 export const GET_DATA = 'GET_DATA';
 export const ADD_DATA = 'ADD_DATA';
@@ -29,7 +27,6 @@ export default {
   },
   getters: {
     GETTER_NORMAL_DATA: (state) => state.data,
-    GETTER_TABLE_COLUMNS: (state) => KHXD_JGM_COLUMNS,
     GETTER_TOTAL_PAGE: (state) => state.totalPage,
     GETTER_TOTAL_ELEMENT: (state) => state.totalElement,
     GETTER_BH: (state) => state.bh
@@ -58,7 +55,7 @@ export default {
     /** 提交数据 */
     async [ADD_DATA]({ commit }, param) {
       let res = await api.addData(param);
-      alert(res.data.info);
+      return res;
     }
   }
 };

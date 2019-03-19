@@ -5,18 +5,20 @@
         td.jgm-table-style-title(colspan="11") 艺合橱柜门生产订单
       tr
         th(width="100px") 编号：
-        td(align="left" colspan="2" style="margin-left: 5px;") {{ data.bh }}
+        td(colspan="2" style="margin-left: 5px;") {{ data.bh }}
         th(width="100px") 客户：
-        td(align="left" colspan="2" style="margin-left: 5px;") {{ data.khxm }}
+        td(colspan="2" style="margin-left: 5px;") {{ data.khxm }}
         th(width="100px") 地址：
-        td(align="left" colspan="4") {{ data.dz }}
+        td(colspan="4") {{ data.dz }}
       tr
         th(width="100px") 类型：
-        td(align="left" colspan="2") {{ data.xdlx === 0 ? '新订单' : '返工重做' }}
+        td(colspan="1") {{ data.xdlx }}
+        th(width="100px") 制单人：
+        td(colspan="1") {{ data.cjr }}
         th(width="100px") 日期：
-        td(align="left" colspan="2") {{ time }}
-        th 备注：
-        td(aling="left" colspan="4") {{ data.bz }}
+        td(colspan="2") {{ data.cjsj }}
+        th(width="100px") 备注：
+        td(colspan="4") {{ data.bz }}
       tr
         th(width="100px") 名称
         th 拉手
@@ -63,6 +65,7 @@
 
 <script>
 import _ from 'lodash';
+import { KHXD_JGM_XDLX } from '@store/common/khxd/jgm/xjbd/module';
 export default {
   data () {
     return {
@@ -75,6 +78,8 @@ export default {
         dh: '',
         xdlx: '',
         gq: '',
+        cjr: '',
+        cjsj: '',
         bz: '',
         hjlhjpf: 0.000,
         hjblpf: 0.000,
@@ -88,7 +93,8 @@ export default {
         cc: []
       },
       sumIdx: 0,
-      sumJudge: true
+      sumJudge: true,
+      xdlx: KHXD_JGM_XDLX
     };
   },
   methods: {
@@ -101,8 +107,14 @@ export default {
       this.data.khxm = data.xdxx.khxm;
       this.data.dz = data.xdxx.dz;
       this.data.dh = data.xdxx.dh;
-      this.data.xdlx = data.xdxx.xdlx;
+      this.xdlx.forEach((e) => {
+        if (data.xdxx.xdlx === e.value) {
+          this.data.xdlx = e.label;
+        }
+      });
       this.data.gq = data.xdxx.gq;
+      this.data.cjr = data.xdxx.cjr;
+      this.data.cjsj = data.xdxx.cjsj;
       this.data.bz = data.xdxx.bz;
       this.data.hjlhjpf = data.xdxx.hjlhjpf;
       this.data.hjblpf = data.xdxx.hjblpf;
@@ -151,7 +163,7 @@ export default {
   border-spacing: 0;
   text-align:center;
   font-family: 'FangSong';
-  color: #444;
+  color:#444;
 }
 .jgm-table-style td {
   width: 100px;

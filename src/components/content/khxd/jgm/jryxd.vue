@@ -1,5 +1,6 @@
 <template lang='pug'>
-  div
+  div.khxd-jgm-jryxd
+
 </template>
 
 <script>

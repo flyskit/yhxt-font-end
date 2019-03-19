@@ -1,18 +1,20 @@
 <template lang='pug'>
   div.print-data
-    Modal(v-model="visible" footer-hide width="80vw")
-      p(slot="header" style="color:#f60")
+    Modal(v-model="visible" width="80vw" fullscreen @on-ok="ok" @on-cancle="ok")
+      p(slot="header" style="color:#f60" class="noprint")
         Icon(type="ios-information-circle")
         span 预览打印
-      Keep-alive
-        summaryJgm(ref="summaryJgm")
-      div(slot="footer")
-        Button(type="primary" style="width: 200px;" @click="printPage") 打印
-        Button(type="error" @click="closePage") 关闭
+      div(class="print")
+        Keep-alive
+          summaryJgm(ref="summaryJgm")
+      div(slot="footer" class="noprint")
+        Button(type="primary" @click="printPage") 打印
+        Button(type="error" @click="ok") 关闭
 </template>
 
 <script>
 export default {
+  inject: ['reload'],
   components: {
     'summaryJgm': (resolve) => require(['@component_table/summary/sum-jgm.vue'], resolve)
   },
@@ -33,14 +35,26 @@ export default {
       this.$refs.summaryJgm.show(data);
     },
     printPage() {
-
+      window.print();
     },
-    closePage() {
-
+    ok() {
+      this.visible = false;
+      this.reload();
     }
   }
 };
 </script>
 <style lang='less' scoped>
-
+@media print {
+  .noprint {
+    display:none;
+  }
+  .print {
+    display:block;
+  }
+  @page {
+    size: auto;
+    margin: 0mm;
+  }
+}
 </style>
