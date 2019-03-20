@@ -15,10 +15,10 @@
         td(colspan="1") {{ data.xdlx }}
         th(width="100px") 制单人：
         td(colspan="1") {{ data.cjr }}
-        th(width="100px") 日期：
+        th(width="100px") 制单日期：
         td(colspan="2") {{ data.cjsj }}
         th(width="100px") 备注：
-        td(colspan="4") {{ data.bz }}
+        td(colspan="3") {{ data.bz }}
       tr
         th(width="100px") 名称
         th 拉手
@@ -35,20 +35,18 @@
             th.inline-style-left(width="100px") 高
             th.inline-style-right(width="100px") 宽
         th(width="100px") 平方
-      tbody(v-for="(tr_item, index) in data.fl" :key="index")
-        tr
-          td(:rowspan = "cc_length") {{ tr_item.cclx === 0 ? '地柜' : '吊柜' }}
-          td(:rowspan = "cc_length") {{ tr_item.ls }}
-          td(:rowspan = "cc_length") {{ tr_item.ys }}
-        tr(v-for="(item_0, index) in tr_item.cc" :key="index")
-          td {{ item_0.lhjgd }}
-          td {{ item_0.lhjkd }}
-          td {{ item_0.lhjpf }}
-          td {{ item_0.ps }}
-          td {{ item_0.bz }}
-          td {{ item_0.blgd }}
-          td {{ item_0.blkd }}
-          td {{ item_0.blpf }}
+      tr(v-for="item in ccxx")
+        td(:rowspan="item.cclxspan" :style="{ display: item.cclxdis }") {{ item.cclx === 0 ? '地柜' : '吊柜' }}
+        td(:rowspan="item.lsspan" :style="{ display: item.lsdis }") {{ item.ls }}
+        td(:rowspan="item.ysspan" :style="{ display: item.ysdis }") {{ item.ys }}
+        td {{ item.lhjgd }}
+        td {{ item.lhjkd }}
+        td {{ item.lhjpf }}
+        td {{ item.ps }}
+        td {{ item.bz }}
+        td {{ item.blgd }}
+        td {{ item.blkd }}
+        td {{ item.blpf }}
       tr
         td 合计
         td
@@ -69,8 +67,6 @@ import { KHXD_JGM_XDLX } from '@store/common/khxd/jgm/xjbd/module';
 export default {
   data () {
     return {
-      cc_length: 10,
-      time: '2019-03-13',
       data: {
         bh: '',
         khxm: '',
@@ -83,70 +79,50 @@ export default {
         bz: '',
         hjlhjpf: 0.000,
         hjblpf: 0.000,
-        hjps: 0,
-        fl: []
+        hjps: 0
       },
-      jbxx: {
-        cclx: '',
-        ls: '',
-        ys: '',
-        cc: []
-      },
-      sumIdx: 0,
-      sumJudge: true,
+      ccxx: [],
       xdlx: KHXD_JGM_XDLX
     };
   },
   methods: {
     show(data) {
-      this.computedData(data);
+      this.changeData(data.xdxx);
+      this.combineCell(data.ccxx);
     },
-    computedData(data) {
-      let idx = 0;
-      this.data.bh = data.xdxx.bh;
-      this.data.khxm = data.xdxx.khxm;
-      this.data.dz = data.xdxx.dz;
-      this.data.dh = data.xdxx.dh;
+    /** 数据处理-合并单元格 */
+    combineCell(list) {
+      for (var field in list[0]) {
+        if (field === 'cclx' || field === 'ls' || field === 'ys') {
+          var k = 0;
+          while (k < list.length) {
+            list[k][field + 'span'] = 1;
+            list[k][field + 'dis'] = '';
+            for (var i = k + 1; i <= list.length - 1; i++) {
+              if (list[k][field] === list[i][field] && list[k][field] !== '' && list[k]['cclx'] === list[i]['cclx']) {
+                list[k][field + 'span']++;
+                list[k][field + 'dis'] = '';
+                list[i][field + 'span'] = 1;
+                list[i][field + 'dis'] = 'none';
+              } else {
+                break;
+              }
+            }
+            k = i;
+          }
+        }
+      }
+      console.log(list);
+      this.ccxx = _.cloneDeep(list);
+    },
+    /** value转换label */
+    changeData(data) {
+      this.data = _.cloneDeep(data);
       this.xdlx.forEach((e) => {
-        if (data.xdxx.xdlx === e.value) {
+        if (this.data.xdlx === e.value) {
           this.data.xdlx = e.label;
         }
       });
-      this.data.gq = data.xdxx.gq;
-      this.data.cjr = data.xdxx.cjr;
-      this.data.cjsj = data.xdxx.cjsj;
-      this.data.bz = data.xdxx.bz;
-      this.data.hjlhjpf = data.xdxx.hjlhjpf;
-      this.data.hjblpf = data.xdxx.hjblpf;
-      this.data.hjps = data.xdxx.hjps;
-      data.ccxx.forEach((e) => {
-        if (this.sumJudge) {
-          this.addJbxx(e, idx);
-          this.sumIdx = this.sumIdx + 1;
-          idx = idx + 1;
-          this.sumJudge = false;
-        } else {
-          if (this.jbxx.cclx === e.cclx) {
-            this.jbxx.cc[idx] = _.cloneDeep(e);
-            idx = idx + 1;
-          } else {
-            this.data.fl[this.sumIdx - 1] = _.cloneDeep(this.jbxx);
-            this.cc_length = this.cc_length < this.jbxx.cc.length ? this.jbxx.cc.length : this.cc_length;
-            idx = 1;
-            this.sumJudge = true;
-            this.jbxx.cc = [];
-            this.addJbxx(e, 0);
-          }
-        }
-      }, this);
-      this.data.fl[this.sumIdx - 1] = _.cloneDeep(this.jbxx);
-      this.cc_length = this.cc_length < this.jbxx.cc.length ? this.jbxx.cc.length : this.cc_length;
-    },
-    addJbxx(e, idx) {
-      this.jbxx.cclx = e.cclx;
-      this.jbxx.ls = e.ls;
-      this.jbxx.ys = e.ys;
-      this.jbxx.cc[idx] = _.cloneDeep(e);
     }
   }
 };

@@ -11,7 +11,7 @@
         Input.input-width-in-form(v-model="data.xdxx.dh" placeholder="输入联系方式")
       pre
       FormItem(label="下单类型" prop="xdlx")
-        Select.input-width-in-form(v-model="data.xdxx.xdlx" @on-change="changeXdlx" clearable)
+        Select.input-width-in-form(v-model="data.xdxx.xdlx" @on-change="changeXdlx")
           Option(v-for="item in xdlx" :value="item.value" :key="item.value") {{ item.label }}
       FormItem(label="工期" prop="gq")
         Input.input-width-in-form(v-model="data.xdxx.gq" placeholder="输入工期")

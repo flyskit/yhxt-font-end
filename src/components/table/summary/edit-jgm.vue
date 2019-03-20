@@ -25,7 +25,7 @@
         Input(v-model="row.ps" v-if="editIndex === index" @on-change="computedPf(row)")
         span(v-else) {{ row.ps }}
       template(slot="lhjpf" slot-scope="{ row, index }")
-        Input(v-model="row.lhjpf" v-if="editIndex === index")
+        Input(v-model="row.lhjpf" v-if="editIndex === index" readonly=true)
         span(v-else) {{ row.lhjpf }}
       template(slot="bz" slot-scope="{ row, index }")
         Input(v-model="row.bz" v-if="editIndex === index")
