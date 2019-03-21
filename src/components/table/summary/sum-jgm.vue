@@ -112,7 +112,6 @@ export default {
           }
         }
       }
-      console.log(list);
       this.ccxx = _.cloneDeep(list);
     },
     /** value转换label */
