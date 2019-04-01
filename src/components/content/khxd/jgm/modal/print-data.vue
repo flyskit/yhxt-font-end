@@ -6,7 +6,7 @@
         span 预览
       div(class="print")
         Keep-alive
-          summaryJgm(ref="summaryJgm")
+          summaryJgm(ref="summaryJgm" style="text-align:center")
       div(slot="footer" class="noprint")
         Button(type="primary" @click="printPage") 打印
         Button(type="error" @click="ok") 关闭

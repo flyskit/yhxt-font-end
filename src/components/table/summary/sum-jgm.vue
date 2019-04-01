@@ -2,8 +2,8 @@
   div.table-summary-jgm
     table.jgm-table-style(border)
       tr
-        td.jgm-table-style-title(colspan="11") 艺合橱柜门生产订单
-      tr
+        td.jgm-table-style-title(colspan="11" cellspacing="0" cellpadding="0") 艺合橱柜门生产订单
+      tr(style="height:30px;")
         th 编号：
         td(colspan="2" style="margin-left: 5px;") {{ data.bh }}
         th 客户：
@@ -12,7 +12,7 @@
         td(colspan="2") {{ data.dz }}
         th 是否加急：
         td {{ data.scsl }}
-      tr
+      tr(style="height:30px;")
         th 类型：
         td {{ data.xdlx }}
         th 制单人：
@@ -22,22 +22,22 @@
         th 备注：
         td(colspan="3") {{ data.bz }}
       tr
-        th 名称
-        th 拉手
-        th 颜色
-        th(colspan="2" width="100px") 铝合金尺寸
-          tr
-            th.inline-style-left 高
-            th.inline-style-right 宽
-        th 平方
-        th(style="width:20px") 片数
-        th(width="300px") 备注
-        th(colspan="2" style="width=100px;") 玻璃尺寸
-          tr
-            th.inline-style-left 高
-            th.inline-style-right 宽
-        th 平方
-      tr(v-for="item in ccxx")
+        tr(style="height:30px;")
+          th(rowspan="2") 名称
+          th(rowspan="2") 拉手
+          th(rowspan="2") 颜色
+          th(colspan="2") 铝合金尺寸
+          th(rowspan="2") 平方
+          th(rowspan="2") 片数
+          th(rowspan="2") 备注
+          th(colspan="2") 玻璃尺寸
+          th(rowspan="2") 平方
+        tr(style="height:30px;")
+          th 高
+          th 宽
+          th 高
+          th 宽
+      tr(v-for="item in ccxx" style="height:30px;")
         td(:rowspan="item.cclxspan" :style="{ display: item.cclxdis }") {{ item.cclx === 0 ? '地柜' : '吊柜' }}
         td(:rowspan="item.lsspan" :style="{ display: item.lsdis }") {{ item.ls }}
         td(:rowspan="item.ysspan" :style="{ display: item.ysdis }") {{ item.ys }}
@@ -49,7 +49,7 @@
         td {{ item.blgd }}
         td {{ item.blkd }}
         td {{ item.blpf }}
-      tr
+      tr(style="height:30px;")
         td 合计
         td
         td
@@ -137,8 +137,9 @@ export default {
 <style lang='less' scoped>
 @import '../../../style/mixin.less';
 .jgm-table-style {
-  width:90%;
-  margin-left:5%;
+  // 调整打印样式
+  width:79%;
+  margin-left:2%;
   border:solid #333;
   border-width:1px 0px 0px 1px;
   font-size: 1.2em;
@@ -146,9 +147,14 @@ export default {
   border-spacing: 0;
   text-align:center;
   font-family: 'FangSong';
-  color:#444;
+  color:#000;
+  font-weight: bolder;
+  table-layout:fixed;
 }
-.jgm-table-style td {
+.jgm-table-style tr {
+  min-width: 200px;
+}
+.jgm-table-style th td {
   width: 100px;
   text-align: center;
 }
@@ -156,18 +162,5 @@ export default {
   font-size: 2.5em;
   letter-spacing: 6px;
   font-weight: lighter;
-}
-// 内部左边边框框线
-.jgm-table-style .inline-style-left {
-  border-left-style:none;
-  border-bottom-style:none;
-  width: 100px;
-}
-// 内部右边边框框线
-.jgm-table-style .inline-style-right {
-  border-right-style:none;
-  border-left-style:none;
-  border-bottom-style:none;
-  width: 100px;
 }
 </style>
