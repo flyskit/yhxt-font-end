@@ -20,12 +20,14 @@ export default {
   },
   data () {
     return {
-      visible: false
+      visible: false,
+      isReload: false
     };
   },
   methods: {
-    show(data) {
+    show(data, isReload) {
       this.visible = true;
+      this.isReload = isReload;
       this.$refs.summaryJgm.show(data);
     },
     printPage() {
@@ -33,7 +35,9 @@ export default {
     },
     ok() {
       this.visible = false;
-      this.reload();
+      if (this.isReload) {
+        this.reload();
+      }
     }
   }
 };

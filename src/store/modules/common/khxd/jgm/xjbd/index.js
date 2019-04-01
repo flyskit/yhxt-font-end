@@ -18,7 +18,6 @@ export const GETTER_TOTAL_ELEMENT = 'GETTER_TOTAL_ELEMENT';
 export const GETTER_BH = 'GETTER_BH';
 
 export default {
-  namespaced: true,
   state: {
     data: '',
     bh: '',

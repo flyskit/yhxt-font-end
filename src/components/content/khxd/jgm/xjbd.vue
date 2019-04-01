@@ -9,10 +9,12 @@
         Input.input-width-in-form(v-model="data.xdxx.dz" placeholder="输入客户地址")
       FormItem(label="电话" prop="dh")
         Input.input-width-in-form(v-model="data.xdxx.dh" placeholder="输入联系方式")
-      pre
       FormItem(label="下单类型" prop="xdlx")
         Select.input-width-in-form(v-model="data.xdxx.xdlx" @on-change="changeXdlx")
           Option(v-for="item in xdlx" :value="item.value" :key="item.value") {{ item.label }}
+      FormItem(label="生产速率" prop="scsl")
+        Select.input-width-in-form(v-model="data.xdxx.scsl" @on-change="changeScsl")
+          Option(v-for="item in scsl" :value="item.value" :key="item.value") {{ item.label }}
       FormItem(label="工期" prop="gq")
         Input.input-width-in-form(v-model="data.xdxx.gq" placeholder="输入工期")
       FormItem(label="备注" prop="bz")
@@ -27,7 +29,7 @@ import _ from 'lodash';
 import { mapGetters } from 'vuex';
 import { mixin } from '@component/mixins/mixin';
 import tableJgm from '@component_table/summary/edit-jgm.vue';
-import { KHXD_JGM_XDLX } from '@store/common/khxd/jgm/xjbd/module';
+import { KHXD_JGM_XDLX, KHXD_JGM_SCSL } from '@store/common/khxd/jgm/xjbd/module';
 import { ADD_DATA, GET_BH, GETTER_BH } from '@store/common/khxd/jgm/xjbd/index';
 export default {
   inject: ['reload'],
@@ -45,6 +47,7 @@ export default {
           dz: '',
           dh: '',
           xdlx: '',
+          scsl: '',
           gq: '',
           bz: '',
           hjlhjpf: 0.000,
@@ -56,12 +59,14 @@ export default {
         },
         ccxx: []
       },
-      xdlx: KHXD_JGM_XDLX
+      xdlx: KHXD_JGM_XDLX,
+      scsl: KHXD_JGM_SCSL,
+      isReload: true
     };
   },
   computed: {
     ...mapGetters({
-      bh: 'khxd/' + GETTER_BH
+      bh: 'commonKhxdJgmXjbdIndex/' + GETTER_BH
     })
   },
   mounted () {
@@ -70,13 +75,17 @@ export default {
   methods: {
     /** 获取编号 */
     getBh() {
-      this.$store.dispatch('khxd/' + GET_BH).then(res => {
+      this.$store.dispatch('commonKhxdJgmXjbdIndex/' + GET_BH).then(res => {
         this.data.xdxx.bh = this.bh;
       });
     },
     /** 更改下单类型 */
     changeXdlx(value) {
       this.data.xdxx.xdlx = value;
+    },
+    /** 更改生产速率 */
+    changeScsl(value) {
+      this.data.xdxx.scsl = value;
     },
     /** 获取table表格数据-提交订单 */
     getTableData(tableData, status) {
@@ -89,7 +98,7 @@ export default {
     },
     /** 提交数据 */
     addData() {
-      this.$store.dispatch('khxd/' + ADD_DATA, this.data).then(res => {
+      this.$store.dispatch('commonKhxdJgmXjbdIndex/' + ADD_DATA, this.data).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {
@@ -99,7 +108,7 @@ export default {
     },
     /** 打印页面 */
     showPrintPage(data) {
-      this.$refs.printModal.show(data);
+      this.$refs.printModal.show(data, this.isReload);
     }
   }
 };

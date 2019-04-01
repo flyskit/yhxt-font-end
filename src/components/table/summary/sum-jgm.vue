@@ -4,37 +4,39 @@
       tr
         td.jgm-table-style-title(colspan="11") 艺合橱柜门生产订单
       tr
-        th(width="100px") 编号：
+        th 编号：
         td(colspan="2" style="margin-left: 5px;") {{ data.bh }}
-        th(width="100px") 客户：
+        th 客户：
         td(colspan="2" style="margin-left: 5px;") {{ data.khxm }}
-        th(width="100px") 地址：
-        td(colspan="4") {{ data.dz }}
+        th 地址：
+        td(colspan="2") {{ data.dz }}
+        th 是否加急：
+        td {{ data.scsl }}
       tr
-        th(width="100px") 类型：
-        td(colspan="1") {{ data.xdlx }}
-        th(width="100px") 制单人：
-        td(colspan="1") {{ data.cjr }}
-        th(width="100px") 制单日期：
+        th 类型：
+        td {{ data.xdlx }}
+        th 制单人：
+        td {{ data.cjr }}
+        th 制单日期：
         td(colspan="2") {{ data.cjsj }}
-        th(width="100px") 备注：
+        th 备注：
         td(colspan="3") {{ data.bz }}
       tr
-        th(width="100px") 名称
+        th 名称
         th 拉手
-        th(width="100px") 颜色
+        th 颜色
         th(colspan="2" width="100px") 铝合金尺寸
           tr
-            th.inline-style-left(width="100px") 高
-            th.inline-style-right(width="100px") 宽
-        th(width="100px") 平方
+            th.inline-style-left 高
+            th.inline-style-right 宽
+        th 平方
         th(style="width:20px") 片数
         th(width="300px") 备注
         th(colspan="2" style="width=100px;") 玻璃尺寸
           tr
-            th.inline-style-left(width="100px") 高
-            th.inline-style-right(width="100px") 宽
-        th(width="100px") 平方
+            th.inline-style-left 高
+            th.inline-style-right 宽
+        th 平方
       tr(v-for="item in ccxx")
         td(:rowspan="item.cclxspan" :style="{ display: item.cclxdis }") {{ item.cclx === 0 ? '地柜' : '吊柜' }}
         td(:rowspan="item.lsspan" :style="{ display: item.lsdis }") {{ item.ls }}
@@ -63,7 +65,7 @@
 
 <script>
 import _ from 'lodash';
-import { KHXD_JGM_XDLX } from '@store/common/khxd/jgm/xjbd/module';
+import { KHXD_JGM_XDLX, KHXD_JGM_SCSL } from '@store/common/khxd/jgm/xjbd/module';
 export default {
   data () {
     return {
@@ -82,7 +84,8 @@ export default {
         hjps: 0
       },
       ccxx: [],
-      xdlx: KHXD_JGM_XDLX
+      xdlx: KHXD_JGM_XDLX,
+      scsl: KHXD_JGM_SCSL
     };
   },
   methods: {
@@ -122,6 +125,11 @@ export default {
           this.data.xdlx = e.label;
         }
       });
+      this.scsl.forEach((e) => {
+        if (this.data.scsl === e.value) {
+          this.data.scsl = e.label;
+        }
+      });
     }
   }
 };
@@ -153,11 +161,13 @@ export default {
 .jgm-table-style .inline-style-left {
   border-left-style:none;
   border-bottom-style:none;
+  width: 100px;
 }
 // 内部右边边框框线
 .jgm-table-style .inline-style-right {
   border-right-style:none;
   border-left-style:none;
-  border-bottom-style:none
+  border-bottom-style:none;
+  width: 100px;
 }
 </style>

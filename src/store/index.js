@@ -1,23 +1,21 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
-
-import sclsModule from './modules/sclc/index';
-import doorType from './modules/common/static-fields/index';
-import mrsz from './modules/common/cwgl/mrsz/index';
-import khxd from './modules/common/khxd/index';
-import dataColumns from './modules/common/static-data/index';
+import camelCase from 'lodash/camelCase';
 
 Vue.use(Vuex);
 
+// 动态引入module
+let contexts = require.context('./modules', true, /index+\.js$/);
+let modules = {};
+contexts.keys().forEach((key) => {
+  let name = camelCase(
+    key.replace(/^\.\/_/, '').replace(/\.\w+$/, '').split(/\//)
+  );
+  let module = contexts(key).default;
+  name && (modules[name] = { ...module, namespaced: true });
+});
 let store = new Vuex.Store({
-  // 加载组件，否则无法解析store
-  modules: {
-    sclsModule,
-    doorType,
-    dataColumns,
-    mrsz,
-    khxd
-  },
-  strict: process.env.NODE_ENV !== 'production' // 开启严格模式
+  modules,
+  strict: process.env.NODE_ENV !== 'production'
 });
 export default store;

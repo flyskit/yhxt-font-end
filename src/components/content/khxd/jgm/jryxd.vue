@@ -1,104 +1,74 @@
 <template lang='pug'>
   div.khxd-jgm-jryxd
-    Table(border ref="selection" :columns="addColumn" :data="data")
+    printModal(ref="printModal")
+    Table(border ref="selection" :columns="jgmXdxxColumns" :data="data" highlight-row)
+      template(slot="scsl" slot-scope="{ row, index }")
+        Button(type="info" size="small" v-if="row.scsl === 0") 普通
+        Button(type="error" size="small" v-else) 加急
+      template(slot="xdlx" slot-scope="{ row, index }")
+        Button(type="success" size="small" v-if="row.xdlx === 0") 新订单
+        Button(type="warning" size="small" v-else-if="row.xdlx === 1") 补单
+        Button(type="error" size="small" v-else) 返工重做
+      template(slot="action" slot-scope="{ row, index }")
+        Tooltip(placement="top" content="查看详细信息" transfer)
+          Button(@click="viewInfo(row, index)" style="padding: 6px 4px;" type="text")
+            Icon(type="ios-more")
+        Tooltip(placement="top" content="修改" transfer)
+          Button(@click="changeInfo(row, index)" style="padding: 6px 4px;" type="text")
+            Icon(type="md-create")
+        Tooltip(placement="top" content="删除" transfer)
+          Poptip(@on-ok="delInfo(row, index)" confirm title="是否删除?" transfer)
+            Button(style="padding: 6px 4px;" type="text")
+              Icon(type="md-close")
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { JGM_XDXX_COLUMNS } from '@store/common/khxd/jgm/jryxd/module.js';
+import { GET_DATA, GETTER_DATA, GET_DATA_BY_BH } from '@store/common/khxd/jgm/jryxd/index';
 export default {
   components: {
-
+    'printModal': (resolve) => require(['./modal/print-data'], resolve)
   },
   data () {
     return {
-      data: [
-        {
-          bh: '20132',
-          zt: '普通',
-          khxm: '张三',
-          xdlx: '新订单',
-          dz: '四川省',
-          dh: '3133',
-          gq: '7',
-          bz: '发达',
-          cjr: '李四',
-          cjsj: '2019'
-        }
-      ],
+      data: [],
       jgmXdxxColumns: JGM_XDXX_COLUMNS,
-      actionColumn: {
-        title: '操作',
-        align: 'center',
-        width: 120,
-        render: (h, params) => {
-          return h('div', [
-            h('Icon', {
-              props: {
-                type: 'md-information-circle',
-                size: '15',
-                color: '#19be6b'
-              },
-              style: {
-                padding: '6px 4px',
-                cursor: 'pointer'
-              },
-              on: {
-                click: () => {
-                  this.change(params.index);
-                }
-              }
-            }),
-            h('Icon', {
-              props: {
-                type: 'md-create',
-                size: '15',
-                color: '#2db7f5'
-              },
-              style: {
-                padding: '6px 4px',
-                cursor: 'pointer'
-              },
-              on: {
-                click: () => {
-                  this.change(params.index);
-                }
-              }
-            }),
-            h('Icon', {
-              props: {
-                type: 'md-return-left',
-                size: '15',
-                color: '#ed4014'
-              },
-              style: {
-                padding: '6px 4px',
-                cursor: 'pointer'
-              },
-              on: {
-                click: () => {
-                  this.remove(params.index);
-                }
-              }
-            })
-          ]);
-        }
-      }
+      isReload: false
     };
   },
   computed: {
-    addColumn () {
-      this.jgmXdxxColumns.push(
-        this.actionColumn
-      );
-      return this.jgmXdxxColumns;
-    }
+    ...mapGetters({
+      mapData: 'commonKhxdJgmJryxdIndex/' + GETTER_DATA
+    })
   },
   mounted() {
-
+    this.getDataByToDay();
   },
   methods: {
-    change(idx) {
+    getDataByToDay() {
+      this.$store.dispatch('commonKhxdJgmJryxdIndex/' + GET_DATA).then(res => {
+        this.data = this.mapData;
+      });
+    },
+    viewInfo(row) {
+      this.$store.dispatch('commonKhxdJgmJryxdIndex/' + GET_DATA_BY_BH, row.bh).then(res => {
+        if (res.data.status !== 200) {
+          this.$Message.error(res.data.info);
+        } else {
+          this.showPrintPage(res.data.map.data);
+        }
+      });
+    },
+    changeInfo(idx) {
       console.log(idx);
+    },
+    delInfo(idx) {
+      console.log(idx);
+    },
+    /** 打印页面 */
+    showPrintPage(data) {
+      this.$refs.printModal.show(data, this.isReload);
     }
   }
 };
