@@ -1,6 +1,23 @@
 <template lang='pug'>
   div.khxd-jgm-xjbd
     Form(ref="data" :model="data" :label-width="80" inline)
+      p
+        span.breadcrumb-separator 下单类型：
+        RadioGroup(v-model="data.xdxx.xdlx" @on-change="changeRadio")
+          Radio(label="0") 新订单
+          Radio(label="1") 补单
+          Radio(label="2") 返工重做
+        Divider(type="vertical")
+        span.breadcrumb-separator 生产速率：
+        RadioGroup(v-model="data.xdxx.scsl")
+          Radio(label="0") 普通
+          Radio(label="1") 加急
+        Divider(type="vertical")
+        span.breadcrumb-separator 订单来源：
+        RadioGroup(v-model="data.xdxx.ddly")
+          Radio(label="0") 线下
+          Radio(label="1") 1688
+      br
       FormItem(label="编号" prop="bh")
         Input.input-width-in-form(v-model="data.xdxx.bh" placeholder="输入编号")
       FormItem(label="客户" prop="khxm")
@@ -9,17 +26,13 @@
         Input.input-width-in-form(v-model="data.xdxx.dz" placeholder="输入客户地址")
       FormItem(label="电话" prop="dh")
         Input.input-width-in-form(v-model="data.xdxx.dh" placeholder="输入联系方式")
-      FormItem(label="下单类型" prop="xdlx")
-        Select.input-width-in-form(v-model="data.xdxx.xdlx" @on-change="changeXdlx")
-          Option(v-for="item in xdlx" :value="item.value" :key="item.value") {{ item.label }}
-      FormItem(label="生产速率" prop="scsl")
-        Select.input-width-in-form(v-model="data.xdxx.scsl" @on-change="changeScsl")
-          Option(v-for="item in scsl" :value="item.value" :key="item.value") {{ item.label }}
       FormItem(label="工期" prop="gq")
         Input.input-width-in-form(v-model="data.xdxx.gq" placeholder="输入工期")
       FormItem(label="备注" prop="bz")
         Input.input-width-in-form(v-model="data.xdxx.bz" placeholder="备注")
-      Divider 尺寸信息
+      FormItem(label="返工原因" prop="bz" :style="{ display: isReturn }")
+        Input.input-width-in-form(v-model="data.xdxx.bz" placeholder="备注")
+    Divider 尺寸信息
     tableJgm(ref="tableJgm" @getTableData="getTableData")
     printModal(ref="printModal")
 </template>
@@ -47,6 +60,7 @@ export default {
           dz: '',
           dh: '',
           xdlx: '',
+          ddly: '',
           scsl: '',
           gq: '',
           bz: '',
@@ -61,7 +75,9 @@ export default {
       },
       xdlx: KHXD_JGM_XDLX,
       scsl: KHXD_JGM_SCSL,
-      isReload: true
+      isReload: true,
+      isPrint: true,
+      isReturn: 'none'
     };
   },
   computed: {
@@ -73,6 +89,14 @@ export default {
     this.getBh();
   },
   methods: {
+    /** 动态显示input */
+    changeRadio(value) {
+      if (value !== '2') {
+        this.isReturn = 'none';
+      } else {
+        this.isReturn = '';
+      }
+    },
     /** 获取编号 */
     getBh() {
       this.$store.dispatch('commonKhxdJgmXjbdIndex/' + GET_BH).then(res => {
@@ -94,25 +118,39 @@ export default {
         this.defineProperty(e, '_index', '_rowKey');
       });
       this.data.ccxx = _.cloneDeep(tableData);
-      this.addData();
+      this.addData(status);
     },
     /** 提交数据 */
-    addData() {
+    addData(status) {
       this.$store.dispatch('commonKhxdJgmXjbdIndex/' + ADD_DATA, this.data).then(res => {
         if (res.data.status !== 200) {
-          this.$Message.error(res.data.info);
+          this.$Notice.error({
+            title: '晶钢门新建表单',
+            desc: '失败原因：' + res.data.info,
+            duration: 0
+          });
         } else {
-          this.showPrintPage(res.data.map.data);
+          this.$Notice.success({
+            title: res.data.info
+          });
+          if (!status === 0) {
+            this.showPrintPage(res.data.map.data);
+          }
+          this.reload();
         }
       });
     },
     /** 打印页面 */
     showPrintPage(data) {
-      this.$refs.printModal.show(data, this.isReload);
+      this.$refs.printModal.show(data, this.isReload, this.isPrint);
     }
   }
 };
 </script>
 <style lang='less' scoped>
-
+.breadcrumb-separator {
+  color: #ff5500;
+  padding: 0 30px;
+  font-size: 0.8em;
+}
 </style>

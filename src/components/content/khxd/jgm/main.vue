@@ -5,7 +5,8 @@
         xjbd
       TabPane(name="jryxd" label="今日已下单" icon="md-trending-up")
         jryxd
-      TabPane(name="zclb" label="暂存列表" icon="logo-tux") 标签三的内容
+      TabPane(name="zclb" label="暂存列表" icon="logo-tux")
+        zclb
       TabPane(name="jlcx" label="记录查询" icon="logo-tux") 记录查询
 </template>
 
@@ -13,7 +14,8 @@
 export default {
   components: {
     'xjbd': (resolve) => require(['./xjbd'], resolve),
-    'jryxd': (resolve) => require(['./jryxd'], resolve)
+    'jryxd': (resolve) => require(['./jryxd'], resolve),
+    'zclb': (resolve) => require(['./zclb'], resolve)
   },
   data () {
     return {

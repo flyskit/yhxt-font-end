@@ -8,7 +8,7 @@
         Keep-alive
           summaryJgm(ref="summaryJgm" style="text-align:center")
       div(slot="footer" class="noprint")
-        Button(type="primary" @click="printPage") 打印
+        Button(type="primary" @click="printPage" :style="{ display: isPrint ? '' : 'none' }") 打印
         Button(type="error" @click="ok") 关闭
 </template>
 
@@ -21,13 +21,15 @@ export default {
   data () {
     return {
       visible: false,
-      isReload: false
+      isReload: false,
+      isPrint: false
     };
   },
   methods: {
-    show(data, isReload) {
+    show(data, isReload, isPrint) {
       this.visible = true;
       this.isReload = isReload;
+      this.isPrint = isPrint;
       this.$refs.summaryJgm.show(data);
     },
     printPage() {

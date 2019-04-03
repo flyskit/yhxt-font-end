@@ -20,9 +20,7 @@ export const GETTER_DATA = 'GETTER_DATA';
 
 export default {
   state: {
-    data: [],
-    totalPage: 0,
-    totalElement: 0
+    data: {}
   },
   getters: {
     GETTER_DATA: (state) => state.data,
@@ -38,7 +36,7 @@ export default {
     /** 查询今日全部数据 */
     async [GET_DATA]({ commit }) {
       let res = await api.getDataByToDay();
-      res && commit(SET_DATA, res.data.map.data);
+      res && commit(SET_DATA, res.data);
     },
     /** 查询数据 */
     async [GET_DATA_BY_BH]({ commit }, param) {

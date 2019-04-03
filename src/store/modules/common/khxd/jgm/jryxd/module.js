@@ -13,7 +13,8 @@ export const JGM_XDXX_COLUMNS = [
     title: '是否加急',
     key: 'scsl',
     align: 'center',
-    slot: 'scsl'
+    slot: 'scsl',
+    sortable: true
   },
   {
     title: '客户',
@@ -21,10 +22,17 @@ export const JGM_XDXX_COLUMNS = [
     align: 'center'
   },
   {
+    title: '订单来源',
+    key: 'ddly',
+    align: 'center',
+    slot: 'ddly'
+  },
+  {
     title: '下单类型',
     key: 'xdlx',
     align: 'center',
-    slot: 'xdlx'
+    slot: 'xdlx',
+    sortable: true
   },
   {
     title: '地址',
@@ -35,22 +43,26 @@ export const JGM_XDXX_COLUMNS = [
   {
     title: '电话',
     key: 'dh',
-    align: 'center'
+    align: 'center',
+    width: 140
   },
   {
     title: '工期',
     key: 'gq',
-    align: 'center'
+    align: 'center',
+    width: 80
   },
   {
     title: '合计平方',
     key: 'hjlhjpf',
-    align: 'center'
+    align: 'center',
+    width: 100
   },
   {
     title: '合计片数',
     key: 'hjps',
-    align: 'center'
+    align: 'center',
+    width: 100
   },
   {
     title: '备注',
@@ -61,7 +73,8 @@ export const JGM_XDXX_COLUMNS = [
   {
     title: '制单人',
     key: 'cjr',
-    align: 'center'
+    align: 'center',
+    width: 80
   },
   {
     title: '制单时间',
