@@ -37,3 +37,51 @@ export const KHXD_JGM_SCSL = [
     label: '加急'
   }
 ];
+
+/** 尺寸信息-表头 */
+export const KHXD_JGM_CCXX = [
+  {
+    title: '尺寸类型',
+    align: 'center',
+    slot: 'cclx'
+  }, {
+    title: '拉手',
+    align: 'center',
+    slot: 'ls'
+  }, {
+    title: '颜色',
+    align: 'center',
+    slot: 'ys'
+  }, {
+    title: '铝合金尺寸',
+    align: 'center',
+    children: [
+      {
+        title: '高度',
+        align: 'center',
+        slot: 'lhjgd'
+      },
+      {
+        title: '宽度',
+        align: 'center',
+        slot: 'lhjkd'
+      }
+    ]
+  }, {
+    title: '片数',
+    align: 'center',
+    slot: 'ps'
+  }, {
+    title: '铝合金平方',
+    align: 'center',
+    slot: 'lhjpf'
+  }, {
+    title: '备注',
+    align: 'center',
+    slot: 'bz'
+  }, {
+    title: '操作',
+    align: 'center',
+    slot: 'action'
+  }
+];

@@ -1,9 +1,10 @@
 <template lang='pug'>
-  div.table-jgm-edit
-    Button.operate-button(@click="addRow") 添加行
-    Button.operate-button(@click="addData" style="float:right;") 添加订单
+  div.table-edit-jgm
+    Button.operate-button(@click="addRow" :disabled="isUpdate") 添加行
+    Button.operate-button(@click="updateData" type="success" style="float:right;" v-if="isUpdate") 修改订单
+    Button.operate-button(@click="addData" type="success" style="float:right;" v-else) 添加订单
     Poptip(@on-ok="storageData" title="是否暂存?" style="float:right;" confirm transfer)
-      Button.operate-button 暂存订单
+      Button.operate-button(:disabled="isUpdate" type="warning") 暂存订单
     Table(:columns="columns" :data="data" size="small" border)
       template(slot="cclx" slot-scope="{ row, index }")
         Select(v-model="row.cclx" transfer=true v-if="editIndex === index")
@@ -32,10 +33,10 @@
         span(v-else) {{ row.bz }}
       template(slot="action" slot-scope="{ row, index }")
         div(v-if="editIndex === index")
-          Button(@click="addLastRow(row, index)" style="padding: 6px 4px;" type="text")
+          Button(@click="addLastRow(row, index)" style="padding: 6px 4px;" type="text" :disabled="isUpdate")
             Icon(type="md-add")
           Poptip(@on-ok="delRow(index)" confirm title="是否删除?" transfer)
-            Button(style="padding: 6px 4px;" type="text")
+            Button(style="padding: 6px 4px;" type="text" :disabled="isUpdate")
               Icon(type="md-close")
           Button(@click="editComplete(row, index)" style="padding: 6px 4px;" type="text")
             Icon(type="md-checkmark")
@@ -43,13 +44,13 @@
           Button(@click="editRow(index)" style="padding: 6px 4px;" type="text")
             Icon(type="md-create")
           Poptip(@on-ok="delRow(index)" confirm title="是否删除?" transfer)
-            Button(style="padding: 6px 4px;" type="text")
+            Button(style="padding: 6px 4px;" type="text" :disabled="isUpdate")
               Icon(type="md-close")
 </template>
 
 <script>
 import _ from 'lodash';
-import { KHXD_JGM_CCLX } from '@store/common/khxd/jgm/xjbd/module';
+import { KHXD_JGM_CCLX, KHXD_JGM_CCXX } from '@store/common/khxd/jgm/xjbd/module';
 export default {
   data () {
     return {
@@ -69,64 +70,18 @@ export default {
       },
       editIndex: -1,
       editEnd: false,
+      isUpdate: false,
       status: 0,
       cclxColumns: KHXD_JGM_CCLX,
-      columns: [
-        {
-          title: '尺寸类型',
-          align: 'center',
-          slot: 'cclx'
-        },
-        {
-          title: '拉手',
-          align: 'center',
-          slot: 'ls'
-        },
-        {
-          title: '颜色',
-          align: 'center',
-          slot: 'ys'
-        },
-        {
-          title: '铝合金尺寸',
-          align: 'center',
-          children: [
-            {
-              title: '高度',
-              align: 'center',
-              slot: 'lhjgd'
-            },
-            {
-              title: '宽度',
-              align: 'center',
-              slot: 'lhjkd'
-            }
-          ]
-        },
-        {
-          title: '片数',
-          align: 'center',
-          slot: 'ps'
-        },
-        {
-          title: '铝合金平方',
-          align: 'center',
-          slot: 'lhjpf'
-        },
-        {
-          title: '备注',
-          align: 'center',
-          slot: 'bz'
-        },
-        {
-          title: '操作',
-          align: 'center',
-          slot: 'action'
-        }
-      ]
+      columns: KHXD_JGM_CCXX
     };
   },
   methods: {
+    /** 修改信息-传入原始数据 */
+    showEdit(data) {
+      this.isUpdate = true;
+      this.data = data.ccxx;
+    },
     /** 删除行 */
     delRow(index) {
       this.data.splice(index, 1);
@@ -158,6 +113,15 @@ export default {
     addRow() {
       this.data.push(this.tableData);
       this.editIndex = this.data.length - 1;
+    },
+    /** 修改订单 */
+    updateData() {
+      if (this.data.length === 0) {
+        this.$Message.error('请完成编辑再提交');
+      } else {
+        console.log(this.data);
+        this.$emit('getTableData', this.data);
+      }
     },
     /** 提交订单 */
     addData() {

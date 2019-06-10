@@ -19,7 +19,7 @@
           Radio(label="1") 1688
       br
       FormItem(label="编号" prop="bh")
-        Input.input-width-in-form(v-model="data.xdxx.bh" placeholder="输入编号")
+        Input.input-width-in-form(v-model="data.xdxx.bh" disabled placeholder="输入编号")
       FormItem(label="客户" prop="khxm")
         Input.input-width-in-form(v-model="data.xdxx.khxm" placeholder="输入客户名称")
       FormItem(label="地址" prop="dz")
@@ -142,15 +142,12 @@ export default {
     },
     /** 打印页面 */
     showPrintPage(data) {
+      console.log('222');
       this.$refs.printModal.show(data, this.isReload, this.isPrint);
     }
   }
 };
 </script>
 <style lang='less' scoped>
-.breadcrumb-separator {
-  color: #ff5500;
-  padding: 0 30px;
-  font-size: 0.8em;
-}
+
 </style>

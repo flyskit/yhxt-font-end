@@ -8,5 +8,11 @@ export default {
   /** 根据编号获取详细信息 */
   getDataByBh(param) {
     return axios.post('/khxd/jgm/getDataByBh/' + param);
+  },
+  updateData(param) {
+    return axios.post('/khxd/jgm/updateData', param);
+  },
+  delData(param) {
+    return axios.post('/khxd/jgm/delData/' + param);
   }
 };

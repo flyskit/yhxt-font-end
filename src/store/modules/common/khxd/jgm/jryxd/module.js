@@ -2,29 +2,36 @@ export const JGM_XDXX_COLUMNS = [
   {
     type: 'selection',
     width: 60,
-    align: 'center'
+    align: 'center',
+    fixed: 'left'
   },
   {
     title: '编号',
     key: 'bh',
-    align: 'center'
+    align: 'center',
+    width: 160,
+    fixed: 'left'
+  },
+  {
+    title: '客户',
+    key: 'khxm',
+    align: 'center',
+    width: 160,
+    fixed: 'left'
   },
   {
     title: '是否加急',
     key: 'scsl',
     align: 'center',
     slot: 'scsl',
+    width: 120,
     sortable: true
-  },
-  {
-    title: '客户',
-    key: 'khxm',
-    align: 'center'
   },
   {
     title: '订单来源',
     key: 'ddly',
     align: 'center',
+    width: 100,
     slot: 'ddly'
   },
   {
@@ -32,12 +39,14 @@ export const JGM_XDXX_COLUMNS = [
     key: 'xdlx',
     align: 'center',
     slot: 'xdlx',
+    width: 120,
     sortable: true
   },
   {
     title: '地址',
     key: 'dz',
     align: 'center',
+    width: 160,
     tooltip: true
   },
   {
@@ -68,22 +77,26 @@ export const JGM_XDXX_COLUMNS = [
     title: '备注',
     key: 'bz',
     align: 'center',
+    width: 200,
     tooltip: true
   },
   {
     title: '制单人',
     key: 'cjr',
     align: 'center',
-    width: 80
+    width: 100
   },
   {
     title: '制单时间',
     key: 'cjsj',
+    width: 180,
     align: 'center'
   },
   {
     title: '操作',
     align: 'center',
-    slot: 'action'
+    slot: 'action',
+    width: 120,
+    fixed: 'right'
   }
 ];

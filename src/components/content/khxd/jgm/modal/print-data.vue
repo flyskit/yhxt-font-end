@@ -1,5 +1,5 @@
 <template lang='pug'>
-  div.print-data
+  div.khxd-jgm-print-data
     Modal(v-model="visible" width="80vw" fullscreen @on-ok="ok" @on-cancel="ok")
       p(slot="header" style="color:#f60" class="noprint")
         Icon(type="ios-information-circle")

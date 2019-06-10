@@ -1,6 +1,7 @@
 <template lang='pug'>
   div.khxd-jgm-jryxd
     printModal(ref="printModal")
+    editDataModal(ref="editDataModal")
     Table(border ref="selection" :columns="jgmXdxxColumns" :data="data" highlight-row)
       template(slot="scsl" slot-scope="{ row, index }")
         Button(size="small" v-if="row.scsl === 0") 普通
@@ -31,12 +32,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import { JGM_XDXX_COLUMNS } from '@store/common/khxd/jgm/jryxd/module.js';
-import { GET_DATA_BY_BH } from '@store/common/khxd/jgm/jryxd/index';
+import { GET_DATA_BY_BH, DEL_DATA } from '@store/common/khxd/jgm/jryxd/index';
 import { GET_DATA, GETTER_DATA, SUBMIT_ORDER_DATA } from '@store/common/khxd/jgm/zclb/index';
 export default {
   inject: ['reload'],
   components: {
-    'printModal': (resolve) => require(['./modal/print-data'], resolve)
+    'printModal': (resolve) => require(['./modal/print-data'], resolve),
+    'editDataModal': (resolve) => require(['./modal/edit-data'], resolve)
   },
   data () {
     return {
@@ -84,8 +86,14 @@ export default {
         }
       });
     },
-    changeInfo(idx) {
-      console.log(idx);
+    changeInfo(row) {
+      this.$store.dispatch('commonKhxdJgmJryxdIndex/' + GET_DATA_BY_BH, row.bh).then(res => {
+        if (res.data.status !== 200) {
+          this.$Message.error(res.data.info);
+        } else {
+          this.showEditPage(res.data.map.data);
+        }
+      });
     },
     submitInfo(row) {
       this.$store.dispatch('commonKhxdJgmZclbIndex/' + SUBMIT_ORDER_DATA, row.bh).then(res => {
@@ -106,12 +114,25 @@ export default {
         }
       });
     },
-    delInfo(idx) {
-      console.log(idx);
+    delInfo(row) {
+      this.$store.dispatch('commonKhxdJgmJryxdIndex/' + DEL_DATA, row.bh).then(res => {
+        if (res.data.status !== 200) {
+          this.$Message.error(res.data.info);
+        } else {
+          this.$Notice.success({
+            title: res.data.info
+          });
+          this.reload();
+        }
+      });
     },
     /** 打印页面 */
     showPrintPage(data) {
       this.$refs.printModal.show(data, this.isReload, this.isPrint);
+    },
+    /** 编辑页面 */
+    showEditPage(data) {
+      this.$refs.editDataModal.show(data);
     }
   }
 };

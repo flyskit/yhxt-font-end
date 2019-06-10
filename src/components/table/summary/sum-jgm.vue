@@ -1,5 +1,5 @@
 <template lang='pug'>
-  div.table-summary-jgm
+  div.table-sum-jgm
     table.jgm-table-style(border)
       tr
         td.jgm-table-style-title(colspan="11" cellspacing="0" cellpadding="0") 艺合橱柜门生产订单

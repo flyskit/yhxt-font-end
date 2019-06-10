@@ -3,19 +3,16 @@ import api from './api';
 
 // actions
 export const GET_DATA = 'GET_DATA';
-export const ADD_DATA = 'ADD_DATA';
-export const GET_BH = 'GET_BH';
-export const GET_JRYXD_DATA = 'GET_JRYXD_DATA';
+export const DEL_DATA = 'DEL_DATA';
+export const UPDATE_DATA = 'UPDATE_DATA';
 export const GET_DATA_BY_BH = 'GET_DATA_BY_BH';
 
 // mutations
 export const SET_DATA = 'SET_DATA';
-export const SET_BH = 'SET_BH';
 
 // getters
 export const GETTER_TOTAL_PAGE = 'GETTER_TOTAL_PAGE';
 export const GETTER_TOTAL_ELEMENT = 'GETTER_TOTAL_ELEMENT';
-export const GETTER_JRYXD_DATA = 'GETTER_JRYXD_DATA';
 export const GETTER_DATA = 'GETTER_DATA';
 
 export default {
@@ -33,14 +30,24 @@ export default {
     }
   },
   actions: {
-    /** 查询今日全部数据 */
+    /** 查询今日全部记录 */
     async [GET_DATA]({ commit }) {
       let res = await api.getDataByToDay();
       res && commit(SET_DATA, res.data);
     },
-    /** 查询数据 */
+    /** 根据编号查询订单记录 */
     async [GET_DATA_BY_BH]({ commit }, param) {
       let res = await api.getDataByBh(param);
+      return res;
+    },
+    /** 更新记录 */
+    async [UPDATE_DATA]({ commit }, param) {
+      let res = await api.updateData(param);
+      return res;
+    },
+    /** 删除记录 */
+    async [DEL_DATA]({ commit }, param) {
+      let res = await api.delData(param);
       return res;
     }
   }
