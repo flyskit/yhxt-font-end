@@ -2,18 +2,18 @@
   div.form-jgm
     Form(ref="data" :model="data" :rules="ruleValidate" :label-width="80" inline)
       FormItem(label="下单类型" prop="xdlx")
-        Input.input-width-in-form(v-model="data.xdlx" readonly)
+        Input.input-form(v-model="data.xdlx" readonly)
       FormItem(label="分类" prop="fl")
-        Select.input-width-in-form(v-model="data.fl" clearable)
+        Select.input-form(v-model="data.fl" clearable)
           Option(v-for="item of classifyType" :value="item.value" :key="item.key") {{item.label}}
       FormItem(label="颜色" prop="ys")
-        Input.input-width-in-form(v-model="data.ys" placeholder="输入颜色编号")
+        Input.input-form(v-model="data.ys" placeholder="输入颜色编号")
       FormItem(label="造型" prop="zx")
-        Input.input-width-in-form(v-model="data.zx" placeholder="输入造型")
+        Input.input-form(v-model="data.zx" placeholder="输入造型")
       FormItem(label="尺寸" prop="cc")
-        Input.input-width-in-form(v-model="data.cc" placeholder="输入尺寸")
+        Input.input-form(v-model="data.cc" placeholder="输入尺寸")
       FormItem(label="数量" prop="sl")
-        Input.input-width-in-form(v-model="data.sl" placeholder="输入数量")
+        Input.input-form(v-model="data.sl" placeholder="输入数量")
       FormItem
         Button.button-position-in-form(@click="reset('data')") 重置
         Button(type="primary" @click="ok") 添加

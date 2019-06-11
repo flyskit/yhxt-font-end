@@ -7,12 +7,9 @@
         Button(size="small" v-if="row.scsl === 0") 普通
         Button(type="error" size="small" v-else) 加急
       template(slot="ddly" slot-scope="{ row, index }")
-        span(v-if="row.scsl === 0") 线下
-        span.span-error-color(v-else) 1688
+        span(v-for="index of typeDdly" v-if="row.ddly === index.value" :key="index.value") {{ index.label }}
       template(slot="xdlx" slot-scope="{ row, index }")
-        Button(type="success" size="small" v-if="row.xdlx === 0") 新订单
-        Button(type="warning" size="small" v-else-if="row.xdlx === 1") 补单
-        Button(type="error" size="small" v-else) 返工重做
+        span(v-for="index of typeXdlx" v-if="row.xdlx === index.value" :key="index.value") {{ index.label }}
       template(slot="action" slot-scope="{ row, index }")
         Tooltip(placement="top" content="查看详细信息" transfer)
           Button(@click="viewInfo(row, index)" style="padding: 6px 2px;" type="text")
@@ -33,6 +30,7 @@
 import { mapGetters } from 'vuex';
 import { JGM_XDXX_COLUMNS } from '@store/common/khxd/jgm/jryxd/module.js';
 import { GET_DATA_BY_BH, DEL_DATA } from '@store/common/khxd/jgm/jryxd/index';
+import { KHXD_JGM_XDLX, KHXD_JGM_DDLY } from '@store/common/khxd/jgm/xjbd/module.js';
 import { GET_DATA, GETTER_DATA, SUBMIT_ORDER_DATA } from '@store/common/khxd/jgm/zclb/index';
 export default {
   inject: ['reload'],
@@ -44,6 +42,8 @@ export default {
     return {
       data: [],
       jgmXdxxColumns: JGM_XDXX_COLUMNS,
+      typeXdlx: KHXD_JGM_XDLX,
+      typeDdly: KHXD_JGM_DDLY,
       isReload: false,
       isPrint: false
     };
@@ -54,6 +54,7 @@ export default {
     })
   },
   mounted() {
+    console.log('333');
     this.getDataByTemporary();
   },
   methods: {

@@ -1,14 +1,10 @@
 <template lang='pug'>
   div.khxd-jgm
-    Tabs(value="xjbd" v-model="currentTab" @on-click="currentTabChange" type="card" :animated="false")
-      TabPane(name="xjbd" label="创建订单" icon="md-add")
-        xjbd
-      TabPane(name="jryxd" label="今日下单记录" icon="md-trending-down")
-        jryxd
-      TabPane(name="zclb" label="暂存列表" icon="md-bookmark")
-        zclb
-      TabPane(name="jlcx" label="记录查询" icon="md-recording")
-        ddjl
+    Tabs(type="card" v-model="currentTab" @on-click="currentTabChange" :animated="false")
+      TabPane(v-for="index in tabComponent" :label="index.label" :name="index.key" :icon="index.icon" :key="index.key")
+    <keep-alive>
+      Component(:is="currentTabComponent")
+    </keep-alive>
 </template>
 
 <script>
@@ -21,21 +17,36 @@ export default {
   },
   data () {
     return {
-      currentTab: 'xjbd'
+      currentTab: 'xjbd',
+      currentTabComponent: 'xjbd',
+      tabComponent: [
+        {
+          key: 'xjbd',
+          label: '创建订单',
+          icon: 'md-add'
+        },
+        {
+          key: 'jryxd',
+          label: '今日下单记录',
+          icon: 'md-trending-down'
+        },
+        {
+          key: 'zclb',
+          label: '暂存列表',
+          icon: 'md-bookmark'
+        },
+        {
+          key: 'ddjl',
+          label: '记录查询',
+          icon: 'md-recording'
+        }
+      ]
     };
-  },
-  computed: {
-
-  },
-  mounted() {
-
   },
   methods: {
     currentTabChange(name) {
-      this.changeTab(name);
-    },
-    changeTab(name) {
       this.currentTab = name;
+      this.currentTabComponent = name;
     }
   }
 };

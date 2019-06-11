@@ -20,6 +20,14 @@ export const JGM_XDXX_COLUMNS = [
     fixed: 'left'
   },
   {
+    title: '下单类型',
+    key: 'xdlx',
+    align: 'center',
+    slot: 'xdlx',
+    width: 120,
+    sortable: true
+  },
+  {
     title: '是否加急',
     key: 'scsl',
     align: 'center',
@@ -33,14 +41,6 @@ export const JGM_XDXX_COLUMNS = [
     align: 'center',
     width: 100,
     slot: 'ddly'
-  },
-  {
-    title: '下单类型',
-    key: 'xdlx',
-    align: 'center',
-    slot: 'xdlx',
-    width: 120,
-    sortable: true
   },
   {
     title: '地址',

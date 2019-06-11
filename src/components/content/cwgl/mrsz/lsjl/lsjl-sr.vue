@@ -8,15 +8,15 @@
         div.form-style
           Form(ref="dataModal" :model="dataModal" :label-width="60" inline)
             FormItem(label="编号" prop="bh")
-              Input.input-width-in-form(v-model="dataModal.bh" @on-change="select" clearable  placeholder="输入编号")
+              Input.input-form(v-model="dataModal.bh" @on-change="select" clearable  placeholder="输入编号")
             FormItem(label="录入日期" prop="lrrq")
-              DatePicker.input-width-in-form(v-model="dataModal.lrrq" format="yyyy-MM-dd" @on-change="chooseDateLrrq" type="date" placeholder="输入录入日期")
+              DatePicker.input-form(v-model="dataModal.lrrq" format="yyyy-MM-dd" @on-change="chooseDateLrrq" type="date" placeholder="输入录入日期")
             FormItem(label="收账日期" prop="szrq")
-              DatePicker.input-width-in-form(v-model="dataModal.szrq" format="yyyy-MM-dd" @on-change="chooseDateSzrq" type="date" placeholder="输入收账日期")
+              DatePicker.input-form(v-model="dataModal.szrq" format="yyyy-MM-dd" @on-change="chooseDateSzrq" type="date" placeholder="输入收账日期")
             FormItem(label="客户姓名" prop="khxm")
-              Input.input-width-in-form(v-model="dataModal.khxm" @on-change="select" clearable placeholder="输入客户姓名")
+              Input.input-form(v-model="dataModal.khxm" @on-change="select" clearable placeholder="输入客户姓名")
             FormItem(label="收入类型" prop="srlx")
-              Select.input-width-in-form(v-model="dataModal.srlx" @on-change="select" clearable filterable remote)
+              Select.input-form(v-model="dataModal.srlx" @on-change="select" clearable filterable remote)
                 Option(v-for="item in srlx" :value="item.value" :key="item.value") {{ item.label }}
         div.table-style
           Table(:columns="srColumns" ref="selection" :data="dataTable" height="400" no-data-text="暂无数据显示" border)

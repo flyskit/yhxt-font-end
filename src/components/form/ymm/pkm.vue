@@ -2,21 +2,21 @@
   div.pkm
     Form(ref="dataYmm" :model="dataYmm" :rules="ruleValidate" :label-width="80" inline)
       FormItem(label="分类" prop="fl")
-        Select.input-width-in-form(v-model="dataYmm.fl" clearable)
+        Select.input-form(v-model="dataYmm.fl" clearable)
           Option(v-for="item of classifyType" :value="item.value" :key="item.key") {{item.label}}
       FormItem(label="颜色" prop="ys")
-        Input.input-width-in-form(v-model="dataYmm.ys" placeholder="输入颜色编号")
+        Input.input-form(v-model="dataYmm.ys" placeholder="输入颜色编号")
       FormItem(label="颜色类型" prop="yslx")
-        Select.input-width-in-form(v-model="dataYmm.yslx" clearable)
+        Select.input-form(v-model="dataYmm.yslx" clearable)
           Option(v-for="item of processType" :value="item.value" :key="item.key" ) {{item.label}}
       FormItem(label="造型" prop="zx")
-        Input.input-width-in-form(v-model="dataYmm.zx" placeholder="输入造型")
+        Input.input-form(v-model="dataYmm.zx" placeholder="输入造型")
       FormItem(label="数量" prop="sl")
-        Input.input-width-in-form(v-model="dataYmm.sl" placeholder="输入数量")
+        Input.input-form(v-model="dataYmm.sl" placeholder="输入数量")
       FormItem(label="高(毫米)" prop="ccHigh")
-        Input.input-width-in-form(v-model="dataYmm.ccHigh" placeholder="输入高")
+        Input.input-form(v-model="dataYmm.ccHigh" placeholder="输入高")
       FormItem(label="宽(毫米)" prop="ccWidth")
-        Input.input-width-in-form(v-model="dataYmm.ccWidth" placeholder="输入宽" )
+        Input.input-form(v-model="dataYmm.ccWidth" placeholder="输入宽" )
       pre
       FormItem
         Button.button-position-in-form(@click="reset('dataYmm')") 重置

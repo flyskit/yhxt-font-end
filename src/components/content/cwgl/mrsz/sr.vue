@@ -6,19 +6,19 @@
     Divider
     Form(ref="data" :model="data" :label-width="80" inline)
       FormItem(label="编号" prop="bh")
-        Input.input-width-in-form(v-model="data.bh" clearable  placeholder="输入编号")
+        Input.input-form(v-model="data.bh" clearable  placeholder="输入编号")
       FormItem(label="收账日期" prop="szrq")
-        DatePicker.input-width-in-form(v-model="data.szrq" format="yyyy-MM-dd" @on-change="chooseDateSzrq" type="date" placeholder="输入收账日期")
+        DatePicker.input-form(v-model="data.szrq" format="yyyy-MM-dd" @on-change="chooseDateSzrq" type="date" placeholder="输入收账日期")
       FormItem(label="客户姓名" prop="khxm")
-        Input.input-width-in-form(v-model="data.khxm" clearable placeholder="输入客户姓名")
+        Input.input-form(v-model="data.khxm" clearable placeholder="输入客户姓名")
       FormItem(label="收入类型" prop="srlx")
-        Select.input-width-in-form(v-model="data.srlx" clearable filterable remote)
+        Select.input-form(v-model="data.srlx" clearable filterable remote)
           Option(v-for="item in srlx" :value="item.value" :key="item.value") {{ item.label }}
       FormItem(label="收入金额" prop="srje")
-        Input.input-width-in-form(v-model="data.srje" clearable placeholder="输入金额")
+        Input.input-form(v-model="data.srje" clearable placeholder="输入金额")
       pre
       FormItem(label="备注" prop="bz")
-        Input.input-width-in-form(v-model="data.bz" type="textarea" :rows="3" style="width: 68vw" placeholder="备注")
+        Input.input-form(v-model="data.bz" type="textarea" :rows="3" style="width: 68vw" placeholder="备注")
       pre
       FormItem
         Button.button-position-in-form(@click="reset()") 重置

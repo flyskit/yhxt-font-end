@@ -153,4 +153,9 @@ export default {
   float: right;
   padding:0 10px 0 0;
 }
+//面包屑分割符样式
+.breadcrumb-separator{
+  color: #ff5500;
+  padding: 0 1px;
+}
 </style>

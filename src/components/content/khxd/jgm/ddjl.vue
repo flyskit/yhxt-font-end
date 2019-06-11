@@ -2,18 +2,19 @@
   div.khxd-jgm-ddjl
     printModal(ref="printModal")
     editDataModal(ref="editDataModal")
-    span.breadcrumb-separator 编号：
-    Input.input-small(v-model="data.bh" placeholder="输入编号" @on-change="doSelect")
-    span.breadcrumb-separator 客户：
-    Input.input-small(v-model="data.khxm" placeholder="输入客户姓名" @on-change="doSelect")
-    span.breadcrumb-separator 下单类型：
-    Select.select-small(v-model="data.xdlx" @on-change="doSelect" clearable transfer=true)
-      Option(v-for="item in xdlx" :value="item.value" :key="item.value") {{ item.label }}
-    span.breadcrumb-separator 订单来源：
-    Select.select-small(v-model="data.ddly" @on-change="doSelect" clearable transfer=true)
-      Option(v-for="item in ddly" :value="item.value" :key="item.value") {{ item.label }}
-    Button(type="primary" icon="ios-search" @click="doSelect") 查询
-    Page(:total="totalElement" @on-change="pageChange" show-total style="float:right;")
+    div.khxd-jgm-ddjl-cond
+      span.span-color 编号：
+      Input.input-small(v-model="data.bh" placeholder="输入编号" @on-change="doSelect")
+      span.span-color 客户：
+      Input.input-small(v-model="data.khxm" placeholder="输入客户姓名" @on-change="doSelect")
+      span.span-color 下单类型：
+      Select.select-small(v-model="data.xdlx" @on-change="doSelect" clearable transfer=true)
+        Option(v-for="item in typeXdlx" :value="item.value" :key="item.value") {{ item.label }}
+      span.span-color 订单来源：
+      Select.select-small(v-model="data.ddly" @on-change="doSelect" clearable transfer=true)
+        Option(v-for="item in typeDdly" :value="item.value" :key="item.value") {{ item.label }}
+      Button(type="primary" icon="ios-search" @click="doSelect") 查询
+      Page(:total="totalElement" @on-change="pageChange" show-total style="float:right;")
     pre
     div.khxd-jgm-ddjl-table
       Table(ref="selection" :columns="columns" :data="mapData" highlight-row border)
@@ -21,12 +22,9 @@
           Button(size="small" v-if="row.scsl === 0") 普通
           Button(type="error" size="small" v-else) 加急
         template(slot="ddly" slot-scope="{ row, index }")
-          span(v-if="row.scsl === 0") 线下
-          span.span-error-color(v-else) 1688
+          span(v-for="index of typeDdly" v-if="row.ddly === index.value" :key="index.value") {{ index.label }}
         template(slot="xdlx" slot-scope="{ row, index }")
-          Button(type="success" size="small" v-if="row.xdlx === 0") 新订单
-          Button(type="warning" size="small" v-else-if="row.xdlx === 1") 补单
-          Button(type="error" size="small" v-else) 返工重做
+          span(v-for="index of typeXdlx" v-if="row.xdlx === index.value" :key="index.value") {{ index.label }}
         template(slot="action" slot-scope="{ row, index }")
           Tooltip(placement="top" content="查看详细信息" transfer)
             Button(@click="viewInfo(row, index)" style="padding: 6px 4px;" type="text")
@@ -44,6 +42,7 @@
 import { mapGetters } from 'vuex';
 import { JGM_XDXX_COLUMNS } from '@store/common/khxd/jgm/jryxd/module.js';
 import { GET_DATA_BY_BH, DEL_DATA } from '@store/common/khxd/jgm/jryxd/index';
+import { KHXD_JGM_XDLX, KHXD_JGM_DDLY } from '@store/common/khxd/jgm/xjbd/module.js';
 import { GET_DATA, GETTER_DATA, GETTER_TOTAL_ELEMENT } from '@store/common/khxd/jgm/ddjl/index';
 export default {
   inject: ['reload'],
@@ -63,30 +62,8 @@ export default {
         pageSize: 13,
         page: 1
       },
-      xdlx: [
-        {
-          value: '0',
-          label: '新订单'
-        },
-        {
-          value: '1',
-          label: '补单'
-        },
-        {
-          value: '2',
-          label: '返工重做'
-        }
-      ],
-      ddly: [
-        {
-          value: '0',
-          label: '线下'
-        },
-        {
-          value: '1',
-          label: '1688'
-        }
-      ],
+      typeXdlx: KHXD_JGM_XDLX,
+      typeDdly: KHXD_JGM_DDLY,
       columns: JGM_XDXX_COLUMNS
     };
   },
@@ -148,7 +125,7 @@ export default {
     },
     /** 打印页面 */
     showPrintPage(data) {
-      this.$refs.printModal.show(data, this.isReload, this.isPrint);
+      this.$refs.printModal.show(data, false, true);
     },
     /** 编辑页面 */
     showEditPage(data) {
@@ -158,7 +135,7 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-.breadcrumb-separator {
+.span-color {
   color: #ff5500;
   padding: 0 5px;
 }

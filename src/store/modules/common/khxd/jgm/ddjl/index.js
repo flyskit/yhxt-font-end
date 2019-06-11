@@ -34,7 +34,6 @@ export default {
     /** 查询今日全部记录 */
     async [GET_DATA]({ commit }, param) {
       let res = await api.pageDataByCond(param);
-      console.log(res);
       res && commit(SET_DATA, res);
     }
   }
