@@ -26,15 +26,18 @@ export default {
     };
   },
   methods: {
+    /** 显示 */
     show(data, isReload, isPrint) {
       this.visible = true;
       this.isReload = isReload;
       this.isPrint = isPrint;
       this.$refs.summaryJgm.show(data);
     },
+    /** 打印 */
     printPage() {
       window.print();
     },
+    /** 关闭页面 */
     ok() {
       this.visible = false;
       if (this.isReload) {

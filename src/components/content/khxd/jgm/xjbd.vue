@@ -53,9 +53,9 @@ export default {
           khxm: '',
           dz: '',
           dh: '',
-          xdlx: '',
-          ddly: '',
-          scsl: '',
+          xdlx: 0,
+          ddly: 0,
+          scsl: 0,
           gq: '',
           bz: '',
           hjlhjpf: 0.000,
@@ -103,11 +103,7 @@ export default {
     addData() {
       this.$store.dispatch('commonKhxdJgmXjbdIndex/' + ADD_DATA, this.data).then(res => {
         if (res.data.status !== 200) {
-          this.$Notice.error({
-            title: '晶钢门新建表单',
-            desc: '失败原因：' + res.data.info,
-            duration: 0
-          });
+          this.$Message.error(res.data.info);
         } else {
           this.$Notice.success({
             title: res.data.info

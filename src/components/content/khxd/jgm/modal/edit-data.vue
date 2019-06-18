@@ -8,19 +8,15 @@
         p
           span.span-color 下单类型：
           RadioGroup(v-model="data.xdxx.xdlx")
-            Radio(label="0" :disabled="visible") 新订单
-            Radio(label="1" :disabled="visible") 补单
-            Radio(label="2" :disabled="visible") 返工重做
+            Radio(v-for="index of typeXdlx" :label="index.value" :key="index.value") {{ index.label }}
           Divider(type="vertical")
           span.span-color 生产速率：
           RadioGroup(v-model="data.xdxx.scsl")
-            Radio(label="0") 普通
-            Radio(label="1") 加急
+            Radio(v-for="index of typeScsl" :label="index.value" :key="index.value") {{ index.label }}
           Divider(type="vertical")
           span.span-color 订单来源：
           RadioGroup(v-model="data.xdxx.ddly")
-            Radio(label="0") 线下
-            Radio(label="1") 1688
+            Radio(v-for="index of typeDdly" :label="index.value" :key="index.value") {{ index.label }}
         br
         Form(ref="data" :model="data" :label-width="80" inline)
           FormItem(label="编号" prop="bh")
@@ -45,7 +41,7 @@
 import _ from 'lodash';
 import { mixin } from '@component/mixins/mixin';
 import tableJgm from '@component_table/summary/edit-jgm.vue';
-import { KHXD_JGM_XDLX, KHXD_JGM_SCSL } from '@store/common/khxd/jgm/xjbd/module';
+import { KHXD_JGM_XDLX, KHXD_JGM_SCSL, KHXD_JGM_DDLY } from '@store/common/khxd/jgm/xjbd/module';
 import { UPDATE_DATA } from '@store/common/khxd/jgm/jryxd/index';
 export default {
   inject: ['reload'],
@@ -75,12 +71,14 @@ export default {
         },
         ccxx: []
       },
-      xdlx: KHXD_JGM_XDLX,
-      scsl: KHXD_JGM_SCSL,
+      typeXdlx: KHXD_JGM_XDLX,
+      typeScsl: KHXD_JGM_SCSL,
+      typeDdly: KHXD_JGM_DDLY,
       visible: false
     };
   },
   methods: {
+    /** 显示 */
     show(data) {
       this.data.xdxx = _.cloneDeep(data.xdxx);
       /** Number转String，不然无法回显 */
@@ -90,16 +88,9 @@ export default {
       this.$refs.tableJgm.showEdit(data);
       this.visible = true;
     },
+    /** 关闭 */
     ok() {
       this.visible = false;
-    },
-    /** 更改下单类型 */
-    changeXdlx(value) {
-      this.data.xdxx.xdlx = value;
-    },
-    /** 更改生产速率 */
-    changeScsl(value) {
-      this.data.xdxx.scsl = value;
     },
     /** 获取table表格数据-提交订单 */
     getTableData(tableData) {
@@ -113,11 +104,7 @@ export default {
     addData() {
       this.$store.dispatch('commonKhxdJgmJryxdIndex/' + UPDATE_DATA, this.data).then(res => {
         if (res.data.status !== 200) {
-          this.$Notice.error({
-            title: '修改',
-            desc: '失败原因：' + res.data.info,
-            duration: 0
-          });
+          this.$Message.error(res.data.info);
         } else {
           this.$Notice.success({
             title: res.data.info

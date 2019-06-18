@@ -2,7 +2,7 @@
   div.khxd-jgm-jryxd
     printModal(ref="printModal")
     editDataModal(ref="editDataModal")
-    Table(border ref="selection" :columns="jgmXdxxColumns" :data="data" highlight-row)
+    Table(ref="selection" :columns="jgmXdxxColumns" :data="data" size="small" highlight-row border)
       template(slot="scsl" slot-scope="{ row, index }")
         Button(size="small" v-if="row.scsl === 0") 普通
         Button(type="error" size="small" v-else) 加急
@@ -54,32 +54,24 @@ export default {
     })
   },
   mounted() {
-    console.log('333');
     this.getDataByTemporary();
   },
   methods: {
+    /** 获取记录 */
     getDataByTemporary() {
       this.$store.dispatch('commonKhxdJgmZclbIndex/' + GET_DATA).then(res => {
         if (this.mapData.status !== 200) {
-          this.$Notice.error({
-            title: '通知提醒',
-            desc: '暂存列表：' + this.mapData.info,
-            duration: 0
-          });
+          this.$Message.error(res.data.info);
         } else {
           this.data = this.mapData.map.data;
         }
       });
     },
+    /** 查看详细信息 */
     viewInfo(row) {
       this.$store.dispatch('commonKhxdJgmJryxdIndex/' + GET_DATA_BY_BH, row.bh).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
-          this.$Notice.error({
-            title: '通知提醒',
-            desc: '暂存列表：' + res.data.info,
-            duration: 0
-          });
         } else {
           this.isReload = false;
           this.isPrint = false;
@@ -87,6 +79,7 @@ export default {
         }
       });
     },
+    /** 修改记录 */
     changeInfo(row) {
       this.$store.dispatch('commonKhxdJgmJryxdIndex/' + GET_DATA_BY_BH, row.bh).then(res => {
         if (res.data.status !== 200) {
@@ -96,16 +89,12 @@ export default {
         }
       });
     },
+    /** 提交 */
     submitInfo(row) {
       this.$store.dispatch('commonKhxdJgmZclbIndex/' + SUBMIT_ORDER_DATA, row.bh).then(res => {
         if (res.data.status !== 200) {
-          this.$Notice.error({
-            title: '通知提醒',
-            desc: '暂存列表：' + res.data.info,
-            duration: 0
-          });
+          this.$Message.error(res.data.info);
         } else {
-          // 重载
           this.$Notice.success({
             title: res.data.info
           });
@@ -115,6 +104,7 @@ export default {
         }
       });
     },
+    /** 删除 */
     delInfo(row) {
       this.$store.dispatch('commonKhxdJgmJryxdIndex/' + DEL_DATA, row.bh).then(res => {
         if (res.data.status !== 200) {
@@ -139,7 +129,5 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-.span-error-color {
-  color: #ff0000;
-}
+
 </style>

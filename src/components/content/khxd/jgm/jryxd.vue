@@ -14,7 +14,7 @@
       Divider(type="vertical")
       span.span-color 总片数：
       span {{ totalPs }}
-    Table(border ref="selection" :columns="jgmXdxxColumns" :data="data" highlight-row)
+    Table(ref="selection" :columns="jgmXdxxColumns" :data="data" size="small" highlight-row border)
       template(slot="scsl" slot-scope="{ row, index }")
         Button(size="small" v-if="row.scsl === 0") 普通
         Button(type="error" size="small" v-else) 加急
@@ -73,10 +73,7 @@ export default {
     getDataByToDay() {
       this.$store.dispatch('commonKhxdJgmJryxdIndex/' + GET_DATA).then(res => {
         if (this.mapData.status !== 200) {
-          this.$Notice.error({
-            title: '通知提醒',
-            desc: '今日已下单：' + this.mapData.info
-          });
+          this.$Message.error(res.data.info);
         } else {
           this.data = this.mapData.map.data.list;
           this.totalLhjpf = this.mapData.map.data.totalLhjpf;
@@ -96,6 +93,7 @@ export default {
         }
       });
     },
+    /** 修改记录 */
     changeInfo(row) {
       this.$store.dispatch('commonKhxdJgmJryxdIndex/' + GET_DATA_BY_BH, row.bh).then(res => {
         if (res.data.status !== 200) {
@@ -105,6 +103,7 @@ export default {
         }
       });
     },
+    /** 删除记录 */
     delInfo(row) {
       this.$store.dispatch('commonKhxdJgmJryxdIndex/' + DEL_DATA, row.bh).then(res => {
         if (res.data.status !== 200) {
@@ -129,8 +128,5 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-.span-color {
-  color: #ff5500;
-  padding: 0 5px;
-}
+
 </style>

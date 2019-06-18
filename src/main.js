@@ -14,7 +14,7 @@ Vue.use(VueRouter);
 Vue.use(iView);
 // 加载axios
 Vue.prototype.axios = axios;
-axios.defaults.baseURL = 'http://localhost/back-stage';
+axios.defaults.baseURL = 'http://192.168.3.74/back-stage';
 
 const debug = process.env.NODE_ENV !== 'production';
 Vue.config.debug = debug;

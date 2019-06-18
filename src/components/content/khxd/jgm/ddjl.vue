@@ -14,10 +14,9 @@
       Select.select-small(v-model="data.ddly" @on-change="doSelect" clearable transfer=true)
         Option(v-for="item in typeDdly" :value="item.value" :key="item.value") {{ item.label }}
       Button(type="primary" icon="ios-search" @click="doSelect") 查询
-      Page(:total="totalElement" @on-change="pageChange" show-total style="float:right;")
     pre
     div.khxd-jgm-ddjl-table
-      Table(ref="selection" :columns="columns" :data="mapData" highlight-row border)
+      Table(ref="selection" :row-class-name="rowClassName" :columns="columns" :data="mapData" size="small" highlight-row border)
         template(slot="scsl" slot-scope="{ row, index }")
           Button(size="small" v-if="row.scsl === 0") 普通
           Button(type="error" size="small" v-else) 加急
@@ -36,14 +35,16 @@
             Poptip(@on-ok="delInfo(row, index)" confirm title="是否删除?" transfer)
               Button(style="padding: 6px 4px;" type="text")
                 Icon(type="md-close")
+    div(style="text-align:center;margin-top:10px;")
+      Page(:total="totalElement" :page-size="page.pageSize" @on-change="pageChange" show-total)
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import { JGM_XDXX_COLUMNS } from '@store/common/khxd/jgm/jryxd/module.js';
-import { GET_DATA_BY_BH, DEL_DATA } from '@store/common/khxd/jgm/jryxd/index';
+import { GET_DATA_BY_BH } from '@store/common/khxd/jgm/jryxd/index';
 import { KHXD_JGM_XDLX, KHXD_JGM_DDLY } from '@store/common/khxd/jgm/xjbd/module.js';
-import { GET_DATA, GETTER_DATA, GETTER_TOTAL_ELEMENT } from '@store/common/khxd/jgm/ddjl/index';
+import { GET_DATA, GETTER_DATA, GETTER_TOTAL_ELEMENT, DEL_DATA } from '@store/common/khxd/jgm/ddjl/index';
 export default {
   inject: ['reload'],
   components: {
@@ -59,12 +60,14 @@ export default {
         ddly: '' // 订单来源
       },
       page: {
-        pageSize: 13,
+        pageSize: 15,
         page: 1
       },
       typeXdlx: KHXD_JGM_XDLX,
       typeDdly: KHXD_JGM_DDLY,
-      columns: JGM_XDXX_COLUMNS
+      columns: JGM_XDXX_COLUMNS,
+      nowDate: Date,
+      outNum: 0
     };
   },
   computed: {
@@ -77,15 +80,18 @@ export default {
     this.doSelect();
   },
   methods: {
+    /** 查询 */
     select() {
+      /** 获取当前时间 */
+      this.nowDate = new Date();
       this.$store.dispatch('commonKhxdJgmDdjlIndex/' + GET_DATA, {...this.data, page: this.page});
     },
-    // 获取后台数据
+    /** 初始重置页码，并查询 */
     doSelect() {
       this.page.page = 1;
       this.select();
     },
-    // 分页查询页
+    /** 页码查询 */
     pageChange(value) {
       this.page.page = value;
       this.select();
@@ -111,17 +117,18 @@ export default {
       });
     },
     /** 删除记录 */
-    delInfo(row) {
-      this.$store.dispatch('commonKhxdJgmJryxdIndex/' + DEL_DATA, row.bh).then(res => {
-        if (res.data.status !== 200) {
-          this.$Message.error(res.data.info);
-        } else {
-          this.$Notice.success({
-            title: res.data.info
-          });
-          this.reload();
-        }
-      });
+    delInfo(row, index) {
+      // this.$store.dispatch('commonKhxdJgmDdjlIndex/' + DEL_DATA, row.bh).then(res => {
+      //   if (res.data.status !== 200) {
+      //     this.$Message.error(res.data.info);
+      //   } else {
+      //     this.$Notice.success({
+      //       title: res.data.info
+      //     });
+      //     this.mapData.splice(index, 1);
+      //   }
+      // });
+      this.$store.dispatch('commonKhxdJgmDdjlIndex/' + DEL_DATA, {param: row.bh, index: index});
     },
     /** 打印页面 */
     showPrintPage(data) {
@@ -130,13 +137,20 @@ export default {
     /** 编辑页面 */
     showEditPage(data) {
       this.$refs.editDataModal.show(data);
+    },
+    /** 自定义表格行样式 */
+    rowClassName(row, index) {
+      /** 判断当前时间是否超过记录时间，超过那么特殊表示 */
+      if (new Date(row.cjsj) < new Date(this.nowDate)) {
+        return 'demo-table-error-row';
+      }
+      return '';
     }
   }
 };
 </script>
-<style lang='less' scoped>
-.span-color {
-  color: #ff5500;
-  padding: 0 5px;
+<style lang='less'>
+.ivu-table .demo-table-error-row td {
+  color: red;
 }
 </style>
