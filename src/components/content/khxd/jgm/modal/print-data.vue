@@ -1,6 +1,6 @@
 <template lang='pug'>
   div.khxd-jgm-print-data
-    Modal(v-model="visible" width="80vw" fullscreen @on-ok="ok" @on-cancel="ok")
+    Modal(v-model="visible" width="90vw" height="90vw" @on-ok="ok" @on-cancel="ok")
       p(slot="header" style="color:#f60" class="noprint")
         Icon(type="ios-information-circle")
         span 预览
@@ -22,16 +22,14 @@ export default {
     return {
       visible: false,
       isReload: false,
-      isPrint: false
+      isPrint: true
     };
   },
   methods: {
     /** 显示 */
-    show(data, isReload, isPrint) {
+    show(data, czr, czsj) {
       this.visible = true;
-      this.isReload = isReload;
-      this.isPrint = isPrint;
-      this.$refs.summaryJgm.show(data);
+      this.$refs.summaryJgm.show(data, czr, czsj);
     },
     /** 打印 */
     printPage() {

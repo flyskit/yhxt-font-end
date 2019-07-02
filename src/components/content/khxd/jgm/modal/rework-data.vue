@@ -1,16 +1,16 @@
 <template lang='pug'>
-  div.khxd-jgm-edit-data
+  div.khxd-jgm-rework-data
     Modal(v-model="visible" width="90vw" @on-ok="ok" @on-cancel="ok")
-      p(slot="header" style="color:#f60" class="noprint")
+      p(slot="header" style="color:#f60")
         Icon(type="ios-information-circle")
-        span 修改
-      div(class="edit")
+        span 返工订单-详细信息
+      div
         Table(:columns="orderColumns" :data="orderDetail" size="small" border)
           template(slot="ddbh" slot-scope="{ row, index }")
             Input(v-model="row.ddbh" readonly=true @on-change="change(row)")
           template(slot="ddlx" slot-scope="{ row, index }")
-            Select(v-model="row.ddlx" transfer=true  @on-change="change(row)")
-              Option(v-for="item in typeXdlx" :value="item.value" :key="item.value") {{ item.label }}
+            Select(v-model="row.ddlx" transfer=true disabled @on-change="change(row)")
+              Option(v-for="item in typeXdlx" :value="item.value" :key="item.value" :disabled="item.disabled") {{ item.label }}
           template(slot="ddly" slot-scope="{ row, index }")
             Select(v-model="row.ddly" transfer=true  @on-change="change(row)")
               Option(v-for="item in typeDdly" :value="item.value" :key="item.value") {{ item.label }}
@@ -49,7 +49,7 @@
             Input(v-model="row.bz"  @on-change="change(row)")
         Divider 尺寸信息
         tableJgm(ref="tableJgm" @submitData="submitData")
-      div(slot="footer" class="noprint")
+      div(slot="footer")
         Button(@click="ok") 关闭
 </template>
 
@@ -58,8 +58,7 @@ import { mapGetters } from 'vuex';
 import { mixin } from '@component/mixins/mixin';
 import tableJgm from '@component_table/summary/edit-jgm.vue';
 import { KHXD_JGM_XDLX, KHXD_JGM_SCSL, KHXD_JGM_DDLY, KHXD_JGM_DDXX } from '@store/common/khxd/jgm/xjbd/module';
-import { GET_LS, GET_KH, GETTER_LS, GETTER_KH } from '@store/common/khxd/jgm/xjbd/index';
-import { UPDATE_DATA } from '@store/common/khxd/jgm/jryxd/index';
+import { ADD_DATA, GET_BH, GET_LS, GET_KH, GETTER_BH, GETTER_LS, GETTER_KH } from '@store/common/khxd/jgm/xjbd/index';
 export default {
   inject: ['reload'],
   mixins: [mixin],
@@ -104,37 +103,35 @@ export default {
   },
   computed: {
     ...mapGetters({
+      orderNumber: 'commonKhxdJgmXjbdIndex/' + GETTER_BH,
       handleList: 'commonKhxdJgmXjbdIndex/' + GETTER_LS,
       customerList: 'commonKhxdJgmXjbdIndex/' + GETTER_KH
     })
   },
   methods: {
-    /** 显示 */
-    show(data) {
-      this.orderDetail[0].ddbh = data.orderDetail.ddbh;
-      this.orderDetail[0].ddlx = data.orderDetail.ddlx;
-      this.orderDetail[0].ddly = data.orderDetail.ddly;
-      this.orderDetail[0].scsl = data.orderDetail.scsl;
-      this.orderDetail[0].khxm = data.orderDetail.khxm;
-      this.orderDetail[0].dz = data.orderDetail.dz;
-      this.orderDetail[0].dh = data.orderDetail.dh;
-      this.orderDetail[0].gq = data.orderDetail.gq;
-      this.orderDetail[0].bz = data.orderDetail.bz;
-      this.orderDetail[0].ddzt = data.orderDetail.ddzt;
-
-      this.orderDetail[0].ls = data.crystalSteelDoorDetail.ls;
-      this.orderDetail[0].ys = data.crystalSteelDoorDetail.ys;
-      this.orderDetail[0].dj = data.crystalSteelDoorDetail.dj;
-      this.orderDetail[0].je = data.crystalSteelDoorDetail.je;
-      this.orderDetail[0].hjpf = data.crystalSteelDoorDetail.hjpf;
-      this.orderDetail[0].blpf = data.crystalSteelDoorDetail.blpf;
-      this.orderDetail[0].hjsl = data.crystalSteelDoorDetail.hjsl;
-      this.orderDetail[0].yjdb = data.crystalSteelDoorDetail.yjdb;
-
-      this.$refs.tableJgm.showEdit(data.cupboardDoorSizes);
+    show(crystalSteelDoorDetail, orderDetail, orderSize) {
+      this.orderDetail[0].ddlx = 2;
+      this.orderDetail[0].ddly = orderDetail.ddly;
+      this.orderDetail[0].scsl = orderDetail.scsl;
+      this.orderDetail[0].gq = orderDetail.gq;
+      this.orderDetail[0].khxm = orderDetail.khxm;
+      this.orderDetail[0].dz = orderDetail.dz;
+      this.orderDetail[0].dh = orderDetail.dh;
+      this.orderDetail[0].ls = crystalSteelDoorDetail.ls;
+      this.orderDetail[0].ys = crystalSteelDoorDetail.ys;
+      this.orderDetail[0].dj = crystalSteelDoorDetail.dj;
+      this.orderDetail[0].bz = orderDetail.bz;
+      this.getBh();
       this.getLs();
       this.findHandle();
+      this.$refs.tableJgm.showInnerSize(orderSize);
       this.visible = true;
+    },
+    /** 获取编号 */
+    getBh() {
+      this.$store.dispatch('commonKhxdJgmXjbdIndex/' + GET_BH).then(res => {
+        this.orderDetail[0].ddbh = this.orderNumber;
+      });
     },
     /** 获取拉手列表 */
     getLs() {
@@ -206,10 +203,11 @@ export default {
       this.orderDetail[0] = row;
     },
     /** 获取table表格数据-提交订单 */
-    submitData(sizeDetail) {
+    submitData(sizeDetail, orderStatus) {
       var hjpf = 0.00;
       var blpf = 0.00;
       var hjsl = 0;
+      this.orderDetail[0].ddzt = orderStatus;
       sizeDetail.forEach((e) => {
         hjpf = parseFloat(e.mbpf) + hjpf;
         blpf = parseFloat(e.blpf) + blpf;
@@ -224,15 +222,11 @@ export default {
       this.orderDetail[0].yjdb = Math.ceil(this.orderDetail[0].hjsl / 10);
       this.orderDetail[0].je = (this.orderDetail[0].hjpf * parseFloat(this.orderDetail[0].dj)).toFixed(1);
       this.defineProperty(this.orderDetail[0], '_index', '_rowKey');
-      this.updateData(sizeDetail);
-    },
-    /** 关闭 */
-    ok() {
-      this.visible = false;
+      this.addData(sizeDetail);
     },
     /** 提交数据 */
-    updateData(sizeDetail) {
-      this.$store.dispatch('commonKhxdJgmJryxdIndex/' + UPDATE_DATA, {...this.orderDetail[0], cupboardDoorSizes: sizeDetail}).then(res => {
+    addData(sizeDetail) {
+      this.$store.dispatch('commonKhxdJgmXjbdIndex/' + ADD_DATA, {...this.orderDetail[0], cupboardDoorSizes: sizeDetail}).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {
@@ -240,8 +234,13 @@ export default {
             title: res.data.info
           });
           this.reload();
+          // this.showPrintPage(res.data.map.data);
         }
       });
+    },
+    /** 关闭 */
+    ok() {
+      this.visible = false;
     }
   }
 };

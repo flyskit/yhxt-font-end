@@ -6,34 +6,25 @@ export const JGM_XDXX_COLUMNS = [
     fixed: 'left'
   },
   {
-    title: '编号',
-    key: 'bh',
+    title: '订单编号',
+    key: 'ddbh',
     align: 'center',
-    width: 160,
+    width: 100,
     fixed: 'left'
   },
   {
-    title: '客户',
+    title: '客户姓名',
     key: 'khxm',
     align: 'center',
-    width: 160,
+    width: 120,
     fixed: 'left'
   },
   {
-    title: '下单类型',
-    key: 'xdlx',
+    title: '订单类型',
+    key: 'ddlx',
     align: 'center',
-    slot: 'xdlx',
-    width: 120,
-    sortable: true
-  },
-  {
-    title: '是否加急',
-    key: 'scsl',
-    align: 'center',
-    slot: 'scsl',
-    width: 120,
-    sortable: true
+    width: 100,
+    slot: 'ddlx'
   },
   {
     title: '订单来源',
@@ -43,35 +34,29 @@ export const JGM_XDXX_COLUMNS = [
     slot: 'ddly'
   },
   {
-    title: '地址',
-    key: 'dz',
+    title: '生产速率',
+    key: 'scsl',
     align: 'center',
-    width: 160,
-    tooltip: true
+    width: 100,
+    slot: 'scsl'
   },
   {
-    title: '电话',
-    key: 'dh',
-    align: 'center',
-    width: 140
-  },
-  {
-    title: '工期',
-    key: 'gq',
+    title: '门板平方',
+    key: 'hjpf',
     align: 'center',
     width: 80
   },
   {
-    title: '合计平方',
-    key: 'hjlhjpf',
+    title: '门板数量',
+    key: 'hjsl',
     align: 'center',
-    width: 100
+    width: 80
   },
   {
-    title: '合计片数',
-    key: 'hjps',
+    title: '金额',
+    key: 'je',
     align: 'center',
-    width: 100
+    width: 80
   },
   {
     title: '备注',
@@ -81,14 +66,45 @@ export const JGM_XDXX_COLUMNS = [
     tooltip: true
   },
   {
+    title: '工期',
+    key: 'gq',
+    align: 'center',
+    width: 80
+  },
+  {
+    title: '发货时间',
+    key: 'wgsj',
+    align: 'center',
+    width: 180
+  },
+  {
+    title: '预计打包',
+    key: 'yjdb',
+    align: 'center',
+    width: 80
+  },
+  {
+    title: '地址',
+    key: 'dz',
+    align: 'center',
+    width: 120,
+    tooltip: true
+  },
+  {
+    title: '电话',
+    key: 'dh',
+    align: 'center',
+    width: 140
+  },
+  {
     title: '制单人',
-    key: 'cjr',
+    key: 'czr',
     align: 'center',
     width: 100
   },
   {
     title: '制单时间',
-    key: 'cjsj',
+    key: 'czsj',
     width: 180,
     align: 'center'
   },
@@ -98,5 +114,53 @@ export const JGM_XDXX_COLUMNS = [
     slot: 'action',
     width: 120,
     fixed: 'right'
+  }
+];
+
+export const ACCESSORY_COLUMNS = [
+  {
+    type: 'selection',
+    width: 60,
+    align: 'center'
+  },
+  {
+    title: '编号',
+    key: 'bh',
+    align: 'center'
+  },
+  {
+    title: '名称',
+    key: 'mc',
+    align: 'center'
+  },
+  {
+    title: '规格',
+    key: 'gg',
+    align: 'center'
+  },
+  {
+    title: '数量',
+    key: 'pjsl',
+    align: 'center'
+  },
+  {
+    title: '单位',
+    key: 'dw',
+    align: 'center'
+  },
+  {
+    title: '单价',
+    key: 'pjdj',
+    align: 'center'
+  },
+  {
+    title: '金额',
+    key: 'pjje',
+    align: 'center'
+  },
+  {
+    title: '操作',
+    align: 'center',
+    slot: 'action'
   }
 ];

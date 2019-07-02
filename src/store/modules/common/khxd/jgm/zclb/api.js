@@ -7,6 +7,6 @@ export default {
   },
   /** 提交订单 */
   submitOrder(param) {
-    return axios.post('/khxd/jgm/subDataByTemporary/' + param);
+    return axios.post('/khxd/jgm/submitDataOnTemporary/' + param);
   }
 };

@@ -12,8 +12,7 @@ export default {
   components: {
     'xjbd': (resolve) => require(['./xjbd'], resolve),
     'jryxd': (resolve) => require(['./jryxd'], resolve),
-    'zclb': (resolve) => require(['./zclb'], resolve),
-    'ddjl': (resolve) => require(['./ddjl'], resolve)
+    'zclb': (resolve) => require(['./zclb'], resolve)
   },
   data () {
     return {
@@ -34,11 +33,6 @@ export default {
           key: 'zclb',
           label: '暂存列表',
           icon: 'md-bookmark'
-        },
-        {
-          key: 'ddjl',
-          label: '记录查询',
-          icon: 'md-recording'
         }
       ]
     };

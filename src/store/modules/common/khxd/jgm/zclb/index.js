@@ -13,7 +13,7 @@ export const GETTER_DATA = 'GETTER_DATA';
 
 export default {
   state: {
-    data: {}
+    data: []
   },
   getters: {
     GETTER_DATA: (state) => state.data
@@ -27,7 +27,7 @@ export default {
     /** 查询数据 */
     async [GET_DATA]({ commit }) {
       let res = await api.getDataByTemporary();
-      res && commit(SET_DATA, res.data);
+      res && commit(SET_DATA, res);
     },
     /** 提交数据 */
     async [SUBMIT_ORDER_DATA]({ commit }, param) {
