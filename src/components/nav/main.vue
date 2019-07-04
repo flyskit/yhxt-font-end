@@ -14,6 +14,11 @@
         BreadcrumbItem(to="/home")  首页
         BreadcrumbItem 客户下单
         BreadcrumbItem 晶钢门
+      Breadcrumb(separator="<b class='breadcrumb-separator'>/</b>" v-else-if="this.$route.fullPath === '/khxd-ykl'")
+        Icon(type="ios-pin")
+        BreadcrumbItem(to="/home")  首页
+        BreadcrumbItem 客户下单
+        BreadcrumbItem 亚克力门
       Breadcrumb(separator="<b class='breadcrumb-separator'>/</b>" v-else-if="this.$route.fullPath === '/produce-down'")
         Icon(type="ios-pin")
         BreadcrumbItem(to="/home")  首页

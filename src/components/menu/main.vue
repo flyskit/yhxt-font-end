@@ -17,7 +17,7 @@
           Icon(type="ios-infinite")
           span 客户下单
         Menu-item(name="2-1" @click.native="routerevent('/khxd-jgm')") 晶钢门
-        Menu-item(name="2-2" @click.native="routerevent('/order-new')") 新建表单
+        Menu-item(name="2-2" @click.native="routerevent('/khxd-ykl')") 亚克力门
       Submenu(name="3")
         template(slot="title")
           Icon(type="ios-cart")

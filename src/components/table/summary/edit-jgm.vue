@@ -106,6 +106,7 @@ export default {
     },
     /** 添加行 */
     addRow() {
+      this.totalConpute();
       this.data.push(this.tableData);
       this.editIndex = this.data.length - 1;
     },
@@ -123,6 +124,7 @@ export default {
     /** 完成编辑 */
     editComplete(row, index) {
       this.data[index] = _.cloneDeep(row);
+      this.totalConpute();
       this.editIndex = -1;
       this.editEnd = true;
     },
@@ -132,6 +134,17 @@ export default {
       row.blgd = row.mbgd - this.handleSize.handleHeight;
       row.blkd = row.mbkd - this.handleSize.handleWidth;
       row.blpf = (row.blgd * 0.001 * row.blkd * 0.001 * row.sl).toFixed(3);
+      this.$emit('totalData', row.mbpf, row.blpf, row.sl);
+    },
+    totalConpute() {
+      var hjpf = 0.00;
+      var blpf = 0.00;
+      var hjsl = 0;
+      this.data.forEach((e) => {
+      });
+      console.log(hjpf);
+      console.log(blpf);
+      console.log(hjsl);
     },
     /** 更换拉手尺寸-高度 */
     handleHeightChange() {
@@ -156,6 +169,7 @@ export default {
     /** 删除行 */
     delRow(index) {
       this.data.splice(index, 1);
+      this.totalConpute();
     },
     /** 提交订单 */
     addData() {

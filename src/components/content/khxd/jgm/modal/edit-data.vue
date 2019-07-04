@@ -10,7 +10,7 @@
             Input(v-model="row.ddbh" readonly=true @on-change="change(row)")
           template(slot="ddlx" slot-scope="{ row, index }")
             Select(v-model="row.ddlx" transfer=true  @on-change="change(row)")
-              Option(v-for="item in typeXdlx" :value="item.value" :key="item.value") {{ item.label }}
+              Option(v-for="item in typeXdlx" :value="item.value" :key="item.value" :disabled="item.disabled") {{ item.label }}
           template(slot="ddly" slot-scope="{ row, index }")
             Select(v-model="row.ddly" transfer=true  @on-change="change(row)")
               Option(v-for="item in typeDdly" :value="item.value" :key="item.value") {{ item.label }}

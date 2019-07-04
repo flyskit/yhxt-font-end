@@ -141,7 +141,7 @@ export default {
         }
       } else if (row.lwz === 1) {
         // 边沿立柱
-        if (row.lhd >= 15) {
+        if (row.lhd > 15) {
           lhd = 13;
         } else if (row.lhd >= 8) {
           lhd = parseFloat(row.lhd) - 5;
@@ -166,7 +166,7 @@ export default {
         }
       } else if (row.rwz === 1) {
         // 边沿立柱
-        if (row.rhd >= 15) {
+        if (row.rhd > 15) {
           rhd = 13;
         } else if (row.rhd >= 8) {
           rhd = parseFloat(row.rhd) - 5;

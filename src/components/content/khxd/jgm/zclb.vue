@@ -136,27 +136,6 @@ export default {
     delInfo(row) {
       this.$refs.delModal.show(row.ddbh);
     }
-    // /** 删除 */
-    // delInfo(row) {
-    //   this.$store.dispatch('commonKhxdJgmJryxdIndex/' + DEL_DATA, row.bh).then(res => {
-    //     if (res.data.status !== 200) {
-    //       this.$Message.error(res.data.info);
-    //     } else {
-    //       this.$Notice.success({
-    //         title: res.data.info
-    //       });
-    //       this.reload();
-    //     }
-    //   });
-    // },
-    // /** 打印页面 */
-    // showPrintPage(data) {
-    //   this.$refs.printModal.show(data, this.isReload, this.isPrint);
-    // },
-    // /** 编辑页面 */
-    // showEditPage(data) {
-    //   this.$refs.editDataModal.show(data);
-    // }
   }
 };
 </script>

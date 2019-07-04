@@ -14,26 +14,17 @@ export default {
   getCustomerByName(param) {
     return axios.post('/sjgl/getCustomerByName/' + param);
   },
+  /** 获取板材信息 */
+  getBoardPriceDetailByGoodsType(param) {
+    return axios.post('/sjgl/getBoardPriceDetailByGoodsType/' + param);
+  },
   /** 添加订单 */
   addData(param) {
-    return axios.post('/khxd/jgm/addData', param);
-  },
-  /** --------------------------拉手管理--------------------------- */
-  /** 添加拉手 */
-  addHandle(param) {
-    return axios.post('/sjgl/addHandle', param);
-  },
-  /** 修改拉手信息 */
-  updateHandle(param) {
-    return axios.post('/sjgl/updateHandle', param);
-  },
-  /** 删除拉手 */
-  delHandle(param) {
-    return axios.post('/sjgl/delHandle/' + param);
+    return axios.post('/khxd/ykl/addData', param);
   },
   /** --------------------------返工订单--------------------------- */
   /** 根据客户姓名模糊查询记录 */
-  findDataByName(param) {
-    return axios.post('/khxd/jgm/findDataByName/' + param);
+  getDataByCond(param) {
+    return axios.post('/khxd/ykl/condData', param);
   }
 };

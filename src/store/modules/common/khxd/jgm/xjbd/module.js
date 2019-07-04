@@ -57,7 +57,7 @@ export const KHXD_JGM_DDLY = [
   }
 ];
 
-/** 尺寸信息-表头 */
+/** 订单信息-表头 */
 export const KHXD_JGM_DDXX = [
   {
     title: '订单信息',
@@ -284,6 +284,7 @@ export const HANDLE_COLUMNS = [
   }
 ];
 
+/** 内框位置信息 */
 export const KHXD_JGM_NKWZ = [
   {
     value: 0,
@@ -299,7 +300,7 @@ export const KHXD_JGM_NKWZ = [
   }
 ];
 
-/** 尺寸信息-表头 */
+/** 尺寸信息-内框计算 */
 export const KHXD_JGM_NKJS = [
   {
     title: '类型',

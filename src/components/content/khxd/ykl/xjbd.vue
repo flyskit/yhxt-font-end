@@ -1,6 +1,7 @@
 <template lang='pug'>
-  div.khxd-jgm-xjbd
+  div.khxd-ykl-xjbd
     Button.khxd-operate-button(@click="getHandle") 拉手信息
+    Button.khxd-operate-button(@click="getHandle") 板材信息
     Button.khxd-operate-button(@click="innerCompute") 内框计算
     Button.khxd-operate-button(@click="createRework") 返工订单
     Table(:columns="orderColumns" :data="orderDetail" size="small" border)
@@ -8,7 +9,7 @@
         Input(v-model="row.ddbh" readonly=true @on-change="change(row)")
       template(slot="ddlx" slot-scope="{ row, index }")
         Select(v-model="row.ddlx" transfer=true  @on-change="change(row)")
-          Option(v-for="item in typeXdlx" :value="item.value" :key="item.value" :disabled="item.disabled") {{ item.label }}
+          Option(v-for="item in typeXdlx" :value="item.value" :key="item.value") {{ item.label }}
       template(slot="ddly" slot-scope="{ row, index }")
         Select(v-model="row.ddly" transfer=true  @on-change="change(row)")
           Option(v-for="item in typeDdly" :value="item.value" :key="item.value") {{ item.label }}
@@ -24,20 +25,20 @@
         Input(v-model="row.dz"  @on-change="change(row)")
       template(slot="dh" slot-scope="{ row, index }")
         Input(v-model="row.dh"  @on-change="change(row)")
-      template(slot="ls" slot-scope="{ row, index }")
-        AutoComplete(v-model="row.ls" @on-search="getHandleList" @on-change="handleImport(row)")
-          Option(v-for="item in handleInfo" :value="item.label" :key="item.value") {{ item.label }}
       template(slot="ys" slot-scope="{ row, index }")
         Input(v-model="row.ys"  @on-change="change(row)")
-      template(slot="dj" slot-scope="{ row, index }")
-        Input(v-model="row.dj"  @on-change="change(row)")
+      template(slot="bcmc" slot-scope="{ row, index }")
+        Select(v-model="row.bcmc" transfer=true  @on-change="boardImport(row)")
+          Option(v-for="item in boardInfo" :value="item.value" :key="item.value") {{ item.label }}
+      template(slot="bcdj" slot-scope="{ row, index }")
+        Input(v-model="row.bcdj"  @on-change="change(row)")
           span(slot="append") /m²
-      template(slot="hjpf" slot-scope="{ row, index }")
-        Input(v-model="row.hjpf" readonly=true  @on-change="change(row)")
-      template(slot="blpf" slot-scope="{ row, index }")
-        Input(v-model="row.blpf" readonly=true  @on-change="change(row)")
-      template(slot="hjsl" slot-scope="{ row, index }")
-        Input(v-model="row.hjsl" readonly=true  @on-change="change(row)")
+      template(slot="lsmc" slot-scope="{ row, index }")
+        AutoComplete(v-model="row.lsmc" @on-search="getHandleList" @on-change="handleImport(row)")
+          Option(v-for="item in handleInfo" :value="item.label" :key="item.value") {{ item.label }}
+      template(slot="lsdj" slot-scope="{ row, index }")
+        Input(v-model="row.lsdj"  @on-change="change(row)")
+          span(slot="append") /m
       template(slot="je" slot-scope="{ row, index }")
         Input(v-model="row.je"  @on-change="change(row)")
       template(slot="yjdb" slot-scope="{ row, index }")
@@ -46,9 +47,9 @@
       template(slot="bz" slot-scope="{ row, index }")
         Input(v-model="row.bz"  @on-change="change(row)")
     Divider 尺寸信息
-    tableJgm(ref="tableJgm" @submitData="submitData" @totalData="totalData")
+    tableJgm(ref="tableJgm" @submitData="submitData")
     printModal(ref="printModal")
-    innerComputeModal(ref="innerComputeModal" @submitInnerData="submitInnerData")
+    //- innerComputeModal(ref="innerComputeModal" @submitInnerData="submitInnerData")
     reworkModal(ref="reworkModal")
     handleModal(ref="handleModal")
 </template>
@@ -57,15 +58,16 @@
 import { mapGetters } from 'vuex';
 import { mixin } from '@component/mixins/mixin';
 import tableJgm from '@component_table/summary/edit-jgm.vue';
-import { KHXD_JGM_XDLX, KHXD_JGM_SCSL, KHXD_JGM_DDLY, KHXD_JGM_DDXX } from '@store/common/khxd/jgm/xjbd/module';
-import { ADD_DATA, GET_BH, GET_LS, GET_KH, GETTER_BH, GETTER_LS, GETTER_KH } from '@store/common/khxd/jgm/xjbd/index';
+import { KHXD_JGM_XDLX, KHXD_JGM_SCSL, KHXD_JGM_DDLY } from '@store/common/khxd/jgm/xjbd/module';
+import { KHXD_YKL_DDXX } from '@store/common/khxd/ykl/xjbd/module';
+import { ADD_DATA, GET_BH, GET_LS, GET_KH, GET_BC, GETTER_BH, GETTER_LS, GETTER_KH, GETTER_BC } from '@store/common/khxd/ykl/xjbd/index';
 export default {
   inject: ['reload'],
   mixins: [mixin],
   components: {
     tableJgm,
     'printModal': (resolve) => require(['./modal/print-data'], resolve),
-    'innerComputeModal': (resolve) => require(['./modal/inner-compute'], resolve),
+    // 'innerComputeModal': (resolve) => require(['./modal/inner-compute'], resolve),
     'reworkModal': (resolve) => require(['./modal/rework-main'], resolve),
     'handleModal': (resolve) => require(['./modal/handle-detail'], resolve)
   },
@@ -76,15 +78,16 @@ export default {
         ddlx: 0,
         ddly: 0,
         scsl: 0,
-        gq: 5,
+        gq: 7,
         khxm: '',
         dz: '',
         dh: '',
-        ls: '',
-        ys: '',
-        dj: '',
+        bcmc: '',
+        bcdj: '',
+        lsmc: '',
+        lsdj: '',
         hjpf: '',
-        blpf: '',
+        bcpf: '',
         hjsl: '',
         je: '',
         yjdb: '',
@@ -94,46 +97,59 @@ export default {
       typeXdlx: KHXD_JGM_XDLX,
       typeScsl: KHXD_JGM_SCSL,
       typeDdly: KHXD_JGM_DDLY,
-      orderColumns: KHXD_JGM_DDXX,
+      orderColumns: KHXD_YKL_DDXX,
       handleSize: {
         handleHeight: '',
         handleWidth: ''
       },
-      handleType: 1,
+      handleType: 2,
       handleInfo: [],
-      customerInfo: []
+      customerInfo: [],
+      boardInfo: []
     };
   },
   computed: {
     ...mapGetters({
-      orderNumber: 'commonKhxdJgmXjbdIndex/' + GETTER_BH,
-      handleList: 'commonKhxdJgmXjbdIndex/' + GETTER_LS,
-      customerList: 'commonKhxdJgmXjbdIndex/' + GETTER_KH
+      orderNumber: 'commonKhxdYklXjbdIndex/' + GETTER_BH,
+      handleList: 'commonKhxdYklXjbdIndex/' + GETTER_LS,
+      customerList: 'commonKhxdYklXjbdIndex/' + GETTER_KH,
+      boardList: 'commonKhxdYklXjbdIndex/' + GETTER_BC
     })
   },
   mounted () {
+    /** 获取编号 */
     this.getBh();
+    /** 获取板材信息 */
+    this.getBc();
+    /** 获取拉手信息 */
     this.getLs();
   },
   methods: {
-    totalData(mbpf, blpf, sl) {
-      this.orderDetail[0].hjpf = parseFloat(this.orderDetail[0].hjpf) + parseFloat(mbpf);
-      this.orderDetail[0].blpf = parseFloat(this.orderDetail[0].blpf) + parseFloat(blpf);
-      this.orderDetail[0].hjsl = parseFloat(this.orderDetail[0].hjsl) + parseFloat(sl);
-    },
     /** 获取编号 */
     getBh() {
-      this.$store.dispatch('commonKhxdJgmXjbdIndex/' + GET_BH).then(res => {
+      this.$store.dispatch('commonKhxdYklXjbdIndex/' + GET_BH).then(res => {
         this.orderDetail[0].ddbh = this.orderNumber;
+      });
+    },
+    /** 根据商品类型，获取板材列表 */
+    getBc() {
+      this.$store.dispatch('commonKhxdYklXjbdIndex/' + GET_BC, this.handleType).then(() => {
+        this.boardInfo = this.boardList.map(item => {
+          return {
+            value: item.id,
+            label: item.mc,
+            bcdj: item.dj
+          };
+        });
       });
     },
     /** 获取拉手列表 */
     getLs() {
-      this.$store.dispatch('commonKhxdJgmXjbdIndex/' + GET_LS, this.handleType);
+      this.$store.dispatch('commonKhxdYklXjbdIndex/' + GET_LS, this.handleType);
     },
     /** 获取客户列表信息 */
     getCustomerList(value) {
-      this.$store.dispatch('commonKhxdJgmXjbdIndex/' + GET_KH, value).then(res => {
+      this.$store.dispatch('commonKhxdYklXjbdIndex/' + GET_KH, value).then(res => {
         const list = this.customerList.map(item => {
           return {
             value: item.id,
@@ -161,7 +177,7 @@ export default {
         return {
           value: item.id,
           label: item.mc,
-          dj: item.dj,
+          lsdj: item.dj,
           gd: item.gd,
           kd: item.kd
         };
@@ -172,7 +188,7 @@ export default {
     handleImport(row) {
       this.handleInfo.forEach((e) => {
         if (e.label === row.ls) {
-          row.dj = e.dj;
+          row.lsdj = e.lsdj;
           this.handleSize.handleHeight = e.gd;
           this.handleSize.handleWidth = e.kd;
           // 重新渲染尺寸表格
@@ -181,10 +197,20 @@ export default {
       });
       this.orderDetail[0] = row;
     },
+    /** 导入板材单价 */
+    boardImport(row) {
+      this.boardInfo.forEach((e) => {
+        if (e.label === row.bcmc) {
+          row.bcdj = e.bcdj;
+        }
+      });
+      this.orderDetail[0] = row;
+    },
     /** 更改保证内容不变 */
     change(row) {
       this.orderDetail[0] = row;
     },
+
     /** 获取table表格数据-提交订单 */
     submitData(sizeDetail, orderStatus) {
       var hjpf = 0.00;
@@ -209,7 +235,7 @@ export default {
     },
     /** 提交数据 */
     addData(sizeDetail) {
-      this.$store.dispatch('commonKhxdJgmXjbdIndex/' + ADD_DATA, {...this.orderDetail[0], cupboardDoorSizes: sizeDetail}).then(res => {
+      this.$store.dispatch('commonKhxdYklXjbdIndex/' + ADD_DATA, {...this.orderDetail[0], cupboardDoorSizes: sizeDetail}).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {
@@ -217,12 +243,17 @@ export default {
             title: res.data.info
           });
           this.reload();
+          // this.showPrintPage(res.data.map.data);
         }
       });
     },
+    /** 打印页面 */
+    showPrintPage(data) {
+      this.$refs.printModal.show(data, this.isReload, this.isPrint);
+    },
     /** 拉手详细信息-弹窗 */
     getHandle() {
-      this.$refs.handleModal.show(this.handleType);
+      this.$refs.handleModal.show();
     },
     /** 内框计算-弹窗 */
     innerCompute() {

@@ -64,7 +64,7 @@ export default {
   data () {
     return {
       handleDetail: {
-        lx: 1,
+        lx: '',
         mc: '',
         gd: '',
         kd: '',
@@ -85,7 +85,8 @@ export default {
   },
   methods: {
     /** 显示 */
-    show(handleList) {
+    show(lx) {
+      this.handleDetail.lx = lx;
       this.getHandleList();
       this.visible = true;
     },
