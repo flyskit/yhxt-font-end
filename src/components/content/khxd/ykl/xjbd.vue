@@ -1,7 +1,7 @@
 <template lang='pug'>
   div.khxd-ykl-xjbd
     Button.khxd-operate-button(@click="getHandle") 拉手信息
-    Button.khxd-operate-button(@click="getHandle") 板材信息
+    Button.khxd-operate-button(@click="getBoard") 板材信息
     Button.khxd-operate-button(@click="innerCompute") 内框计算
     Button.khxd-operate-button(@click="createRework") 返工订单
     Table(:columns="orderColumns" :data="orderDetail" size="small" border)
@@ -29,16 +29,24 @@
         Input(v-model="row.ys"  @on-change="change(row)")
       template(slot="bcmc" slot-scope="{ row, index }")
         Select(v-model="row.bcmc" transfer=true  @on-change="boardImport(row)")
-          Option(v-for="item in boardInfo" :value="item.value" :key="item.value") {{ item.label }}
+          Option(v-for="item in boardInfo" :value="item.label" :key="item.value") {{ item.label }}
       template(slot="bcdj" slot-scope="{ row, index }")
-        Input(v-model="row.bcdj"  @on-change="change(row)")
+        Input(v-model="row.bcdj"  @on-change="computeMoney(row)")
           span(slot="append") /m²
       template(slot="lsmc" slot-scope="{ row, index }")
         AutoComplete(v-model="row.lsmc" @on-search="getHandleList" @on-change="handleImport(row)")
           Option(v-for="item in handleInfo" :value="item.label" :key="item.value") {{ item.label }}
       template(slot="lsdj" slot-scope="{ row, index }")
-        Input(v-model="row.lsdj"  @on-change="change(row)")
+        Input(v-model="row.lsdj"  @on-change="computeMoney(row)")
           span(slot="append") /m
+      template(slot="hjpf" slot-scope="{ row, index }")
+        Input(v-model="row.hjpf" readonly=true  @on-change="change(row)")
+      template(slot="bcpf" slot-scope="{ row, index }")
+        Input(v-model="row.bcpf" readonly=true  @on-change="change(row)")
+      template(slot="hjsl" slot-scope="{ row, index }")
+        Input(v-model="row.hjsl" readonly=true  @on-change="change(row)")
+      template(slot="lsms" slot-scope="{ row, index }")
+        Input(v-model="handleLength" readonly=true  @on-change="change(row)")
       template(slot="je" slot-scope="{ row, index }")
         Input(v-model="row.je"  @on-change="change(row)")
       template(slot="yjdb" slot-scope="{ row, index }")
@@ -47,10 +55,11 @@
       template(slot="bz" slot-scope="{ row, index }")
         Input(v-model="row.bz"  @on-change="change(row)")
     Divider 尺寸信息
-    tableJgm(ref="tableJgm" @submitData="submitData")
-    printModal(ref="printModal")
+    tableJgm(ref="tableJgm" @submitData="submitData" @computeTotal="computeTotal")
     //- innerComputeModal(ref="innerComputeModal" @submitInnerData="submitInnerData")
     reworkModal(ref="reworkModal")
+    innerComputeModal(ref="innerComputeModal" @submitInnerData="submitInnerData")
+    boardModal(ref="boardModal")
     handleModal(ref="handleModal")
 </template>
 
@@ -66,10 +75,10 @@ export default {
   mixins: [mixin],
   components: {
     tableJgm,
-    'printModal': (resolve) => require(['./modal/print-data'], resolve),
-    // 'innerComputeModal': (resolve) => require(['./modal/inner-compute'], resolve),
+    'boardModal': (resolve) => require(['./modal/board-detail'], resolve),
     'reworkModal': (resolve) => require(['./modal/rework-main'], resolve),
-    'handleModal': (resolve) => require(['./modal/handle-detail'], resolve)
+    'innerComputeModal': (resolve) => require(['../jgm/modal/inner-compute'], resolve),
+    'handleModal': (resolve) => require(['../jgm/modal/handle-detail'], resolve)
   },
   data () {
     return {
@@ -103,6 +112,7 @@ export default {
         handleWidth: ''
       },
       handleType: 2,
+      handleLength: 0.00,
       handleInfo: [],
       customerInfo: [],
       boardInfo: []
@@ -187,7 +197,7 @@ export default {
     /** 导入拉手信息 */
     handleImport(row) {
       this.handleInfo.forEach((e) => {
-        if (e.label === row.ls) {
+        if (e.label === row.lsmc) {
           row.lsdj = e.lsdj;
           this.handleSize.handleHeight = e.gd;
           this.handleSize.handleWidth = e.kd;
@@ -195,6 +205,17 @@ export default {
           this.$refs.tableJgm.getHandleSize(this.handleSize);
         }
       });
+      this.computeMoney(row);
+      this.orderDetail[0] = row;
+    },
+    /** 金额计算 */
+    computeMoney(row) {
+      if (row.lsmc !== '') {
+        row.je = (row.hjpf * parseFloat(row.bcdj) + this.handleLength * parseFloat(row.lsdj)).toFixed(1);
+      } else {
+        row.lsdj = '';
+        row.je = (row.hjpf * parseFloat(row.bcdj)).toFixed(1);
+      }
       this.orderDetail[0] = row;
     },
     /** 导入板材单价 */
@@ -202,6 +223,7 @@ export default {
       this.boardInfo.forEach((e) => {
         if (e.label === row.bcmc) {
           row.bcdj = e.bcdj;
+          this.computeMoney(row);
         }
       });
       this.orderDetail[0] = row;
@@ -210,26 +232,25 @@ export default {
     change(row) {
       this.orderDetail[0] = row;
     },
-
+    /** 回显统计数值 */
+    computeTotal(totalData) {
+      this.orderDetail[0].hjpf = totalData.hjpf.toFixed(3);
+      this.orderDetail[0].bcpf = totalData.blpf.toFixed(3);
+      this.orderDetail[0].hjsl = totalData.hjsl;
+      this.handleLength = totalData.kd.toFixed(3);
+      this.orderDetail[0].yjdb = Math.ceil(this.orderDetail[0].hjsl / 10);
+      if (this.orderDetail[0].lsdj === '') {
+        this.orderDetail[0].je = (this.orderDetail[0].hjpf * parseFloat(this.orderDetail[0].bcdj)).toFixed(1);
+      } else {
+        this.orderDetail[0].je = (this.orderDetail[0].hjpf * parseFloat(this.orderDetail[0].bcdj) + this.handleLength * parseFloat(this.orderDetail[0].lsdj)).toFixed(1);
+      }
+    },
     /** 获取table表格数据-提交订单 */
     submitData(sizeDetail, orderStatus) {
-      var hjpf = 0.00;
-      var blpf = 0.00;
-      var hjsl = 0;
       this.orderDetail[0].ddzt = orderStatus;
       sizeDetail.forEach((e) => {
-        hjpf = parseFloat(e.mbpf) + hjpf;
-        blpf = parseFloat(e.blpf) + blpf;
-        hjsl = parseFloat(e.sl) + hjsl;
-        // 去除多余字段
         this.defineProperty(e, '_index', '_rowKey');
       });
-      this.orderDetail[0].hjpf = hjpf.toFixed(3);
-      this.orderDetail[0].blpf = blpf.toFixed(3);
-      this.orderDetail[0].hjsl = hjsl;
-      // 向上取整
-      this.orderDetail[0].yjdb = Math.ceil(this.orderDetail[0].hjsl / 10);
-      this.orderDetail[0].je = (this.orderDetail[0].hjpf * parseFloat(this.orderDetail[0].dj)).toFixed(1);
       this.defineProperty(this.orderDetail[0], '_index', '_rowKey');
       this.addData(sizeDetail);
     },
@@ -243,19 +264,18 @@ export default {
             title: res.data.info
           });
           this.reload();
-          // this.showPrintPage(res.data.map.data);
         }
       });
     },
-    /** 打印页面 */
-    showPrintPage(data) {
-      this.$refs.printModal.show(data, this.isReload, this.isPrint);
-    },
-    /** 拉手详细信息-弹窗 */
+    /** 拉手详细信息 */
     getHandle() {
-      this.$refs.handleModal.show();
+      this.$refs.handleModal.show(this.handleType);
     },
-    /** 内框计算-弹窗 */
+    /** 板材详细信息 */
+    getBoard() {
+      this.$refs.boardModal.show(this.handleType);
+    },
+    /** 内框计算 */
     innerCompute() {
       this.$refs.innerComputeModal.show();
     },
@@ -263,9 +283,9 @@ export default {
     submitInnerData(data) {
       this.$refs.tableJgm.showInnerSize(data);
     },
-    /** 创建返工订单-弹窗 */
+    /** 创建返工订单 */
     createRework() {
-      this.$refs.reworkModal.show();
+      this.$refs.reworkModal.show(this.handleType);
     }
   }
 };

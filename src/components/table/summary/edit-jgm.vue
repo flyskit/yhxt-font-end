@@ -103,10 +103,11 @@ export default {
         e.blpf = (e.blgd * 0.001 * e.blkd * 0.001 * e.sl).toFixed(3);
         this.data.push(e);
       });
+      this.computeTotal();
     },
     /** 添加行 */
     addRow() {
-      this.totalConpute();
+      this.computeTotal();
       this.data.push(this.tableData);
       this.editIndex = this.data.length - 1;
     },
@@ -124,7 +125,7 @@ export default {
     /** 完成编辑 */
     editComplete(row, index) {
       this.data[index] = _.cloneDeep(row);
-      this.totalConpute();
+      this.computeTotal();
       this.editIndex = -1;
       this.editEnd = true;
     },
@@ -134,17 +135,22 @@ export default {
       row.blgd = row.mbgd - this.handleSize.handleHeight;
       row.blkd = row.mbkd - this.handleSize.handleWidth;
       row.blpf = (row.blgd * 0.001 * row.blkd * 0.001 * row.sl).toFixed(3);
-      this.$emit('totalData', row.mbpf, row.blpf, row.sl);
     },
-    totalConpute() {
-      var hjpf = 0.00;
-      var blpf = 0.00;
-      var hjsl = 0;
+    /** 统计计算，回显到父组件 */
+    computeTotal() {
+      let totalData = {
+        hjpf: 0.00,
+        blpf: 0.00,
+        hjsl: 0,
+        kd: 0.00
+      };
       this.data.forEach((e) => {
+        totalData.hjpf = parseFloat(e.mbpf) + parseFloat(totalData.hjpf);
+        totalData.blpf = parseFloat(e.blpf) + parseFloat(totalData.blpf);
+        totalData.hjsl = parseFloat(e.sl) + parseFloat(totalData.hjsl);
+        totalData.kd = parseFloat(e.mbkd) * 0.001 * parseFloat(e.sl) + parseFloat(totalData.kd);
       });
-      console.log(hjpf);
-      console.log(blpf);
-      console.log(hjsl);
+      this.$emit('computeTotal', totalData);
     },
     /** 更换拉手尺寸-高度 */
     handleHeightChange() {
@@ -155,6 +161,7 @@ export default {
         e.blpf = (e.blgd * 0.001 * e.blkd * 0.001 * e.sl).toFixed(3);
         this.data.push(e);
       });
+      this.computeTotal();
     },
     /** 更换拉手尺寸-宽度 */
     handleWidthChange() {
@@ -165,11 +172,12 @@ export default {
         e.blpf = (e.blgd * 0.001 * e.blkd * 0.001 * e.sl).toFixed(3);
         this.data.push(e);
       });
+      this.computeTotal();
     },
     /** 删除行 */
     delRow(index) {
       this.data.splice(index, 1);
-      this.totalConpute();
+      this.computeTotal();
     },
     /** 提交订单 */
     addData() {

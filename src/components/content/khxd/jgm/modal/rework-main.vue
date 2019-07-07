@@ -100,7 +100,6 @@ export default {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {
-          console.log(res.data.map.data);
           this.crystalSteelDoorDetail = res.data.map.data.crystalSteelDoorDetail;
           this.orderDetail = res.data.map.data.orderDetail;
           this.orderSizeList = res.data.map.data.cupboardDoorSizes;

@@ -23,7 +23,7 @@
       template(slot="dz" slot-scope="{ row, index }")
         Input(v-model="row.dz"  @on-change="change(row)")
       template(slot="dh" slot-scope="{ row, index }")
-        Input(v-model="row.dh"  @on-change="change(row)")
+        Input(v-model="row.dh"  @on-change="change(row)" autofocus=true)
       template(slot="ls" slot-scope="{ row, index }")
         AutoComplete(v-model="row.ls" @on-search="getHandleList" @on-change="handleImport(row)")
           Option(v-for="item in handleInfo" :value="item.label" :key="item.value") {{ item.label }}
@@ -41,12 +41,12 @@
       template(slot="je" slot-scope="{ row, index }")
         Input(v-model="row.je"  @on-change="change(row)")
       template(slot="yjdb" slot-scope="{ row, index }")
-        Input(v-model="row.yjdb" readonly=true  @on-change="change(row)")
+        Input(v-model="row.yjdb" @on-change="change(row)")
           span(slot="append") 件
       template(slot="bz" slot-scope="{ row, index }")
         Input(v-model="row.bz"  @on-change="change(row)")
     Divider 尺寸信息
-    tableJgm(ref="tableJgm" @submitData="submitData" @totalData="totalData")
+    tableJgm(ref="tableJgm" @submitData="submitData" @computeTotal="computeTotal")
     printModal(ref="printModal")
     innerComputeModal(ref="innerComputeModal" @submitInnerData="submitInnerData")
     reworkModal(ref="reworkModal")
@@ -116,11 +116,6 @@ export default {
     this.getLs();
   },
   methods: {
-    totalData(mbpf, blpf, sl) {
-      this.orderDetail[0].hjpf = parseFloat(this.orderDetail[0].hjpf) + parseFloat(mbpf);
-      this.orderDetail[0].blpf = parseFloat(this.orderDetail[0].blpf) + parseFloat(blpf);
-      this.orderDetail[0].hjsl = parseFloat(this.orderDetail[0].hjsl) + parseFloat(sl);
-    },
     /** 获取编号 */
     getBh() {
       this.$store.dispatch('commonKhxdJgmXjbdIndex/' + GET_BH).then(res => {
@@ -185,25 +180,20 @@ export default {
     change(row) {
       this.orderDetail[0] = row;
     },
-    /** 获取table表格数据-提交订单 */
-    submitData(sizeDetail, orderStatus) {
-      var hjpf = 0.00;
-      var blpf = 0.00;
-      var hjsl = 0;
-      this.orderDetail[0].ddzt = orderStatus;
-      sizeDetail.forEach((e) => {
-        hjpf = parseFloat(e.mbpf) + hjpf;
-        blpf = parseFloat(e.blpf) + blpf;
-        hjsl = parseFloat(e.sl) + hjsl;
-        // 去除多余字段
-        this.defineProperty(e, '_index', '_rowKey');
-      });
-      this.orderDetail[0].hjpf = hjpf.toFixed(3);
-      this.orderDetail[0].blpf = blpf.toFixed(3);
-      this.orderDetail[0].hjsl = hjsl;
-      // 向上取整
+    /** 回显统计数值 */
+    computeTotal(totalData) {
+      this.orderDetail[0].hjpf = totalData.hjpf.toFixed(3);
+      this.orderDetail[0].blpf = totalData.blpf.toFixed(3);
+      this.orderDetail[0].hjsl = totalData.hjsl;
       this.orderDetail[0].yjdb = Math.ceil(this.orderDetail[0].hjsl / 10);
       this.orderDetail[0].je = (this.orderDetail[0].hjpf * parseFloat(this.orderDetail[0].dj)).toFixed(1);
+    },
+    /** 获取table表格数据-提交订单 */
+    submitData(sizeDetail, orderStatus) {
+      this.orderDetail[0].ddzt = orderStatus;
+      sizeDetail.forEach((e) => {
+        this.defineProperty(e, '_index', '_rowKey');
+      });
       this.defineProperty(this.orderDetail[0], '_index', '_rowKey');
       this.addData(sizeDetail);
     },

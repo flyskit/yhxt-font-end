@@ -1,6 +1,26 @@
 import axios from 'axios';
 
 export const mixin = {
+  data() {
+    return {
+      orderQueryCond: {
+        ddbh: '',
+        ddlx: 0,
+        ddly: 0,
+        khxm: '',
+        splx: '',
+        ddzt: 1,
+        yxzt: 1,
+        shzt: 1,
+        startTime: Date,
+        endTime: Date,
+        page: {
+          page: 1,
+          pageSize: 10
+        }
+      }
+    };
+  },
   methods: {
     /** 去除对象中的属性 */
     defineProperty(data, ...params) {

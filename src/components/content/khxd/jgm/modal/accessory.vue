@@ -130,6 +130,7 @@ export default {
     /** 关闭 */
     ok() {
       this.reset('accessoryDetail');
+      this.reload();
       this.visible = false;
     },
     /** 提交数据 */
