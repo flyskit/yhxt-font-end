@@ -9,9 +9,6 @@
       template(slot="ddlx" slot-scope="{ row, index }")
         span(v-for="index of typeXdlx" v-if="row.ddlx === index.value" :key="index.value") {{ index.label }}
       template(slot="action" slot-scope="{ row, index }")
-        Tooltip(placement="top" content="查看详细信息" transfer)
-          Button(@click="viewInfo(row, index)" style="padding: 6px 4px;" type="text")
-            Icon(type="ios-more")
         Tooltip(placement="top" content="配件" transfer)
           Button(@click="viewAccessory(row, index)" style="padding: 6px 4px;" type="text")
             Icon(type="md-attach")
@@ -30,22 +27,22 @@
 <script>
 import { mapGetters } from 'vuex';
 import { YKL_XDXX_COLUMNS } from '@store/common/khxd/ykl/jryxd/module.js';
-import { KHXD_JGM_XDLX, KHXD_JGM_DDLY } from '@store/common/khxd/jgm/xjbd/module.js';
+import { ORDER_DDLX, ORDER_DDLY } from '@store/common/common/module.js';
 import { GET_DATA_BY_BH } from '@store/common/khxd/ykl/jryxd/index';
 import { GET_DATA, GETTER_DATA, SUBMIT_ORDER_DATA } from '@store/common/khxd/ykl/zclb/index';
 export default {
   inject: ['reload'],
   components: {
     'editDataModal': (resolve) => require(['./modal/edit-data'], resolve),
-    'accessoryModal': (resolve) => require(['../jgm/modal/accessory'], resolve),
-    'delModal': (resolve) => require(['../jgm/modal/del-data'], resolve)
+    'accessoryModal': (resolve) => require(['../../common/accessory-detail'], resolve),
+    'delModal': (resolve) => require(['../../common/del-detail'], resolve)
   },
   data () {
     return {
       data: [],
       columns: YKL_XDXX_COLUMNS,
-      typeXdlx: KHXD_JGM_XDLX,
-      typeDdly: KHXD_JGM_DDLY
+      typeXdlx: ORDER_DDLX,
+      typeDdly: ORDER_DDLY
     };
   },
   computed: {
@@ -64,16 +61,6 @@ export default {
           this.$Message.error(this.mapData.info);
         } else {
           this.data = this.mapData.map.data;
-        }
-      });
-    },
-    /** 查看详细信息 */
-    viewInfo(row) {
-      this.$store.dispatch('commonKhxdYklJryxdIndex/' + GET_DATA_BY_BH, row.ddbh).then(res => {
-        if (res.data.status !== 200) {
-          this.$Message.error(res.data.info);
-        } else {
-          this.showPrintPage(res.data.map.data);
         }
       });
     },

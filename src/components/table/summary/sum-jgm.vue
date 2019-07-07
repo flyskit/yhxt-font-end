@@ -50,16 +50,14 @@
           td {{ item.blpf }}
         tr(style="height:30px;")
           td 合计
-          td
-          td
-          td
-          td
+          td(colspan="4")
           td {{ data.hjpf }}
           td {{ data.hjsl }}
-          td
-          td
-          td
+          td(colspan="3")
           td {{ data.blpf }}
+        tr(style="height:30px;")
+          td 配件
+          td(colspan="10") {{ accessoryListInfo }}
     div.span-div
       p
         span.span-th 制单人:
@@ -81,7 +79,7 @@
 
 <script>
 import _ from 'lodash';
-import { KHXD_JGM_XDLX, KHXD_JGM_SCSL } from '@store/common/khxd/jgm/xjbd/module';
+import { ORDER_DDLX, ORDER_SCSL } from '@store/common/common/module';
 export default {
   data () {
     return {
@@ -102,14 +100,16 @@ export default {
         ys: ''
       },
       ccxx: [],
-      typeXdlx: KHXD_JGM_XDLX,
-      typeScsl: KHXD_JGM_SCSL
+      accessoryListInfo: '',
+      typeXdlx: ORDER_DDLX,
+      typeScsl: ORDER_SCSL
     };
   },
   methods: {
     show(data, czr, czsj) {
       this.data.czr = czr;
       this.data.czsj = czsj;
+      this.accessoryListInfo = data.accessoryListInfo;
 
       this.data.ddbh = data.orderDetail.ddbh;
       this.data.ddlx = data.orderDetail.ddlx;

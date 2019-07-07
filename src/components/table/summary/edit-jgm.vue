@@ -57,7 +57,6 @@
 import _ from 'lodash';
 import { KHXD_JGM_CCLX, KHXD_JGM_CCXX } from '@store/common/khxd/jgm/xjbd/module';
 export default {
-  // props: ['handleSize'],
   data () {
     return {
       data: [],

@@ -1,5 +1,5 @@
 <template lang='pug'>
-  div.khxd-jgm-accessory
+  div.accessory-detail
     Modal(v-model="visible" width="70vw" @on-ok="ok" @on-cancel="ok")
       p(slot="header" style="color:#f60")
         Icon(type="ios-information-circle")
@@ -40,8 +40,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { ACCESSORY_COLUMNS } from '@store/common/khxd/jgm/jryxd/module';
-import { ADD_ACCESSORY, DEL_ACCESSORY, GET_PJ_LIST, GET_PJ_TABLE, GETTER_PJ_LIST, GETTER_PJ_TABLE } from '@store/common/khxd/jgm/jryxd/index';
+import { ACCESSORY_COLUMNS } from '@store/common/common/module';
+import { ADD_ACCESSORY, DEL_ACCESSORY, GET_ACCESSORY_BY_NAME, GET_ACCESSORY_TABLE, GETTER_ACCESSORY_BY_NAME, GETTER_ACCESSORY_TABLE } from '@store/common/common/index';
 export default {
   inject: ['reload'],
   data () {
@@ -63,8 +63,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      accessoryTable: 'commonKhxdJgmJryxdIndex/' + GETTER_PJ_TABLE,
-      accessoryList: 'commonKhxdJgmJryxdIndex/' + GETTER_PJ_LIST
+      accessoryTable: 'commonCommonIndex/' + GETTER_ACCESSORY_TABLE,
+      accessoryList: 'commonCommonIndex/' + GETTER_ACCESSORY_BY_NAME
     })
   },
   methods: {
@@ -76,11 +76,11 @@ export default {
     },
     /** 获取存在的配件列表 */
     getAccessoryTable() {
-      this.$store.dispatch('commonKhxdJgmJryxdIndex/' + GET_PJ_TABLE, this.accessoryDetail.ddbh);
+      this.$store.dispatch('commonCommonIndex/' + GET_ACCESSORY_TABLE, this.accessoryDetail.ddbh);
     },
     /** 根据配件名称获取配件信息 */
     getAccessoryList(value) {
-      this.$store.dispatch('commonKhxdJgmJryxdIndex/' + GET_PJ_LIST, value).then(res => {
+      this.$store.dispatch('commonCommonIndex/' + GET_ACCESSORY_BY_NAME, value).then(res => {
         const list = this.accessoryList.map(item => {
           return {
             value: item.id,
@@ -111,7 +111,7 @@ export default {
     },
     /** 删除配件 */
     delRow(row) {
-      this.$store.dispatch('commonKhxdJgmJryxdIndex/' + DEL_ACCESSORY, row.id).then(res => {
+      this.$store.dispatch('commonCommonIndex/' + DEL_ACCESSORY, row.id).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {
@@ -135,7 +135,7 @@ export default {
     },
     /** 提交数据 */
     addAccessory() {
-      this.$store.dispatch('commonKhxdJgmJryxdIndex/' + ADD_ACCESSORY, this.accessoryDetail).then(res => {
+      this.$store.dispatch('commonCommonIndex/' + ADD_ACCESSORY, this.accessoryDetail).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {

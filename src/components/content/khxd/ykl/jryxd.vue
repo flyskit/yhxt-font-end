@@ -55,22 +55,22 @@
 <script>
 import { mapGetters } from 'vuex';
 import { YKL_XDXX_COLUMNS } from '@store/common/khxd/ykl/jryxd/module.js';
-import { KHXD_JGM_XDLX, KHXD_JGM_DDLY } from '@store/common/khxd/jgm/xjbd/module.js';
+import { ORDER_DDLX, ORDER_DDLY } from '@store/common/common/module.js';
 import { GET_DATA, GETTER_DATA, GET_DATA_BY_BH } from '@store/common/khxd/ykl/jryxd/index';
 export default {
   inject: ['reload'],
   components: {
     'printModal': (resolve) => require(['./modal/print-data'], resolve),
     'editDataModal': (resolve) => require(['./modal/edit-data'], resolve),
-    'accessoryModal': (resolve) => require(['../jgm/modal/accessory'], resolve),
-    'delModal': (resolve) => require(['../jgm/modal/del-data'], resolve)
+    'accessoryModal': (resolve) => require(['../../common/accessory-detail'], resolve),
+    'delModal': (resolve) => require(['../../common/del-detail'], resolve)
   },
   data () {
     return {
       data: [],
       columns: YKL_XDXX_COLUMNS,
-      typeXdlx: KHXD_JGM_XDLX,
-      typeDdly: KHXD_JGM_DDLY,
+      typeXdlx: ORDER_DDLX,
+      typeDdly: ORDER_DDLY,
       totalNum: 0,
       totalDoorSquare: 0,
       totalBoardSquare: 0,

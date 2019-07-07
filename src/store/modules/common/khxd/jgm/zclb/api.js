@@ -7,6 +7,6 @@ export default {
   },
   /** 提交订单 */
   submitOrder(param) {
-    return axios.post('/khxd/jgm/submitDataOnTemporary/' + param);
+    return axios.post('/ddcl/orderUpdateStatus', param);
   }
 };

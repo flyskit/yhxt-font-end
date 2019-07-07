@@ -48,7 +48,7 @@
           template(slot="bz" slot-scope="{ row, index }")
             Input(v-model="row.bz"  @on-change="change(row)")
         Divider 尺寸信息
-        tableJgm(ref="tableJgm" @submitData="submitData")
+        tableJgm(ref="tableJgm" @submitData="submitData" @computeTotal="computeTotal")
       div(slot="footer")
         Button(@click="ok") 关闭
 </template>
@@ -57,8 +57,10 @@
 import { mapGetters } from 'vuex';
 import { mixin } from '@component/mixins/mixin';
 import tableJgm from '@component_table/summary/edit-jgm.vue';
-import { KHXD_JGM_XDLX, KHXD_JGM_SCSL, KHXD_JGM_DDLY, KHXD_JGM_DDXX } from '@store/common/khxd/jgm/xjbd/module';
-import { ADD_DATA, GET_BH, GET_LS, GET_KH, GETTER_BH, GETTER_LS, GETTER_KH } from '@store/common/khxd/jgm/xjbd/index';
+import { KHXD_JGM_DDXX } from '@store/common/khxd/jgm/xjbd/module';
+import { ORDER_DDLX, ORDER_SCSL, ORDER_DDLY } from '@store/common/common/module';
+import { ADD_DATA } from '@store/common/khxd/jgm/xjbd/index';
+import { GET_ORDER_NUMBER, GET_HANDLE_BY_TYPE, GET_CUSTOMER_BY_NAME, GETTER_ORDER_NUMBER, GETTER_HANDLE_BY_TYPE, GETTER_CUSTOMER_BY_NAME } from '@store/common/common/index';
 export default {
   inject: ['reload'],
   mixins: [mixin],
@@ -69,7 +71,7 @@ export default {
     return {
       orderDetail: [{
         ddbh: '',
-        ddlx: 0,
+        ddlx: 2,
         ddly: 0,
         scsl: 0,
         gq: 5,
@@ -87,10 +89,10 @@ export default {
         bz: '',
         ddzt: ''
       }],
-      typeXdlx: KHXD_JGM_XDLX,
-      typeScsl: KHXD_JGM_SCSL,
-      typeDdly: KHXD_JGM_DDLY,
       orderColumns: KHXD_JGM_DDXX,
+      typeXdlx: ORDER_DDLX,
+      typeScsl: ORDER_SCSL,
+      typeDdly: ORDER_DDLY,
       handleSize: {
         handleHeight: '',
         handleWidth: ''
@@ -103,43 +105,44 @@ export default {
   },
   computed: {
     ...mapGetters({
-      orderNumber: 'commonKhxdJgmXjbdIndex/' + GETTER_BH,
-      handleList: 'commonKhxdJgmXjbdIndex/' + GETTER_LS,
-      customerList: 'commonKhxdJgmXjbdIndex/' + GETTER_KH
+      orderNumber: 'commonCommonIndex/' + GETTER_ORDER_NUMBER,
+      handleList: 'commonCommonIndex/' + GETTER_HANDLE_BY_TYPE,
+      customerList: 'commonCommonIndex/' + GETTER_CUSTOMER_BY_NAME
     })
   },
   methods: {
     show(crystalSteelDoorDetail, orderDetail, orderSize) {
-      this.orderDetail[0].ddlx = 2;
       this.orderDetail[0].ddly = orderDetail.ddly;
       this.orderDetail[0].scsl = orderDetail.scsl;
       this.orderDetail[0].gq = orderDetail.gq;
       this.orderDetail[0].khxm = orderDetail.khxm;
       this.orderDetail[0].dz = orderDetail.dz;
       this.orderDetail[0].dh = orderDetail.dh;
+
       this.orderDetail[0].ls = crystalSteelDoorDetail.ls;
       this.orderDetail[0].ys = crystalSteelDoorDetail.ys;
       this.orderDetail[0].dj = crystalSteelDoorDetail.dj;
-      this.orderDetail[0].bz = orderDetail.bz;
+      // 先导入尺寸，再计算
+      this.$refs.tableJgm.showInnerSize(orderSize);
       this.getBh();
       this.getLs();
+      // 重新计算
       this.findHandle();
-      this.$refs.tableJgm.showInnerSize(orderSize);
       this.visible = true;
     },
     /** 获取编号 */
     getBh() {
-      this.$store.dispatch('commonKhxdJgmXjbdIndex/' + GET_BH).then(res => {
+      this.$store.dispatch('commonCommonIndex/' + GET_ORDER_NUMBER).then(res => {
         this.orderDetail[0].ddbh = this.orderNumber;
       });
     },
     /** 获取拉手列表 */
     getLs() {
-      this.$store.dispatch('commonKhxdJgmXjbdIndex/' + GET_LS, this.handleType);
+      this.$store.dispatch('commonCommonIndex/' + GET_HANDLE_BY_TYPE, this.handleType);
     },
     /** 获取客户列表信息 */
     getCustomerList(value) {
-      this.$store.dispatch('commonKhxdJgmXjbdIndex/' + GET_KH, value).then(res => {
+      this.$store.dispatch('commonCommonIndex/' + GET_CUSTOMER_BY_NAME, value).then(res => {
         const list = this.customerList.map(item => {
           return {
             value: item.id,
@@ -202,25 +205,20 @@ export default {
     change(row) {
       this.orderDetail[0] = row;
     },
-    /** 获取table表格数据-提交订单 */
-    submitData(sizeDetail, orderStatus) {
-      var hjpf = 0.00;
-      var blpf = 0.00;
-      var hjsl = 0;
-      this.orderDetail[0].ddzt = orderStatus;
-      sizeDetail.forEach((e) => {
-        hjpf = parseFloat(e.mbpf) + hjpf;
-        blpf = parseFloat(e.blpf) + blpf;
-        hjsl = parseFloat(e.sl) + hjsl;
-        // 去除多余字段
-        this.defineProperty(e, '_index', '_rowKey');
-      });
-      this.orderDetail[0].hjpf = hjpf.toFixed(3);
-      this.orderDetail[0].blpf = blpf.toFixed(3);
-      this.orderDetail[0].hjsl = hjsl;
-      // 向上取整
+    /** 回显统计数值 */
+    computeTotal(totalData) {
+      this.orderDetail[0].hjpf = totalData.hjpf.toFixed(3);
+      this.orderDetail[0].blpf = totalData.blpf.toFixed(3);
+      this.orderDetail[0].hjsl = totalData.hjsl;
       this.orderDetail[0].yjdb = Math.ceil(this.orderDetail[0].hjsl / 10);
       this.orderDetail[0].je = (this.orderDetail[0].hjpf * parseFloat(this.orderDetail[0].dj)).toFixed(1);
+    },
+    /** 获取table表格数据-提交订单 */
+    submitData(sizeDetail, orderStatus) {
+      this.orderDetail[0].ddzt = orderStatus;
+      sizeDetail.forEach((e) => {
+        this.defineProperty(e, '_index', '_rowKey');
+      });
       this.defineProperty(this.orderDetail[0], '_index', '_rowKey');
       this.addData(sizeDetail);
     },
@@ -234,7 +232,6 @@ export default {
             title: res.data.info
           });
           this.reload();
-          // this.showPrintPage(res.data.map.data);
         }
       });
     },

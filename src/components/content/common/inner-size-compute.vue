@@ -1,9 +1,9 @@
 <template lang='pug'>
-  div.khxd-jgm-inner-compute
+  div.inner-size-compute
     Modal(v-model="visible" width="70vw" @on-ok="ok" @on-cancel="ok")
       p(slot="header" style="color:#f60")
         Icon(type="ios-information-circle")
-        span 内框计算
+        span 橱柜门内框计算
       div(class="edit")
         Table(:columns="computeColumns" :data="computeDetail" size="small" border)
           template(slot="lx" slot-scope="{ row, index }")
@@ -61,7 +61,8 @@
 <script>
 import _ from 'lodash';
 import { mapGetters } from 'vuex';
-import { KHXD_JGM_CCXX, KHXD_JGM_NKJS, KHXD_JGM_CCLX, KHXD_JGM_NKWZ } from '@store/common/khxd/jgm/xjbd/module';
+import { KHXD_JGM_CCXX, KHXD_JGM_CCLX } from '@store/common/khxd/jgm/xjbd/module';
+import { CGM_NKJS, CGM_NKWZ } from '@store/common/common/module';
 export default {
   data () {
     return {
@@ -88,10 +89,10 @@ export default {
         blkd: '',
         blpf: ''
       },
-      computeColumns: KHXD_JGM_NKJS,
       handleSizeColumns: KHXD_JGM_CCXX,
       typeColumns: KHXD_JGM_CCLX,
-      typePosition: KHXD_JGM_NKWZ,
+      computeColumns: CGM_NKJS,
+      typePosition: CGM_NKWZ,
       handleSize: {
         handleHight: '',
         handleWidth: ''

@@ -1,5 +1,5 @@
 <template lang='pug'>
-  div.khxd-jgm-del-data
+  div.del-detail
     Modal(v-model="visible" @on-ok="ok" style="width:500px" @on-cancel="ok")
       p(slot="header" style="color:#f60")
         Icon(type="ios-information-circle")
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { DEL_DATA } from '@store/common/khxd/jgm/jryxd/index';
+import { DEL_ORDER } from '@store/common/common/index';
 export default {
   inject: ['reload'],
   data () {
@@ -34,7 +34,7 @@ export default {
     },
     /** 删除记录 */
     delData() {
-      this.$store.dispatch('commonKhxdJgmJryxdIndex/' + DEL_DATA, this.data).then(res => {
+      this.$store.dispatch('commonCommonIndex/' + DEL_ORDER, this.data).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {

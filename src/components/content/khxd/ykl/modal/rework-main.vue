@@ -88,7 +88,7 @@ export default {
       this.splx = type;
       this.visible = true;
     },
-    /** 根据客户姓名查找订单列表 */
+    /** 条件查询 */
     doSelect(orderQueryCond) {
       orderQueryCond.splx = this.splx;
       this.orderQueryCond = orderQueryCond;

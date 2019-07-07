@@ -65,9 +65,10 @@
 import { mapGetters } from 'vuex';
 import { mixin } from '@component/mixins/mixin';
 import tableJgm from '@component_table/summary/edit-jgm.vue';
-import { KHXD_JGM_XDLX, KHXD_JGM_SCSL, KHXD_JGM_DDLY } from '@store/common/khxd/jgm/xjbd/module';
 import { KHXD_YKL_DDXX } from '@store/common/khxd/ykl/xjbd/module';
-import { ADD_DATA, GET_BH, GET_LS, GET_KH, GET_BC, GETTER_BH, GETTER_LS, GETTER_KH, GETTER_BC } from '@store/common/khxd/ykl/xjbd/index';
+import { ORDER_DDLX, ORDER_SCSL, ORDER_DDLY } from '@store/common/common/module';
+import { ADD_DATA } from '@store/common/khxd/ykl/xjbd/index';
+import { GET_ORDER_NUMBER, GET_HANDLE_BY_TYPE, GET_CUSTOMER_BY_NAME, GET_BOARD_BY_TYPE, GETTER_ORDER_NUMBER, GETTER_HANDLE_BY_TYPE, GETTER_CUSTOMER_BY_NAME, GETTER_BOARD_BY_TYPE } from '@store/common/common/index';
 export default {
   inject: ['reload'],
   mixins: [mixin],
@@ -97,10 +98,10 @@ export default {
         bz: '',
         ddzt: ''
       }],
-      typeXdlx: KHXD_JGM_XDLX,
-      typeScsl: KHXD_JGM_SCSL,
-      typeDdly: KHXD_JGM_DDLY,
       orderColumns: KHXD_YKL_DDXX,
+      typeXdlx: ORDER_DDLX,
+      typeScsl: ORDER_SCSL,
+      typeDdly: ORDER_DDLY,
       handleSize: {
         handleHeight: '',
         handleWidth: ''
@@ -115,10 +116,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      orderNumber: 'commonKhxdYklXjbdIndex/' + GETTER_BH,
-      handleList: 'commonKhxdYklXjbdIndex/' + GETTER_LS,
-      customerList: 'commonKhxdYklXjbdIndex/' + GETTER_KH,
-      boardList: 'commonKhxdYklXjbdIndex/' + GETTER_BC
+      orderNumber: 'commonCommonIndex/' + GETTER_ORDER_NUMBER,
+      handleList: 'commonCommonIndex/' + GETTER_HANDLE_BY_TYPE,
+      customerList: 'commonCommonIndex/' + GETTER_CUSTOMER_BY_NAME,
+      boardList: 'commonCommonIndex/' + GETTER_BOARD_BY_TYPE
     })
   },
   methods: {
@@ -136,11 +137,6 @@ export default {
       this.orderDetail[0].bcmc = acrylicDetail.bcmc;
       this.orderDetail[0].bcdj = acrylicDetail.bcdj;
       this.orderDetail[0].ys = acrylicDetail.ys;
-      this.orderDetail[0].je = acrylicDetail.je;
-      this.orderDetail[0].hjpf = acrylicDetail.hjpf;
-      this.orderDetail[0].bcpf = acrylicDetail.bcpf;
-      this.orderDetail[0].hjsl = acrylicDetail.hjsl;
-      this.orderDetail[0].yjdb = acrylicDetail.yjdb;
       this.$refs.tableJgm.showInnerSize(cupboardDoorSizes);
       this.getBh();
       this.getLs();
@@ -150,17 +146,17 @@ export default {
     },
     /** 获取编号 */
     getBh() {
-      this.$store.dispatch('commonKhxdYklXjbdIndex/' + GET_BH).then(res => {
+      this.$store.dispatch('commonCommonIndex/' + GET_ORDER_NUMBER).then(res => {
         this.orderDetail[0].ddbh = this.orderNumber;
       });
     },
     /** 获取拉手列表 */
     getLs() {
-      this.$store.dispatch('commonKhxdYklXjbdIndex/' + GET_LS, this.handleType);
+      this.$store.dispatch('commonCommonIndex/' + GET_HANDLE_BY_TYPE, this.handleType);
     },
     /** 根据商品类型，获取板材列表 */
     getBc() {
-      this.$store.dispatch('commonKhxdYklXjbdIndex/' + GET_BC, this.handleType).then(() => {
+      this.$store.dispatch('commonCommonIndex/' + GET_BOARD_BY_TYPE, this.handleType).then(() => {
         this.boardInfo = this.boardList.map(item => {
           return {
             value: item.id,
@@ -172,7 +168,7 @@ export default {
     },
     /** 获取客户列表信息 */
     getCustomerList(value) {
-      this.$store.dispatch('commonKhxdYklXjbdIndex/' + GET_KH, value).then(res => {
+      this.$store.dispatch('commonCommonIndex/' + GET_CUSTOMER_BY_NAME, value).then(res => {
         const list = this.customerList.map(item => {
           return {
             value: item.id,

@@ -1,44 +1,44 @@
 <template lang='pug'>
-  div.khxd-jgm-board-detail
+  div.handle-detail
     Modal(v-model="visible" width="70vw" @on-ok="ok" @on-cancel="ok")
       p(slot="header" style="color:#f60")
         Icon(type="ios-information-circle")
-        span 板材管理
+        span 拉手管理
       div(class="edit")
-        Form(ref="boardDetail" :model="boardDetail" :label-width="80" inline)
+        Form(ref="handleDetail" :model="handleDetail" :label-width="80" inline)
           FormItem(label="拉手名称" prop="mc")
-            Input.input-small(v-model="boardDetail.mc" placeholder="输入材料名称")
-          FormItem(label="编号" prop="bh")
-            Input.input-small(v-model="boardDetail.bh" placeholder="输入编号")
+            Input.input-small(v-model="handleDetail.mc" placeholder="输入拉手名称")
+          FormItem(label="高度" prop="gd")
+            Input.input-small(v-model="handleDetail.gd" placeholder="输入高度")
+          FormItem(label="宽度" prop="kd")
+            Input.input-small(v-model="handleDetail.kd" placeholder="输入宽度")
           FormItem(label="单价" prop="dj")
-            Input.input-small(v-model="boardDetail.dj" placeholder="输入单价")
-          FormItem(label="规格" prop="gg")
-            Input.input-small(v-model="boardDetail.gg" placeholder="输入规格")
+            Input.input-small(v-model="handleDetail.dj" placeholder="输入单价")
           FormItem(label="备注" prop="bz")
-            Input.input-small(v-model="boardDetail.bz" placeholder="输入备注")
+            Input.input-small(v-model="handleDetail.bz" placeholder="输入备注")
           FormItem
-            Button(type="primary" style="margin-right: 8px" @click="addBoard") 添加
-            Button(@click="reset('boardDetail')") 重置
+            Button(type="primary" style="margin-right: 8px" @click="addHandle") 添加
+            Button(@click="reset('handleDetail')") 重置
         Divider 拉手列表
-        Table(:columns="boardColumns" :data="boardTable" size="small" border)
+        Table(:columns="handleColumns" :data="handleTable" size="small" border)
           template(slot="mc" slot-scope="{ row, index }")
             Input(v-model="row.mc" v-if="editIndex === index")
             span(v-else) {{ row.mc }}
-          template(slot="bh" slot-scope="{ row, index }")
-            Input(v-model="row.bh" v-if="editIndex === index")
-            span(v-else) {{ row.bh }}
+          template(slot="gd" slot-scope="{ row, index }")
+            Input(v-model="row.gd" v-if="editIndex === index")
+            span(v-else) {{ row.gd }}
+          template(slot="kd" slot-scope="{ row, index }")
+            Input(v-model="row.kd" v-if="editIndex === index")
+            span(v-else) {{ row.kd }}
           template(slot="dj" slot-scope="{ row, index }")
             Input(v-model="row.dj" v-if="editIndex === index")
             span(v-else) {{ row.dj }}
-          template(slot="gg" slot-scope="{ row, index }")
-            Input(v-model="row.gg" v-if="editIndex === index")
-            span(v-else) {{ row.gg }}
           template(slot="bz" slot-scope="{ row, index }")
             Input(v-model="row.bz" v-if="editIndex === index")
             span(v-else) {{ row.bz }}
           template(slot="action" slot-scope="{ row, index }")
             div(v-if="editIndex === index")
-              Button(@click="updateBoard(row, index)" style="padding: 6px 4px;" type="text")
+              Button(@click="updateHandle(row, index)" style="padding: 6px 4px;" type="text")
                 Icon(type="md-checkmark")
               Poptip(@on-ok="delRow(row)" confirm title="是否删除?" transfer)
                 Button(style="padding: 6px 4px;" type="text")
@@ -57,71 +57,71 @@
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
 import { mixin } from '@component/mixins/mixin';
-import { BOARD_COLUMNS } from '@store/common/khxd/ykl/xjbd/module';
-import { ADD_BOARD, UPDATE_BOARD, DEL_BOARD, GET_BC, GETTER_BC } from '@store/common/khxd/ykl/xjbd/index';
+import { HANDLE_COLUMNS } from '@store/common/common/module';
+import { ADD_HANDLE, UPDATE_HANDLE, DEL_HANDLE, GET_HANDLE_BY_TYPE, GETTER_HANDLE_BY_TYPE } from '@store/common/common/index';
 export default {
   inject: ['reload'],
   mixins: [mixin],
   data () {
     return {
-      boardDetail: {
-        splx: '',
+      handleDetail: {
+        lx: '',
         mc: '',
-        bh: '',
+        gd: '',
+        kd: '',
         dj: '',
-        gg: '',
         bz: ''
       },
-      boardColumns: BOARD_COLUMNS,
-      boardTable: [],
+      handleColumns: HANDLE_COLUMNS,
+      handleTable: [],
+      visible: false,
       editIndex: -1,
-      editEnd: true,
-      visible: false
+      editEnd: true
     };
   },
   computed: {
     ...mapGetters({
-      boardList: 'commonKhxdYklXjbdIndex/' + GETTER_BC
+      handleList: 'commonCommonIndex/' + GETTER_HANDLE_BY_TYPE
     })
   },
   methods: {
     /** 显示 */
     show(lx) {
-      this.boardDetail.splx = lx;
-      this.getBoardList();
+      this.handleDetail.lx = lx;
+      this.getHandleList();
       this.visible = true;
     },
-    /** 获取板材列表 */
-    getBoardList() {
-      this.$store.dispatch('commonKhxdYklXjbdIndex/' + GET_BC, this.boardDetail.splx).then(() => {
-        this.boardTable = _.cloneDeep(this.boardList);
+    /** 获取拉手列表 */
+    getHandleList() {
+      this.$store.dispatch('commonCommonIndex/' + GET_HANDLE_BY_TYPE, this.handleDetail.lx).then(() => {
+        this.handleTable = _.cloneDeep(this.handleList);
       });
     },
-    /** 添加板材信息 */
-    addBoard() {
-      this.$store.dispatch('commonKhxdYklXjbdIndex/' + ADD_BOARD, this.boardDetail).then(res => {
+    /** 添加拉手 */
+    addHandle() {
+      this.$store.dispatch('commonCommonIndex/' + ADD_HANDLE, this.handleDetail).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {
           this.$Notice.success({
             title: res.data.info
           });
-          this.reset('boardDetail');
-          this.getBoardList();
+          this.reset('handleDetail');
+          this.getHandleList();
         }
       });
     },
     /** 删除拉手 */
     delRow(row) {
-      this.$store.dispatch('commonKhxdYklXjbdIndex/' + DEL_BOARD, row.id).then(res => {
+      this.$store.dispatch('commonCommonIndex/' + DEL_HANDLE, row.id).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {
           this.$Notice.success({
             title: res.data.info
           });
-          this.reset('boardDetail');
-          this.getBoardList();
+          this.reset('handleDetail');
+          this.getHandleList();
         }
       });
     },
@@ -131,17 +131,17 @@ export default {
       this.editEnd = false;
     },
     /** 完成编辑-更新记录 */
-    updateBoard(row, index) {
-      // this.boardTable[index] = _.cloneDeep(row);
-      this.$store.dispatch('commonKhxdYklXjbdIndex/' + UPDATE_BOARD, this.defineProperty(row, '_index', '_rowKey')).then(res => {
+    updateHandle(row, index) {
+      this.handleTable[index] = _.cloneDeep(row);
+      this.$store.dispatch('commonCommonIndex/' + UPDATE_HANDLE, this.defineProperty(row, '_index', '_rowKey')).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {
           this.$Notice.success({
             title: res.data.info
           });
-          this.reset('boardDetail');
-          this.getBoardList();
+          this.reset('handleDetail');
+          this.getHandleList();
         }
       });
       this.editIndex = -1;

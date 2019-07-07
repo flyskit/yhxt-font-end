@@ -79,7 +79,7 @@
 
 <script>
 import _ from 'lodash';
-import { KHXD_JGM_XDLX, KHXD_JGM_SCSL } from '@store/common/khxd/jgm/xjbd/module';
+import { ORDER_DDLX, ORDER_SCSL } from '@store/common/common/module';
 export default {
   data () {
     return {
@@ -101,8 +101,8 @@ export default {
       },
       ccxx: [],
       accessoryListInfo: '',
-      typeXdlx: KHXD_JGM_XDLX,
-      typeScsl: KHXD_JGM_SCSL
+      typeXdlx: ORDER_DDLX,
+      typeScsl: ORDER_SCSL
     };
   },
   methods: {

@@ -57,17 +57,19 @@
 import { mapGetters } from 'vuex';
 import { mixin } from '@component/mixins/mixin';
 import tableJgm from '@component_table/summary/edit-jgm.vue';
-import { KHXD_JGM_XDLX, KHXD_JGM_SCSL, KHXD_JGM_DDLY, KHXD_JGM_DDXX } from '@store/common/khxd/jgm/xjbd/module';
-import { ADD_DATA, GET_BH, GET_LS, GET_KH, GETTER_BH, GETTER_LS, GETTER_KH } from '@store/common/khxd/jgm/xjbd/index';
+import { KHXD_JGM_DDXX } from '@store/common/khxd/jgm/xjbd/module';
+import { ORDER_DDLX, ORDER_SCSL, ORDER_DDLY } from '@store/common/common/module';
+import { ADD_DATA } from '@store/common/khxd/jgm/xjbd/index';
+import { GET_ORDER_NUMBER, GET_HANDLE_BY_TYPE, GET_CUSTOMER_BY_NAME, GETTER_ORDER_NUMBER, GETTER_HANDLE_BY_TYPE, GETTER_CUSTOMER_BY_NAME } from '@store/common/common/index';
 export default {
   inject: ['reload'],
   mixins: [mixin],
   components: {
     tableJgm,
     'printModal': (resolve) => require(['./modal/print-data'], resolve),
-    'innerComputeModal': (resolve) => require(['./modal/inner-compute'], resolve),
     'reworkModal': (resolve) => require(['./modal/rework-main'], resolve),
-    'handleModal': (resolve) => require(['./modal/handle-detail'], resolve)
+    'innerComputeModal': (resolve) => require(['../../common/inner-size-compute'], resolve),
+    'handleModal': (resolve) => require(['../../common/handle-detail'], resolve)
   },
   data () {
     return {
@@ -91,9 +93,9 @@ export default {
         bz: '',
         ddzt: ''
       }],
-      typeXdlx: KHXD_JGM_XDLX,
-      typeScsl: KHXD_JGM_SCSL,
-      typeDdly: KHXD_JGM_DDLY,
+      typeXdlx: ORDER_DDLX,
+      typeScsl: ORDER_SCSL,
+      typeDdly: ORDER_DDLY,
       orderColumns: KHXD_JGM_DDXX,
       handleSize: {
         handleHeight: '',
@@ -106,9 +108,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      orderNumber: 'commonKhxdJgmXjbdIndex/' + GETTER_BH,
-      handleList: 'commonKhxdJgmXjbdIndex/' + GETTER_LS,
-      customerList: 'commonKhxdJgmXjbdIndex/' + GETTER_KH
+      orderNumber: 'commonCommonIndex/' + GETTER_ORDER_NUMBER,
+      handleList: 'commonCommonIndex/' + GETTER_HANDLE_BY_TYPE,
+      customerList: 'commonCommonIndex/' + GETTER_CUSTOMER_BY_NAME
     })
   },
   mounted () {
@@ -118,17 +120,17 @@ export default {
   methods: {
     /** 获取编号 */
     getBh() {
-      this.$store.dispatch('commonKhxdJgmXjbdIndex/' + GET_BH).then(res => {
+      this.$store.dispatch('commonCommonIndex/' + GET_ORDER_NUMBER).then(res => {
         this.orderDetail[0].ddbh = this.orderNumber;
       });
     },
     /** 获取拉手列表 */
     getLs() {
-      this.$store.dispatch('commonKhxdJgmXjbdIndex/' + GET_LS, this.handleType);
+      this.$store.dispatch('commonCommonIndex/' + GET_HANDLE_BY_TYPE, this.handleType);
     },
     /** 获取客户列表信息 */
     getCustomerList(value) {
-      this.$store.dispatch('commonKhxdJgmXjbdIndex/' + GET_KH, value).then(res => {
+      this.$store.dispatch('commonCommonIndex/' + GET_CUSTOMER_BY_NAME, value).then(res => {
         const list = this.customerList.map(item => {
           return {
             value: item.id,
@@ -224,7 +226,7 @@ export default {
     },
     /** 创建返工订单-弹窗 */
     createRework() {
-      this.$refs.reworkModal.show();
+      this.$refs.reworkModal.show(this.handleType);
     }
   }
 };

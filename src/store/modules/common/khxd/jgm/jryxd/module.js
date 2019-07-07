@@ -41,7 +41,19 @@ export const JGM_XDXX_COLUMNS = [
     slot: 'scsl'
   },
   {
-    title: '门板平方',
+    title: '拉手',
+    key: 'ls',
+    align: 'center',
+    width: 80
+  },
+  {
+    title: '颜色',
+    key: 'ys',
+    align: 'center',
+    width: 80
+  },
+  {
+    title: '合计平方',
     key: 'hjpf',
     align: 'center',
     width: 80
@@ -53,17 +65,30 @@ export const JGM_XDXX_COLUMNS = [
     width: 80
   },
   {
+    title: '备注',
+    key: 'bz',
+    align: 'center',
+    width: 200,
+    tooltip: true
+  },
+  {
+    title: '配件',
+    key: 'pj',
+    align: 'center',
+    width: 200,
+    tooltip: true
+  },
+  {
     title: '金额',
     key: 'je',
     align: 'center',
     width: 80
   },
   {
-    title: '备注',
-    key: 'bz',
+    title: '预计打包',
+    key: 'yjdb',
     align: 'center',
-    width: 200,
-    tooltip: true
+    width: 80
   },
   {
     title: '工期',
@@ -76,12 +101,6 @@ export const JGM_XDXX_COLUMNS = [
     key: 'wgsj',
     align: 'center',
     width: 180
-  },
-  {
-    title: '预计打包',
-    key: 'yjdb',
-    align: 'center',
-    width: 80
   },
   {
     title: '地址',
@@ -114,53 +133,5 @@ export const JGM_XDXX_COLUMNS = [
     slot: 'action',
     width: 120,
     fixed: 'right'
-  }
-];
-
-export const ACCESSORY_COLUMNS = [
-  {
-    type: 'selection',
-    width: 60,
-    align: 'center'
-  },
-  {
-    title: '编号',
-    key: 'bh',
-    align: 'center'
-  },
-  {
-    title: '名称',
-    key: 'mc',
-    align: 'center'
-  },
-  {
-    title: '规格',
-    key: 'gg',
-    align: 'center'
-  },
-  {
-    title: '数量',
-    key: 'pjsl',
-    align: 'center'
-  },
-  {
-    title: '单位',
-    key: 'dw',
-    align: 'center'
-  },
-  {
-    title: '单价',
-    key: 'pjdj',
-    align: 'center'
-  },
-  {
-    title: '金额',
-    key: 'pjje',
-    align: 'center'
-  },
-  {
-    title: '操作',
-    align: 'center',
-    slot: 'action'
   }
 ];

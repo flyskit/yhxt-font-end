@@ -65,9 +65,9 @@
 import { mapGetters } from 'vuex';
 import { mixin } from '@component/mixins/mixin';
 import tableJgm from '@component_table/summary/edit-jgm.vue';
-import { KHXD_JGM_XDLX, KHXD_JGM_SCSL, KHXD_JGM_DDLY } from '@store/common/khxd/jgm/xjbd/module';
 import { KHXD_YKL_DDXX } from '@store/common/khxd/ykl/xjbd/module';
-import { GET_LS, GET_KH, GET_BC, GETTER_LS, GETTER_KH, GETTER_BC } from '@store/common/khxd/ykl/xjbd/index';
+import { ORDER_DDLX, ORDER_SCSL, ORDER_DDLY } from '@store/common/common/module';
+import { GET_HANDLE_BY_TYPE, GET_CUSTOMER_BY_NAME, GET_BOARD_BY_TYPE, GETTER_HANDLE_BY_TYPE, GETTER_CUSTOMER_BY_NAME, GETTER_BOARD_BY_TYPE } from '@store/common/common/index';
 import { UPDATE_DATA } from '@store/common/khxd/ykl/jryxd/index';
 export default {
   inject: ['reload'],
@@ -98,10 +98,10 @@ export default {
         bz: '',
         ddzt: ''
       }],
-      typeXdlx: KHXD_JGM_XDLX,
-      typeScsl: KHXD_JGM_SCSL,
-      typeDdly: KHXD_JGM_DDLY,
       orderColumns: KHXD_YKL_DDXX,
+      typeXdlx: ORDER_DDLX,
+      typeScsl: ORDER_SCSL,
+      typeDdly: ORDER_DDLY,
       handleSize: {
         handleHeight: '',
         handleWidth: ''
@@ -116,9 +116,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      handleList: 'commonKhxdYklXjbdIndex/' + GETTER_LS,
-      customerList: 'commonKhxdYklXjbdIndex/' + GETTER_KH,
-      boardList: 'commonKhxdYklXjbdIndex/' + GETTER_BC
+      handleList: 'commonCommonIndex/' + GETTER_HANDLE_BY_TYPE,
+      customerList: 'commonCommonIndex/' + GETTER_CUSTOMER_BY_NAME,
+      boardList: 'commonCommonIndex/' + GETTER_BOARD_BY_TYPE
     })
   },
   methods: {
@@ -153,11 +153,11 @@ export default {
     },
     /** 获取拉手列表 */
     getLs() {
-      this.$store.dispatch('commonKhxdYklXjbdIndex/' + GET_LS, this.handleType);
+      this.$store.dispatch('commonCommonIndex/' + GET_HANDLE_BY_TYPE, this.handleType);
     },
     /** 根据商品类型，获取板材列表 */
     getBc() {
-      this.$store.dispatch('commonKhxdYklXjbdIndex/' + GET_BC, this.handleType).then(() => {
+      this.$store.dispatch('commonCommonIndex/' + GET_BOARD_BY_TYPE, this.handleType).then(() => {
         this.boardInfo = this.boardList.map(item => {
           return {
             value: item.id,
@@ -169,7 +169,7 @@ export default {
     },
     /** 获取客户列表信息 */
     getCustomerList(value) {
-      this.$store.dispatch('commonKhxdYklXjbdIndex/' + GET_KH, value).then(res => {
+      this.$store.dispatch('commonCommonIndex/' + GET_CUSTOMER_BY_NAME, value).then(res => {
         const list = this.customerList.map(item => {
           return {
             value: item.id,

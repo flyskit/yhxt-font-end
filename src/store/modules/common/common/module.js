@@ -77,6 +77,88 @@ export const ORDER_YXZT = [
   }
 ];
 
+/** 橱柜门内框计算-位置 */
+export const CGM_NKWZ = [
+  {
+    value: 0,
+    label: '中间'
+  },
+  {
+    value: 1,
+    label: '边沿'
+  },
+  {
+    value: 2,
+    label: '转角'
+  }
+];
+
+/** 橱柜门内框计算-表头 */
+export const CGM_NKJS = [
+  {
+    title: '类型',
+    align: 'center',
+    slot: 'lx'
+  },
+  {
+    title: '门板高度',
+    align: 'center',
+    slot: 'mbgd'
+  },
+  {
+    title: '左立柱',
+    align: 'center',
+    children: [
+      {
+        title: '位置',
+        align: 'center',
+        slot: 'lwz'
+      },
+      {
+        title: '厚度',
+        align: 'center',
+        slot: 'lhd'
+      }
+    ]
+  },
+  {
+    title: '右立柱',
+    align: 'center',
+    children: [
+      {
+        title: '位置',
+        align: 'center',
+        slot: 'rwz'
+      },
+      {
+        title: '厚度',
+        align: 'center',
+        slot: 'rhd'
+      }
+    ]
+  },
+  {
+    title: '内框宽度',
+    align: 'center',
+    slot: 'nkkd'
+  },
+  {
+    title: '门板数量',
+    align: 'center',
+    slot: 'sl'
+  },
+  {
+    title: '备注',
+    align: 'center',
+    slot: 'bz'
+  },
+  {
+    title: '操作',
+    align: 'center',
+    slot: 'action'
+  }
+];
+
 /** 配件信息-表头 */
 export const ACCESSORY_COLUMNS = [
   {
@@ -156,6 +238,50 @@ export const BOARD_COLUMNS = [
     key: 'gg',
     align: 'center',
     slot: 'gg'
+  },
+  {
+    title: '备注',
+    key: 'bz',
+    align: 'center',
+    slot: 'bz'
+  },
+  {
+    title: '操作',
+    align: 'center',
+    slot: 'action'
+  }
+];
+
+/** 拉手信息-表头 */
+export const HANDLE_COLUMNS = [
+  {
+    type: 'selection',
+    width: 60,
+    align: 'center'
+  },
+  {
+    title: '名称',
+    key: 'mc',
+    align: 'center',
+    slot: 'mc'
+  },
+  {
+    title: '高度',
+    key: 'gd',
+    align: 'center',
+    slot: 'gd'
+  },
+  {
+    title: '宽度',
+    key: 'kd',
+    align: 'center',
+    slot: 'kd'
+  },
+  {
+    title: '单价',
+    key: 'dj',
+    align: 'center',
+    slot: 'dj'
   },
   {
     title: '备注',
