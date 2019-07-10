@@ -1,41 +1,51 @@
 <template lang='pug'>
-  div.table-edit-jgm
+  div.table-edit-swing-size
     Button.operate-button(@click="addRow" :disabled="isUpdate") 添加行
-    Input.operate-button.input-ls(v-model="handleSize.handleHeight" placeholder="拉手高度" @on-change="handleHeightChange")
-    Input.operate-button.input-ls(v-model="handleSize.handleWidth" placeholder="拉手宽度" @on-change="handleWidthChange")
     Button.operate-button(@click="updateData" type="success" style="float:right;" v-if="isUpdate") 修改订单
     Button.operate-button(@click="addData" type="success" style="float:right;" v-else) 添加订单
     Poptip(@on-ok="storageData" title="是否暂存?" style="float:right;" confirm transfer)
       Button.operate-button(:disabled="isUpdate" type="warning") 暂存订单
     Table(:columns="columns" :data="data" size="small" border)
-      template(slot="lx" slot-scope="{ row, index }")
-        Select(v-model="row.lx" transfer=true v-if="editIndex === index")
-          Option(v-for="item in typeColumns" :value="item.value" :key="item.value") {{ item.label }}
-        span(v-else) {{ row.lx === 0 ? '地柜' : '吊柜' }}
-      template(slot="mbgd" slot-scope="{ row, index }")
-        Input(v-model="row.mbgd" v-if="editIndex === index" @on-change="computedSquare(row)")
-        span(v-else) {{ row.mbgd }}
-      template(slot="mbkd" slot-scope="{ row, index }")
-        Input(v-model="row.mbkd" v-if="editIndex === index" @on-change="computedSquare(row)")
-        span(v-else) {{ row.mbkd }}
+      template(slot="lxys" slot-scope="{ row, index }")
+        Select(v-model="row.lxys" transfer=true v-if="editIndex === index" @on-change="boardImport(row)")
+          Option(v-for="item in boardInfo" :value="item.label" :key="item.value") {{ item.label }}
+        span(v-else) {{ row.lxys }}
+      template(slot="zx" slot-scope="{ row, index }")
+        Input(v-model="row.zx" v-if="editIndex === index")
+        span(v-else) {{ row.zx }}
+      template(slot="bl" slot-scope="{ row, index }")
+        Select(v-model="row.bl" transfer=true v-if="editIndex === index")
+          Option(v-for="item in blType" :value="item.label" :key="item.value") {{ item.label }}
+        span(v-else) {{ row.bl }}
+      template(slot="fx" slot-scope="{ row, index }")
+        Select(v-model="row.fx" transfer=true v-if="editIndex === index")
+          Option(v-for="item in fxType" :value="item.label" :key="item.value") {{ item.label }}
+        span(v-else) {{ row.fx }}
+      template(slot="bd" slot-scope="{ row, index }")
+        Select(v-model="row.bd" transfer=true v-if="editIndex === index")
+          Option(v-for="item in bdType" :value="item.label" :key="item.value") {{ item.label }}
+        span(v-else) {{ row.bd }}
+      template(slot="gd" slot-scope="{ row, index }")
+        Input(v-model="row.gd" v-if="editIndex === index")
+        span(v-else) {{ row.gd }}
+      template(slot="kd" slot-scope="{ row, index }")
+        Input(v-model="row.kd" v-if="editIndex === index")
+        span(v-else) {{ row.kd }}
+      template(slot="hd" slot-scope="{ row, index }")
+        Input(v-model="row.hd" v-if="editIndex === index")
+        span(v-else) {{ row.hd }}
       template(slot="sl" slot-scope="{ row, index }")
-        Input(v-model="row.sl" v-if="editIndex === index" @on-change="computedSquare(row)")
+        Input(v-model="row.sl" v-if="editIndex === index" @on-change="computeMoney(row)")
         span(v-else) {{ row.sl }}
-      template(slot="mbpf" slot-scope="{ row, index }")
-        Input(v-model="row.mbpf" v-if="editIndex === index" readonly=true)
-        span(v-else) {{ row.mbpf }}
       template(slot="bz" slot-scope="{ row, index }")
         Input(v-model="row.bz" v-if="editIndex === index")
         span(v-else) {{ row.bz }}
-      template(slot="blgd" slot-scope="{ row, index }")
-        Input(v-model="row.blgd" v-if="editIndex === index" readonly=true)
-        span(v-else) {{ row.blgd }}
-      template(slot="blkd" slot-scope="{ row, index }")
-        Input(v-model="row.blkd" v-if="editIndex === index" readonly=true)
-        span(v-else) {{ row.blkd }}
-      template(slot="blpf" slot-scope="{ row, index }")
-        Input(v-model="row.blpf" v-if="editIndex === index" readonly=true)
-        span(v-else) {{ row.blpf }}
+      template(slot="dj" slot-scope="{ row, index }")
+        Input(v-model="row.dj" v-if="editIndex === index" @on-change="computeMoney(row)")
+        span(v-else) {{ row.dj }}
+      template(slot="je" slot-scope="{ row, index }")
+        Input(v-model="row.je" v-if="editIndex === index")
+        span(v-else) {{ row.je }}
       template(slot="action" slot-scope="{ row, index }")
         div(v-if="editIndex === index")
           Button(@click="addLastRow(row, index)" style="padding: 6px 4px;" type="text" :disabled="isUpdate")
@@ -55,28 +65,30 @@
 
 <script>
 import _ from 'lodash';
-import { KHXD_JGM_CCLX, KHXD_JGM_CCXX } from '@store/common/khxd/jgm/xjbd/module';
+import { THJ_PKM, THJ_BLLX, THJ_PKM_FX, THJ_PKM_BD } from '@store/common/khxd/thjm/xjbd/module';
 export default {
+  props: ['boardInfo'],
   data () {
     return {
       data: [],
       tableData: {
-        lx: '',
-        mbgd: '',
-        mbkd: '',
+        lxys: '',
+        zx: '',
+        bl: '',
+        fx: '',
+        bd: '',
+        gd: '',
+        kd: '',
+        hd: '',
         sl: '',
-        mbpf: '',
         bz: '',
-        blgd: '',
-        blkd: '',
-        blpf: ''
+        dj: '',
+        je: ''
       },
-      handleSize: {
-        handleHeight: '',
-        handleWidth: ''
-      },
-      typeColumns: KHXD_JGM_CCLX,
-      columns: KHXD_JGM_CCXX,
+      columns: THJ_PKM,
+      blType: THJ_BLLX,
+      fxType: THJ_PKM_FX,
+      bdType: THJ_PKM_BD,
       orderStatus: 1,
       editIndex: -1,
       editEnd: true,
@@ -84,25 +96,28 @@ export default {
     };
   },
   methods: {
-    /** 导入拉手尺寸 */
-    getHandleSize(data) {
-      this.handleSize = _.cloneDeep(data);
-      if (this.data.length !== 0) {
-        this.handleHeightAndWidthChange();
-      }
-    },
-    /** 由于拉手尺寸更改，重新计算 */
-    handleHeightAndWidthChange() {
+    /** 重新计算 */
+    computeDataAgain() {
       let newData = _.cloneDeep(this.data);
       // 清空原有数据，重新渲染表格
       this.data = [];
       newData.forEach((e) => {
-        e.blgd = e.mbgd - this.handleSize.handleHeight;
-        e.blkd = e.mbkd - this.handleSize.handleWidth;
-        e.blpf = (e.blgd * 0.001 * e.blkd * 0.001 * e.sl).toFixed(3);
         this.data.push(e);
       });
       this.computeTotal();
+    },
+    /** 导入板材单价 */
+    boardImport(row) {
+      this.boardInfo.forEach((e) => {
+        if (e.label === row.lxys) {
+          row.dj = e.dj;
+          this.computeMoney(row);
+        }
+      });
+    },
+    /** 金额计算 */
+    computeMoney(row) {
+      row.je = parseFloat(row.sl) * parseFloat(row.dj);
     },
     /** 添加行 */
     addRow() {
@@ -128,50 +143,20 @@ export default {
       this.editIndex = -1;
       this.editEnd = true;
     },
-    /** 计算平方 */
-    computedSquare(row) {
-      row.mbpf = (row.mbgd * 0.001 * row.mbkd * 0.001 * row.sl).toFixed(3);
-      row.blgd = row.mbgd - this.handleSize.handleHeight;
-      row.blkd = row.mbkd - this.handleSize.handleWidth;
-      row.blpf = (row.blgd * 0.001 * row.blkd * 0.001 * row.sl).toFixed(3);
-    },
     /** 统计计算，回显到父组件 */
     computeTotal() {
       let totalData = {
         hjpf: 0.00,
-        blpf: 0.00,
-        hjsl: 0,
-        kd: 0.00
+        hjje: 0.00,
+        hjsl: 0
       };
       this.data.forEach((e) => {
-        totalData.hjpf = parseFloat(e.mbpf) + parseFloat(totalData.hjpf);
-        totalData.blpf = parseFloat(e.blpf) + parseFloat(totalData.blpf);
+        let pf = (e.gd * 0.001 * e.kd * 0.001 * e.sl).toFixed(3);
+        totalData.hjpf = parseFloat(pf) + parseFloat(totalData.hjpf);
         totalData.hjsl = parseFloat(e.sl) + parseFloat(totalData.hjsl);
-        totalData.kd = parseFloat(e.mbkd) * 0.001 * parseFloat(e.sl) + parseFloat(totalData.kd);
+        totalData.hjje = parseFloat(e.je) + parseFloat(totalData.hjje);
       });
       this.$emit('computeTotal', totalData);
-    },
-    /** 更换拉手尺寸-高度 */
-    handleHeightChange() {
-      let newData = _.cloneDeep(this.data);
-      this.data = [];
-      newData.forEach((e) => {
-        e.blgd = e.mbgd - this.handleSize.handleHeight;
-        e.blpf = (e.blgd * 0.001 * e.blkd * 0.001 * e.sl).toFixed(3);
-        this.data.push(e);
-      });
-      this.computeTotal();
-    },
-    /** 更换拉手尺寸-宽度 */
-    handleWidthChange() {
-      let newData = _.cloneDeep(this.data);
-      this.data = [];
-      newData.forEach((e) => {
-        e.blkd = e.mbkd - this.handleSize.handleWidth;
-        e.blpf = (e.blgd * 0.001 * e.blkd * 0.001 * e.sl).toFixed(3);
-        this.data.push(e);
-      });
-      this.computeTotal();
     },
     /** 删除行 */
     delRow(index) {
@@ -211,8 +196,8 @@ export default {
         this.$emit('submitData', this.data);
       }
     },
-    /** 内框尺寸计算-传入原始数据 */
-    showInnerSize(data) {
+    /** 传入原始数据 */
+    showSize(data) {
       this.data = data;
     }
   }

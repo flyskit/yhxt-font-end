@@ -20,7 +20,7 @@
 import { GET_DOOR_TYPE } from '@store/common/static-fields/index';
 import {mapGetters} from 'vuex';
 import jgm from '@component_form/jgm';
-import tableJgm from '@component_table/summary/sum-jgm.vue';
+import editCupboardSize from '@component_table/print/print-jgm.vue';
 export default {
   data () {
     return {
@@ -144,7 +144,7 @@ export default {
     };
   },
   components: {
-    jgm, tableJgm
+    jgm, editCupboardSize
   },
   computed: {
     ...mapGetters({
@@ -152,7 +152,7 @@ export default {
     })
   },
   mounted() {
-    this.tableType = 'tableJgm';
+    this.tableType = 'editCupboardSize';
   },
   methods: {
     getForm (value) {

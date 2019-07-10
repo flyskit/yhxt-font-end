@@ -9,7 +9,7 @@
       Input.input-small(v-model="data.khxm" placeholder="输入客户姓名" @on-change="doSelect")
       span.span-color 下单类型：
       Select.select-small(v-model="data.xdlx" @on-change="doSelect" clearable transfer=true)
-        Option(v-for="item in typeXdlx" :value="item.value" :key="item.value") {{ item.label }}
+        Option(v-for="item in typeDdlx" :value="item.value" :key="item.value") {{ item.label }}
       span.span-color 订单来源：
       Select.select-small(v-model="data.ddly" @on-change="doSelect" clearable transfer=true)
         Option(v-for="item in typeDdly" :value="item.value" :key="item.value") {{ item.label }}
@@ -23,7 +23,7 @@
         template(slot="ddly" slot-scope="{ row, index }")
           span(v-for="index of typeDdly" v-if="row.ddly === index.value" :key="index.value") {{ index.label }}
         template(slot="xdlx" slot-scope="{ row, index }")
-          span(v-for="index of typeXdlx" v-if="row.xdlx === index.value" :key="index.value") {{ index.label }}
+          span(v-for="index of typeDdlx" v-if="row.xdlx === index.value" :key="index.value") {{ index.label }}
         template(slot="action" slot-scope="{ row, index }")
           Tooltip(placement="top" content="查看详细信息" transfer)
             Button(@click="viewInfo(row, index)" style="padding: 6px 4px;" type="text")
@@ -63,7 +63,7 @@ export default {
         pageSize: 15,
         page: 1
       },
-      typeXdlx: KHXD_JGM_XDLX,
+      typeDdlx: KHXD_JGM_XDLX,
       typeDdly: KHXD_JGM_DDLY,
       columns: JGM_XDXX_COLUMNS,
       nowDate: Date,

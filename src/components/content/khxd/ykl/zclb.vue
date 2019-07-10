@@ -7,7 +7,7 @@
       template(slot="ddly" slot-scope="{ row, index }")
         span(v-for="index of typeDdly" v-if="row.ddly === index.value" :key="index.value") {{ index.label }}
       template(slot="ddlx" slot-scope="{ row, index }")
-        span(v-for="index of typeXdlx" v-if="row.ddlx === index.value" :key="index.value") {{ index.label }}
+        span(v-for="index of typeDdlx" v-if="row.ddlx === index.value" :key="index.value") {{ index.label }}
       template(slot="action" slot-scope="{ row, index }")
         Tooltip(placement="top" content="配件" transfer)
           Button(@click="viewAccessory(row, index)" style="padding: 6px 4px;" type="text")
@@ -41,7 +41,7 @@ export default {
     return {
       data: [],
       columns: YKL_XDXX_COLUMNS,
-      typeXdlx: ORDER_DDLX,
+      typeDdlx: ORDER_DDLX,
       typeDdly: ORDER_DDLY
     };
   },

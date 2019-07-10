@@ -10,7 +10,7 @@
             Input(v-model="row.ddbh" readonly=true @on-change="change(row)")
           template(slot="ddlx" slot-scope="{ row, index }")
             Select(v-model="row.ddlx" transfer=true  @on-change="change(row)")
-              Option(v-for="item in typeXdlx" :value="item.value" :key="item.value") {{ item.label }}
+              Option(v-for="item in typeDdlx" :value="item.value" :key="item.value" :disabled="item.disabled") {{ item.label }}
           template(slot="ddly" slot-scope="{ row, index }")
             Select(v-model="row.ddly" transfer=true  @on-change="change(row)")
               Option(v-for="item in typeDdly" :value="item.value" :key="item.value") {{ item.label }}
@@ -56,7 +56,7 @@
           template(slot="bz" slot-scope="{ row, index }")
             Input(v-model="row.bz"  @on-change="change(row)")
         Divider 尺寸信息
-        tableJgm(ref="tableJgm" @submitData="submitData" @computeTotal="computeTotal")
+        editCupboardSize(ref="editCupboardSize" @submitData="submitData" @computeTotal="computeTotal")
       div(slot="footer" class="noprint")
         Button(@click="ok") 关闭
 </template>
@@ -64,7 +64,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin } from '@component/mixins/mixin';
-import tableJgm from '@component_table/summary/edit-jgm.vue';
+import editCupboardSize from '@component_table/edit/edit-cupboard-size.vue';
 import { KHXD_YKL_DDXX } from '@store/common/khxd/ykl/xjbd/module';
 import { ORDER_DDLX, ORDER_SCSL, ORDER_DDLY } from '@store/common/common/module';
 import { GET_HANDLE_BY_TYPE, GET_CUSTOMER_BY_NAME, GET_BOARD_BY_TYPE, GETTER_HANDLE_BY_TYPE, GETTER_CUSTOMER_BY_NAME, GETTER_BOARD_BY_TYPE } from '@store/common/common/index';
@@ -73,7 +73,7 @@ export default {
   inject: ['reload'],
   mixins: [mixin],
   components: {
-    tableJgm
+    editCupboardSize
   },
   data () {
     return {
@@ -99,7 +99,7 @@ export default {
         ddzt: ''
       }],
       orderColumns: KHXD_YKL_DDXX,
-      typeXdlx: ORDER_DDLX,
+      typeDdlx: ORDER_DDLX,
       typeScsl: ORDER_SCSL,
       typeDdly: ORDER_DDLY,
       handleSize: {
@@ -145,7 +145,7 @@ export default {
       this.orderDetail[0].bcpf = data.acrylicDetail.bcpf;
       this.orderDetail[0].hjsl = data.acrylicDetail.hjsl;
       this.orderDetail[0].yjdb = data.acrylicDetail.yjdb;
-      this.$refs.tableJgm.showEdit(data.cupboardDoorSizes);
+      this.$refs.editCupboardSize.showEdit(data.cupboardDoorSizes);
       this.getLs();
       this.getBc();
       this.findHandle();
@@ -212,7 +212,7 @@ export default {
           this.handleSize.handleHeight = e.gd;
           this.handleSize.handleWidth = e.kd;
           // 重新渲染尺寸表格
-          this.$refs.tableJgm.getHandleSize(this.handleSize);
+          this.$refs.editCupboardSize.getHandleSize(this.handleSize);
         }
       });
       this.computeMoney(row);
@@ -235,7 +235,7 @@ export default {
           this.handleSize.handleHeight = e.gd;
           this.handleSize.handleWidth = e.kd;
           // 重新渲染尺寸表格
-          this.$refs.tableJgm.getHandleSize(this.handleSize);
+          this.$refs.editCupboardSize.getHandleSize(this.handleSize);
         }
       });
     },

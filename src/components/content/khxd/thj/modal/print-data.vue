@@ -8,8 +8,8 @@
       :closable="false"
       footer-hide=true)
       div(class="print")
-        Keep-alive
-          printYklDetail(ref="printYklDetail" style="text-align:center")
+        printThjmPkm(ref="printThjmPkm" :isShow="isShow" style="text-align:center")
+        printThjmDtm(ref="printThjmDtm" :isShow="isShow" style="text-align:center")
       div(style="text-align:center" class="noprint")
         Button(type="primary" @click="printPage") 打印
         Button(@click="ok") 关闭
@@ -19,20 +19,28 @@
 export default {
   inject: ['reload'],
   components: {
-    'printYklDetail': (resolve) => require(['@component_table/print/print-ykl.vue'], resolve)
+    'printThjmPkm': (resolve) => require(['@component_table/print/print-thjm-pkm'], resolve),
+    'printThjmDtm': (resolve) => require(['@component_table/print/print-thjm-dtm'], resolve)
   },
   data () {
     return {
       visible: false,
       isReload: false,
-      isPrint: true
+      isPrint: true,
+      isShow: true
     };
   },
   methods: {
     /** 显示 */
-    show(data, czr, czsj) {
+    show(data, czr, czsj, splx) {
+      if (splx === 3) {
+        this.isShow = true;
+        this.$refs.printThjmPkm.show(data, czr, czsj);
+      } else {
+        this.isShow = false;
+        this.$refs.printThjmDtm.show(data, czr, czsj);
+      }
       this.visible = true;
-      this.$refs.printYklDetail.show(data, czr, czsj);
     },
     /** 打印 */
     printPage() {

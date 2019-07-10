@@ -1,9 +1,9 @@
 <template lang='pug'>
-  div.table-summary-print-ykl
+  div.table-print-ykl
     div
-      table.ykl-table-style(border)
+      table.print-table-style(border)
         tr
-          td.ykl-table-style-title(colspan="11" cellspacing="0" cellpadding="0") 艺合亚克力门生产订单
+          td.print-table-style-title(colspan="11" cellspacing="0" cellpadding="0") 艺合亚克力门生产订单
         tr(style="height:30px;")
           th 编号：
           td(colspan="2" style="margin-left: 5px;") {{ data.ddbh }}
@@ -58,23 +58,24 @@
         tr(style="height:30px;")
           td 配件
           td(colspan="10") {{ accessoryListInfo }}
-    div.span-div
+    div.print-span-div
       p
-        span.span-th 制单人:
-        span.span-content {{ data.czr }}
-        span.span-th 制单时间:
-        span.span-content {{ data.czsj }}
-        span.span-content 库管签字:
-        span.span-content 客户签字:
-        span.span-content 财务签字:
+        span.print-span-th 制单人:
+        span.print-span-content {{ data.czr }}
+        span.print-span-th 制单时间:
+        span.print-span-content {{ data.czsj }}
+        span.print-span-th 完工时间:
+        span.print-span-content {{ data.wgsj }}
       p
-        span.span-th 尊敬的客户：
+        span.print-span-content 库管签字:
+        span.print-span-content 客户签字:
+        span.print-span-content 财务签字:
       p
-        span.span-th 1.发物流情况下，客户取货时默认验收签字，未付清账款则此单自动变为欠账凭证。
+        span.print-span-th 尊敬的客户：1.发物流情况下，取货时默认验收签字，未付清账款则此单自动变为欠账凭证。
       p
-        span.span-th 2.收货后三天内确认货的质量，三天之后无异议即为合格，本公司不予负责。电话：13540425238
+        span.print-span-th 2.收货后三天内确认货的质量，三天之后无异议即为合格，本公司不予负责。电话：13540425238
       p
-        span.span-th 附：艺合门业(卖方) 地址：成都市郫都区团结镇石桥村十一组
+        span.print-span-th 附：艺合门业(卖方) 地址：成都市郫都区团结镇石桥村十一组
 </template>
 
 <script>
@@ -93,6 +94,7 @@ export default {
         bz: '',
         czr: '',
         czsj: '',
+        wgsj: '',
         hjpf: 0.000,
         bcpf: 0.000,
         hjsl: 0,
@@ -101,7 +103,7 @@ export default {
       },
       ccxx: [],
       accessoryListInfo: '',
-      typeXdlx: ORDER_DDLX,
+      typeDdlx: ORDER_DDLX,
       typeScsl: ORDER_SCSL
     };
   },
@@ -118,6 +120,7 @@ export default {
       this.data.dz = data.orderDetail.dz;
       this.data.gq = data.orderDetail.gq;
       this.data.bz = data.orderDetail.bz;
+      this.data.wgsj = data.orderDetail.wgsj;
 
       this.data.lsmc = data.acrylicDetail.lsmc;
       this.data.ys = data.acrylicDetail.ys;
@@ -174,7 +177,7 @@ export default {
     // },
     /** value转换label */
     changeData() {
-      this.typeXdlx.forEach((e) => {
+      this.typeDdlx.forEach((e) => {
         if (this.data.ddlx === e.value) {
           this.data.ddlx = e.label;
         }
@@ -190,10 +193,10 @@ export default {
 </script>
 <style lang='less' scoped>
 @import '../../../style/mixin.less';
-.ykl-table-style {
+.print-table-style {
   // 调整打印样式
   width:94%;
-  margin-left:2%;
+  margin-left:2.5%;
   border:solid #333;
   border-width:1px 0px 0px 1px;
   font-size: 1.4em;
@@ -205,36 +208,37 @@ export default {
   font-weight: bolder;
   table-layout:fixed;
 }
-.ykl-table-style tr {
-  min-width: 200px;
-}
-.ykl-table-style th td {
-  width: 100px;
-  text-align: center;
-}
-.ykl-table-style-title {
+.print-table-style-title {
   font-size: 2.5em;
   letter-spacing: 6px;
   font-weight: lighter;
 }
-.span-div {
+.print-table-style tr {
+  min-width: 200px;
+}
+.print-table-style th td {
+  width: 120px;
+  height: 50px;
+  text-align: center;
+}
+.print-span-div {
   margin-left: 35px;
   width: 73vw;
   height: 120px;
   text-align: left;
 }
-.span-th {
+.print-span-th {
   font-family: 'FangSong';
   font-weight: bolder;
   color:#000;
-  font-size: 1.2em;
+  font-size: 1.3em;
   padding: 0 10px 0 0;
 }
-.span-content {
+.print-span-content {
   font-family: 'FangSong';
   font-weight: bolder;
   color:#000;
-  font-size: 1.2em;
+  font-size: 1.3em;
   margin: 0 30px 0 0;
 }
 </style>

@@ -26,29 +26,19 @@
             Input(v-model="row.dz"  @on-change="change(row)")
           template(slot="dh" slot-scope="{ row, index }")
             Input(v-model="row.dh"  @on-change="change(row)")
-          template(slot="ls" slot-scope="{ row, index }")
-            AutoComplete(v-model="row.ls" @on-search="getHandleList" @on-change="handleImport(row)")
-              Option(v-for="item in handleInfo" :value="item.label" :key="item.value") {{ item.label }}
-          template(slot="ys" slot-scope="{ row, index }")
-            Input(v-model="row.ys"  @on-change="change(row)")
-          template(slot="dj" slot-scope="{ row, index }")
-            Input(v-model="row.dj"  @on-change="change(row)")
-              span(slot="append") /m²
-          template(slot="hjpf" slot-scope="{ row, index }")
-            Input(v-model="row.hjpf" readonly=true  @on-change="change(row)")
-          template(slot="blpf" slot-scope="{ row, index }")
-            Input(v-model="row.blpf" readonly=true  @on-change="change(row)")
-          template(slot="hjsl" slot-scope="{ row, index }")
-            Input(v-model="row.hjsl" readonly=true  @on-change="change(row)")
-          template(slot="je" slot-scope="{ row, index }")
-            Input(v-model="row.je"  @on-change="change(row)")
-          template(slot="yjdb" slot-scope="{ row, index }")
-            Input(v-model="row.yjdb" readonly=true  @on-change="change(row)")
-              span(slot="append") 件
           template(slot="bz" slot-scope="{ row, index }")
             Input(v-model="row.bz"  @on-change="change(row)")
+          template(slot="hjpf" slot-scope="{ row, index }")
+            Input(v-model="row.hjpf" readonly=true  @on-change="change(row)")
+          template(slot="hjsl" slot-scope="{ row, index }")
+            Input(v-model="row.hjsl" readonly=true  @on-change="change(row)")
+          template(slot="hjje" slot-scope="{ row, index }")
+            Input(v-model="row.hjje"  @on-change="change(row)")
+          template(slot="yjdb" slot-scope="{ row, index }")
+            Input(v-model="row.yjdb" @on-change="change(row)")
+              span(slot="append") 件
         Divider 尺寸信息
-        editCupboardSize(ref="editCupboardSize" @submitData="submitData" @computeTotal="computeTotal")
+        editHangingSize(ref="editHangingSize" :boardInfo="boardInfo" @submitData="submitData" @computeTotal="computeTotal")
       div(slot="footer" class="noprint")
         Button(@click="ok") 关闭
 </template>
@@ -56,16 +46,16 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin } from '@component/mixins/mixin';
-import editCupboardSize from '@component_table/edit/edit-cupboard-size.vue';
-import { KHXD_JGM_DDXX } from '@store/common/khxd/jgm/xjbd/module';
+import editHangingSize from '@component_table/edit/edit-hanging-size.vue';
+import { KHXD_THJ_DDXX } from '@store/common/khxd/thjm/xjbd/module';
 import { ORDER_DDLX, ORDER_SCSL, ORDER_DDLY } from '@store/common/common/module';
-import { UPDATE_DATA } from '@store/common/khxd/jgm/jryxd/index';
-import { GET_HANDLE_BY_TYPE, GET_CUSTOMER_BY_NAME, GETTER_HANDLE_BY_TYPE, GETTER_CUSTOMER_BY_NAME } from '@store/common/common/index';
+import { UPDATE_DATA_HANGING } from '@store/common/khxd/thjm/jryxd/index';
+import { GET_CUSTOMER_BY_NAME, GETTER_CUSTOMER_BY_NAME, GET_BOARD_BY_TYPE, GETTER_BOARD_BY_TYPE } from '@store/common/common/index';
 export default {
   inject: ['reload'],
   mixins: [mixin],
   components: {
-    editCupboardSize
+    editHangingSize
   },
   data () {
     return {
@@ -74,38 +64,30 @@ export default {
         ddlx: 0,
         ddly: 0,
         scsl: 0,
-        gq: 5,
+        gq: 12,
         khxm: '',
         dz: '',
         dh: '',
-        ls: '',
-        ys: '',
-        dj: '',
         hjpf: '',
-        blpf: '',
         hjsl: '',
-        je: '',
+        hjje: '',
         yjdb: '',
         bz: '',
         ddzt: ''
       }],
+      orderColumns: KHXD_THJ_DDXX,
       typeDdlx: ORDER_DDLX,
       typeScsl: ORDER_SCSL,
       typeDdly: ORDER_DDLY,
-      orderColumns: KHXD_JGM_DDXX,
-      handleSize: {
-        handleHeight: '',
-        handleWidth: ''
-      },
-      handleType: 1,
-      handleInfo: [],
+      hangingType: 4,
       customerInfo: [],
+      boardInfo: [],
       visible: false
     };
   },
   computed: {
     ...mapGetters({
-      handleList: 'commonCommonIndex/' + GETTER_HANDLE_BY_TYPE,
+      boardList: 'commonCommonIndex/' + GETTER_BOARD_BY_TYPE,
       customerList: 'commonCommonIndex/' + GETTER_CUSTOMER_BY_NAME
     })
   },
@@ -123,22 +105,13 @@ export default {
       this.orderDetail[0].bz = data.orderDetail.bz;
       this.orderDetail[0].ddzt = data.orderDetail.ddzt;
 
-      this.orderDetail[0].ls = data.crystalSteelDoorDetail.ls;
-      this.orderDetail[0].ys = data.crystalSteelDoorDetail.ys;
-      this.orderDetail[0].dj = data.crystalSteelDoorDetail.dj;
-      this.orderDetail[0].je = data.crystalSteelDoorDetail.je;
-      this.orderDetail[0].hjpf = data.crystalSteelDoorDetail.hjpf;
-      this.orderDetail[0].blpf = data.crystalSteelDoorDetail.blpf;
-      this.orderDetail[0].hjsl = data.crystalSteelDoorDetail.hjsl;
-      this.orderDetail[0].yjdb = data.crystalSteelDoorDetail.yjdb;
-      this.$refs.editCupboardSize.showEdit(data.cupboardDoorSizes);
-      this.getLs();
-      this.findHandle();
+      this.orderDetail[0].hjje = data.titaniumAlloyDoorDetail.hjje;
+      this.orderDetail[0].hjpf = data.titaniumAlloyDoorDetail.hjpf;
+      this.orderDetail[0].hjsl = data.titaniumAlloyDoorDetail.hjsl;
+      this.orderDetail[0].yjdb = data.titaniumAlloyDoorDetail.yjdb;
+      this.$refs.editHangingSize.showEdit(data.hangingSizeList);
+      this.getBc();
       this.visible = true;
-    },
-    /** 获取拉手列表 */
-    getLs() {
-      this.$store.dispatch('commonCommonIndex/' + GET_HANDLE_BY_TYPE, this.handleType);
     },
     /** 获取客户列表信息 */
     getCustomerList(value) {
@@ -164,41 +137,16 @@ export default {
       });
       this.orderDetail[0] = row;
     },
-    /** 获取拉手列表信息 */
-    getHandleList(value) {
-      const list = this.handleList.map(item => {
-        return {
-          value: item.id,
-          label: item.mc,
-          dj: item.dj,
-          gd: item.gd,
-          kd: item.kd
-        };
-      });
-      this.handleInfo = list.filter(item => item.label.indexOf(value) > -1);
-    },
-    /** 导入拉手信息 */
-    handleImport(row) {
-      this.handleInfo.forEach((e) => {
-        if (e.label === row.ls) {
-          row.dj = e.dj;
-          this.handleSize.handleHeight = e.gd;
-          this.handleSize.handleWidth = e.kd;
-          // 重新渲染尺寸表格
-          this.$refs.editCupboardSize.getHandleSize(this.handleSize);
-        }
-      });
-      this.orderDetail[0] = row;
-    },
-    /** 根据拉手名称查询拉手尺寸 */
-    findHandle() {
-      this.handleList.forEach((e) => {
-        if (e.mc === this.orderDetail[0].ls) {
-          this.handleSize.handleHeight = e.gd;
-          this.handleSize.handleWidth = e.kd;
-          // 重新渲染尺寸表格
-          this.$refs.editCupboardSize.getHandleSize(this.handleSize);
-        }
+    /** 根据商品类型，获取板材列表 */
+    getBc() {
+      this.$store.dispatch('commonCommonIndex/' + GET_BOARD_BY_TYPE, this.hangingType).then(() => {
+        this.boardInfo = this.boardList.map(item => {
+          return {
+            value: item.id,
+            label: item.mc,
+            dj: item.dj
+          };
+        });
       });
     },
     /** 更改保证内容不变 */
@@ -208,10 +156,9 @@ export default {
     /** 回显统计数值 */
     computeTotal(totalData) {
       this.orderDetail[0].hjpf = totalData.hjpf.toFixed(3);
-      this.orderDetail[0].blpf = totalData.blpf.toFixed(3);
       this.orderDetail[0].hjsl = totalData.hjsl;
-      this.orderDetail[0].yjdb = Math.ceil(this.orderDetail[0].hjsl / 10);
-      this.orderDetail[0].je = (this.orderDetail[0].hjpf * parseFloat(this.orderDetail[0].dj)).toFixed(1);
+      this.orderDetail[0].hjje = totalData.hjje.toFixed(1);
+      this.orderDetail[0].yjdb = Math.ceil(this.orderDetail[0].hjsl / 1);
     },
     /** 获取table表格数据-提交订单 */
     submitData(sizeDetail) {
@@ -221,13 +168,9 @@ export default {
       this.defineProperty(this.orderDetail[0], '_index', '_rowKey');
       this.updateData(sizeDetail);
     },
-    /** 关闭 */
-    ok() {
-      this.visible = false;
-    },
     /** 提交数据 */
     updateData(sizeDetail) {
-      this.$store.dispatch('commonKhxdJgmJryxdIndex/' + UPDATE_DATA, {...this.orderDetail[0], cupboardDoorSizes: sizeDetail}).then(res => {
+      this.$store.dispatch('commonKhxdThjmJryxdIndex/' + UPDATE_DATA_HANGING, {...this.orderDetail[0], hangingSizes: sizeDetail}).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {
@@ -237,6 +180,10 @@ export default {
           this.reload();
         }
       });
+    },
+    /** 关闭 */
+    ok() {
+      this.visible = false;
     }
   }
 };

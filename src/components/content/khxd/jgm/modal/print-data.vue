@@ -6,7 +6,7 @@
         span 预览
       div(class="print")
         Keep-alive
-          summaryJgm(ref="summaryJgm" style="text-align:center")
+          printJgm(ref="printJgm" style="text-align:center")
       div(slot="footer" class="noprint")
         Button(type="primary" @click="printPage" :style="{ display: isPrint ? '' : 'none' }") 打印
         Button(type="error" @click="ok") 关闭
@@ -16,7 +16,7 @@
 export default {
   inject: ['reload'],
   components: {
-    'summaryJgm': (resolve) => require(['@component_table/summary/sum-jgm.vue'], resolve)
+    'printJgm': (resolve) => require(['@component_table/print/print-jgm.vue'], resolve)
   },
   data () {
     return {
@@ -29,7 +29,7 @@ export default {
     /** 显示 */
     show(data, czr, czsj) {
       this.visible = true;
-      this.$refs.summaryJgm.show(data, czr, czsj);
+      this.$refs.printJgm.show(data, czr, czsj);
     },
     /** 打印 */
     printPage() {
@@ -52,6 +52,7 @@ export default {
   }
   .print {
     display:block;
+    margin-top: -8%;
   }
   @page {
     size: auto;

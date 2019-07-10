@@ -1,7 +1,7 @@
 <template lang='pug'>
-  div.khxd-jgm-rework-main
+  div.khxd-thjm-rework-swing-main
     Modal(v-model="visible" width="90vw" @on-ok="ok" @on-cancel="ok")
-      p(slot="header" style="color:#f60" class="noprint")
+      p(slot="header" style="color:#f60")
         Icon(type="ios-information-circle")
         span 返工订单-查询订单
       div
@@ -22,53 +22,67 @@
           Page(:total="totalElement" @on-change="pageChange" show-total)
         Divider 尺寸信息
         Table(ref="selection" :columns="orderSizeColumns" :data="orderSizeList" size="small" border @on-selection-change="selectChange")
-          template(slot="lx" slot-scope="{ row, index }")
-            span {{ row.lx === 0 ? '地柜' : '吊柜' }}
-          template(slot="mbgd" slot-scope="{ row, index }")
-            span {{ row.mbgd }}
-          template(slot="mbkd" slot-scope="{ row, index }")
-            span {{ row.mbkd }}
+          template(slot="lxys" slot-scope="{ row, index }")
+            span {{ row.lxys }}
+          template(slot="zx" slot-scope="{ row, index }")
+            span {{ row.zx }}
+          template(slot="bl" slot-scope="{ row, index }")
+            span {{ row.bl }}
+          template(slot="tm" slot-scope="{ row, index }")
+            span {{ row.tm }}
+          template(slot="ms" slot-scope="{ row, index }")
+            span {{ row.ms }}
+          template(slot="bt" slot-scope="{ row, index }")
+            span {{ row.bt }}
+          template(slot="gm" slot-scope="{ row, index }")
+            span {{ row.gm }}
+          template(slot="gd" slot-scope="{ row, index }")
+            span {{ row.gd }}
+          template(slot="kd" slot-scope="{ row, index }")
+            span {{ row.kd }}
+          template(slot="hd" slot-scope="{ row, index }")
+            span {{ row.hd }}
+          template(slot="mssl" slot-scope="{ row, index }")
+            span {{ row.mssl }}
           template(slot="sl" slot-scope="{ row, index }")
             span {{ row.sl }}
-          template(slot="mbpf" slot-scope="{ row, index }")
-            span {{ row.mbpf }}
+          template(slot="pf" slot-scope="{ row, index }")
+            span {{ row.pf }}
           template(slot="bz" slot-scope="{ row, index }")
             span {{ row.bz }}
-          template(slot="blgd" slot-scope="{ row, index }")
-            span {{ row.blgd }}
-          template(slot="blkd" slot-scope="{ row, index }")
-            span {{ row.blkd }}
-          template(slot="blpf" slot-scope="{ row, index }")
-            span {{ row.blpf }}
+          template(slot="dj" slot-scope="{ row, index }")
+            span {{ row.dj }}
+          template(slot="je" slot-scope="{ row, index }" @on-change="computeMoney(row)")
+            span {{ row.je }}
           template(slot="action" slot-scope="{ row, index }")
       reworkDataModal(ref="reworkDataModal")
-      div(slot="footer" class="noprint")
+      div(slot="footer")
         Button(type="error" @click="createRework") 创建返工订单
         Button(@click="ok") 关闭
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import { JGM_XDXX_COLUMNS } from '@store/common/khxd/jgm/jryxd/module.js';
-import { KHXD_JGM_CCXX } from '@store/common/khxd/jgm/xjbd/module';
+import { THJ_XDXX_COLUMNS } from '@store/common/khxd/thjm/jryxd/module';
+import { THJ_DTM } from '@store/common/khxd/thjm/xjbd/module';
 import { ORDER_DDLX, ORDER_DDLY } from '@store/common/common/module';
-import { GET_REWORK_DATA, GETTER_REWORK_DATA, GETTER_TOTAL_ELEMENT } from '@store/common/khxd/jgm/xjbd/index';
-import { GET_DATA_BY_BH } from '@store/common/khxd/jgm/jryxd/index';
+import { GET_REWORK_DATA, GETTER_REWORK_DATA, GETTER_TOTAL_ELEMENT } from '@store/common/khxd/thjm/xjbd/index';
+import { GET_DATA_BY_BH } from '@store/common/khxd/thjm/jryxd/index';
 export default {
   inject: ['reload'],
   components: {
     'queryCondDetail': (resolve) => require(['../../../common/query-cond-detail'], resolve),
-    'reworkDataModal': (resolve) => require(['./rework-data'], resolve)
+    'reworkDataModal': (resolve) => require(['./rework-hanging-data'], resolve)
   },
   data () {
     return {
       orderDetailList: [],
+      orderDetail: {},
       orderSizeList: [],
       orderSize: [],
-      crystalSteelDoorDetail: {},
-      orderDetail: {},
-      orderColumns: JGM_XDXX_COLUMNS,
-      orderSizeColumns: KHXD_JGM_CCXX,
+      titaniumAlloyDoorDetail: {},
+      orderColumns: THJ_XDXX_COLUMNS,
+      orderSizeColumns: THJ_DTM,
       typeDdlx: ORDER_DDLX,
       typeDdly: ORDER_DDLY,
       splx: '',
@@ -78,8 +92,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      totalElement: 'commonKhxdJgmXjbdIndex/' + GETTER_TOTAL_ELEMENT,
-      mapOrderDetailList: 'commonKhxdJgmXjbdIndex/' + GETTER_REWORK_DATA
+      totalElement: 'commonKhxdThjmXjbdIndex/' + GETTER_TOTAL_ELEMENT,
+      mapOrderDetailList: 'commonKhxdThjmXjbdIndex/' + GETTER_REWORK_DATA
     })
   },
   methods: {
@@ -101,8 +115,20 @@ export default {
     },
     /** 查询 */
     select() {
-      this.$store.dispatch('commonKhxdJgmXjbdIndex/' + GET_REWORK_DATA, this.orderQueryCond).then(() => {
+      this.$store.dispatch('commonKhxdThjmXjbdIndex/' + GET_REWORK_DATA, this.orderQueryCond).then(() => {
         this.orderDetailList = this.mapOrderDetailList;
+      });
+    },
+    /** 获取订单尺寸详细信息 */
+    getSizeDetail(row) {
+      this.$store.dispatch('commonKhxdThjmJryxdIndex/' + GET_DATA_BY_BH, row.ddbh).then(res => {
+        if (res.data.status !== 200) {
+          this.$Message.error(res.data.info);
+        } else {
+          this.titaniumAlloyDoorDetail = res.data.map.data.titaniumAlloyDoorDetail;
+          this.orderDetail = res.data.map.data.orderDetail;
+          this.orderSizeList = res.data.map.data.hangingSizeList;
+        }
       });
     },
     /** 选中尺寸列表 */
@@ -113,24 +139,12 @@ export default {
         this.$Message.error('所选订单无效或者订单为返工单，无法再返工！');
       }
     },
-    /** 获取订单尺寸详细信息 */
-    getSizeDetail(row) {
-      this.$store.dispatch('commonKhxdJgmJryxdIndex/' + GET_DATA_BY_BH, row.ddbh).then(res => {
-        if (res.data.status !== 200) {
-          this.$Message.error(res.data.info);
-        } else {
-          this.crystalSteelDoorDetail = res.data.map.data.crystalSteelDoorDetail;
-          this.orderDetail = res.data.map.data.orderDetail;
-          this.orderSizeList = res.data.map.data.cupboardDoorSizes;
-        }
-      });
-    },
     /** 提交数据 */
     createRework() {
       if (this.orderSize.length === 0) {
         this.$Message.error('请勾选尺寸!');
       } else {
-        this.$refs.reworkDataModal.show(this.crystalSteelDoorDetail, this.orderDetail, this.orderSize);
+        this.$refs.reworkDataModal.show(this.titaniumAlloyDoorDetail, this.orderDetail, this.orderSize);
       }
     },
     /** 关闭 */

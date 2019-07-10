@@ -1,29 +1,46 @@
 <template lang='pug'>
   div.khxd-jgm-jryxd
-    p
-      span.span-color 新订单：
-      span {{ totalNum }}
-      Divider(type="vertical")
-      span.span-color 门板平方：
-      span {{ totalDoorSquare }}
-      Divider(type="vertical")
-      span.span-color 玻璃平方：
-      span {{ totalGlassSquare }}
-      Divider(type="vertical")
-      span.span-color 门板数量：
-      span {{ totalDoorNum }}
-      Divider(type="vertical")
-      span.span-color 返工订单：
-      span {{ totalReworkNum }}
-      Divider(type="vertical")
-      span.span-color 返工平方：
-      span {{ totalReworkDoorSquare }}
-      Divider(type="vertical")
-      span.span-color 返工玻璃：
-      span {{ totalReworkGlassSquare }}
-      Divider(type="vertical")
-      span.span-color 返工门板：
-      span {{ totalReworkDoorNum }}
+    table
+      tr
+        td
+          span.span-color 正常-订单数：
+        td
+          span.span-content {{ totalNum }}
+        td
+          Divider(type="vertical")
+          span.span-color 正常-门板平方：
+        td
+          span.span-content {{ totalDoorSquare }}
+        td
+          Divider(type="vertical")
+          span.span-color 正常-玻璃平方：
+        td
+          span.span-content {{ totalGlassSquare }}
+        td
+          Divider(type="vertical")
+          span.span-color 正常-门板数量：
+        td
+          span.span-content {{ totalDoorNum }}
+        td
+          Divider(type="vertical")
+          span.span-color 返工-订单数：
+        td
+          span.span-content {{ totalReworkNum }}
+        td
+          Divider(type="vertical")
+          span.span-color 返工-门板平方：
+        td
+          span.span-content {{ totalReworkDoorSquare }}
+        td
+          Divider(type="vertical")
+          span.span-color 返工-玻璃平方：
+        td
+          span.span-content {{ totalReworkGlassSquare }}
+        td
+          Divider(type="vertical")
+          span.span-color 返工-门板数量：
+        td
+          span.span-content {{ totalReworkDoorNum }}
     Table(ref="selection" :columns="columns" :data="data" size="small" highlight-row border @on-row-dblclick="editInfo")
       template(slot="scsl" slot-scope="{ row, index }")
         Button(size="small" v-if="row.scsl === 0") 普通
@@ -31,7 +48,7 @@
       template(slot="ddly" slot-scope="{ row, index }")
         span(v-for="index of typeDdly" v-if="row.ddly === index.value" :key="index.value") {{ index.label }}
       template(slot="ddlx" slot-scope="{ row, index }")
-        span(v-for="index of typeXdlx" v-if="row.ddlx === index.value" :key="index.value") {{ index.label }}
+        span(v-for="index of typeDdlx" v-if="row.ddlx === index.value" :key="index.value") {{ index.label }}
       template(slot="action" slot-scope="{ row, index }")
         Tooltip(placement="top" content="查看详细信息" transfer)
           Button(@click="viewInfo(row, index)" style="padding: 6px 4px;" type="text")
@@ -69,7 +86,7 @@ export default {
     return {
       data: [],
       columns: JGM_XDXX_COLUMNS,
-      typeXdlx: ORDER_DDLX,
+      typeDdlx: ORDER_DDLX,
       typeDdly: ORDER_DDLY,
       totalNum: 0,
       totalDoorSquare: 0,

@@ -18,6 +18,7 @@
           span 客户下单
         Menu-item(name="2-1" @click.native="routerevent('/khxd-jgm')") 晶钢门
         Menu-item(name="2-2" @click.native="routerevent('/khxd-ykl')") 亚克力门
+        Menu-item(name="2-3" @click.native="routerevent('/khxd-thj')") 钛合金门
       Submenu(name="3")
         template(slot="title")
           Icon(type="ios-cart")

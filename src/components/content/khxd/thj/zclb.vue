@@ -19,46 +19,48 @@
           Poptip(@on-ok="delInfo(row, index)" confirm title="是否删除?" transfer)
             Button(style="padding: 6px 4px;" type="text")
               Icon(type="md-close")
-    editDataModal(ref="editDataModal")
+    editPkmDataModal(ref="editPkmDataModal")
+    editDtmDataModal(ref="editDtmDataModal")
     accessoryModal(ref="accessoryModal")
     delModal(ref="delModal")
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import { JGM_XDXX_COLUMNS } from '@store/common/khxd/jgm/jryxd/module.js';
+import { THJ_XDXX_COLUMNS } from '@store/common/khxd/thjm/jryxd/module.js';
 import { ORDER_DDLX, ORDER_DDLY } from '@store/common/common/module.js';
-import { GET_DATA_BY_BH } from '@store/common/khxd/jgm/jryxd/index';
-import { GET_DATA, GETTER_DATA, SUBMIT_ORDER_DATA } from '@store/common/khxd/jgm/zclb/index';
+import { GET_DATA_BY_BH } from '@store/common/khxd/thjm/jryxd/index';
+import { GET_DATA, GETTER_DATA, SUBMIT_ORDER_DATA } from '@store/common/khxd/thjm/zclb/index';
 export default {
   inject: ['reload'],
   components: {
-    'editDataModal': (resolve) => require(['./modal/edit-data'], resolve),
+    'editPkmDataModal': (resolve) => require(['./modal/edit-pkm-data'], resolve),
+    'editDtmDataModal': (resolve) => require(['./modal/edit-dtm-data'], resolve),
     'accessoryModal': (resolve) => require(['../../common/accessory-detail'], resolve),
     'delModal': (resolve) => require(['../../common/del-detail'], resolve)
   },
   data () {
     return {
       data: [],
-      columns: JGM_XDXX_COLUMNS,
+      columns: THJ_XDXX_COLUMNS,
       typeDdlx: ORDER_DDLX,
       typeDdly: ORDER_DDLY
     };
   },
   computed: {
     ...mapGetters({
-      mapData: 'commonKhxdJgmZclbIndex/' + GETTER_DATA
+      mapData: 'commonKhxdThjmZclbIndex/' + GETTER_DATA
     })
   },
   mounted() {
     this.getDataByTemporary();
   },
   methods: {
-    /** 获取暂存列表记录 */
+    /** 获取-暂存列表 */
     getDataByTemporary() {
-      this.$store.dispatch('commonKhxdJgmZclbIndex/' + GET_DATA).then(() => {
-        if (this.mapData.data.status !== 200) {
-          this.$Message.error(this.mapData.data.info);
+      this.$store.dispatch('commonKhxdThjmZclbIndex/' + GET_DATA).then(res => {
+        if (this.mapData.status !== 200) {
+          this.$Message.error(res.data.info);
         } else {
           this.data = this.mapData.data.map.data;
         }
@@ -66,17 +68,23 @@ export default {
     },
     /** 修改记录 */
     editInfo(row) {
-      this.$store.dispatch('commonKhxdJgmJryxdIndex/' + GET_DATA_BY_BH, row.ddbh).then(res => {
+      this.$store.dispatch('commonKhxdThjmJryxdIndex/' + GET_DATA_BY_BH, row.ddbh).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {
-          this.showEditPage(res.data.map.data);
+          if (row.splx === 3) {
+            // 编辑-平开门
+            this.$refs.editPkmDataModal.show(res.data.map.data);
+          } else {
+            // 编辑-吊趟门
+            this.$refs.editDtmDataModal.show(res.data.map.data);
+          }
         }
       });
     },
     /** 提交-正式下单 */
     submitInfo(row) {
-      this.$store.dispatch('commonKhxdJgmZclbIndex/' + SUBMIT_ORDER_DATA, {ddbh: row.ddbh, zt: 1}).then(res => {
+      this.$store.dispatch('commonKhxdThjmZclbIndex/' + SUBMIT_ORDER_DATA, {ddbh: row.ddbh, zt: 1}).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {
@@ -90,10 +98,6 @@ export default {
     /** 查看配件 */
     viewAccessory(row) {
       this.$refs.accessoryModal.show(row.ddbh);
-    },
-    /** 编辑页面 */
-    showEditPage(data) {
-      this.$refs.editDataModal.show(data);
     },
     /** 删除记录 */
     delInfo(row) {
