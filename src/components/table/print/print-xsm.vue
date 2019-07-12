@@ -1,9 +1,9 @@
 <template lang='pug'>
-  div.table-print-ykl
+  div.table-print-xsm
     div
       table.print-table-style(border)
         tr
-          td.print-table-style-title(colspan="11" cellspacing="0" cellpadding="0") 艺合亚克力门生产订单
+          td.print-table-style-title(colspan="11" cellspacing="0" cellpadding="0") 艺合吸塑门生产订单
         tr(style="height:30px;")
           th 编号：
           td(colspan="2" style="margin-left: 5px;") {{ data.ddbh }}
@@ -19,44 +19,36 @@
           th 速度：
           td {{ data.scsl }}
           th 备注：
-          td(colspan="2") {{ data.bz }}
-          th 板材：
-          td {{ data.bcmc }}
+          td(colspan="4") {{ data.bz }}
         tr
           tr(style="height:30px;")
-            th(rowspan="2") 名称
-            th(rowspan="2") 拉手
+            th(rowspan="2") 板材
+            th(rowspan="2") 位置
+            th(rowspan="2") 造型
             th(rowspan="2") 颜色
-            th(colspan="2") 门板尺寸
+            th(colspan="2") 尺寸
             th(rowspan="2") 平方
-            th(rowspan="2") 片数
-            th(rowspan="2") 备注
-            th(colspan="2") 板材尺寸
-            th(rowspan="2") 平方
+            th(rowspan="2") 数量
+            th(rowspan="2" colspan="3") 备注
           tr(style="height:30px;")
-            th 高
-            th 宽
             th 高
             th 宽
         tr(v-for="item in ccxx" style="height:30px;")
-          td(:rowspan="item.cclxspan" :style="{ display: item.cclxdis }") {{ item.cclx === 0 ? '地柜' : '吊柜' }}
-          td {{ data.lsmc }}
-          td {{ data.ys }}
-          td {{ item.mbgd }}
-          td {{ item.mbkd }}
-          td {{ item.mbpf }}
+          td {{ data.bc }}
+          td {{ item.wz }}
+          td {{ item.zx }}
+          td {{ item.ys }}
+          td {{ item.gd }}
+          td {{ item.kd }}
+          td {{ item.pf }}
           td {{ item.sl }}
-          td {{ item.bz }}
-          td {{ item.blgd }}
-          td {{ item.blkd }}
-          td {{ item.blpf }}
+          td(colspan="3") {{ item.bz }}
         tr(style="height:30px;")
           td 合计
-          td(colspan="4")
+          td(colspan="5")
           td {{ data.hjpf }}
           td {{ data.hjsl }}
           td(colspan="3")
-          td {{ data.bcpf }}
         tr(style="height:30px;")
           td 配件
           td(colspan="10") {{ accessoryListInfo }}
@@ -97,12 +89,9 @@ export default {
         czr: '',
         czsj: '',
         wgsj: '',
-        bcmc: '',
+        bc: '',
         hjpf: 0.000,
-        bcpf: 0.000,
-        hjsl: 0,
-        lsmc: '',
-        ys: ''
+        hjsl: 0
       },
       ccxx: [],
       accessoryListInfo: '',
@@ -125,14 +114,12 @@ export default {
       this.data.bz = data.orderDetail.bz;
       this.data.wgsj = data.orderDetail.wgsj;
 
-      this.data.lsmc = data.acrylicDetail.lsmc;
-      this.data.bcmc = data.acrylicDetail.bcmc;
-      this.data.ys = data.acrylicDetail.ys;
-      this.data.hjpf = data.acrylicDetail.hjpf;
-      this.data.bcpf = data.acrylicDetail.bcpf;
-      this.data.hjsl = data.acrylicDetail.hjsl;
+      this.data.bc = data.blisterDetail.bc;
+      this.data.hjpf = data.blisterDetail.hjpf;
+      this.data.hjsl = data.blisterDetail.hjsl;
       this.changeData();
-      this.combineCell(data.cupboardDoorSizes);
+      this.ccxx = _.cloneDeep(data.blisterSizes);
+      // this.combineCell(data.cupboardDoorSizes);
     },
     /** 数据处理-合并单元格 */
     combineCell(list) {

@@ -1,5 +1,5 @@
 <template lang='pug'>
-  div.khxd-jgm-jryxd
+  div.khxd-xsm-jryxd
     Table(ref="selection" :columns="columns" :data="data" size="small" highlight-row border @on-row-dblclick="editInfo")
       template(slot="scsl" slot-scope="{ row, index }")
         Button(size="small" v-if="row.scsl === 0") 普通
@@ -26,9 +26,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { YKL_XDXX_COLUMNS } from '@store/common/khxd/ykl/jryxd/module.js';
+import { XSM_XDXX_COLUMNS } from '@store/common/khxd/xsm/jryxd/module.js';
 import { ORDER_DDLX, ORDER_DDLY } from '@store/common/common/module.js';
-import { GET_DATA_BY_BH } from '@store/common/khxd/ykl/jryxd/index';
+import { GET_DATA_BY_BH } from '@store/common/khxd/xsm/jryxd/index';
 import { GET_DATA, GETTER_DATA, SUBMIT_ORDER_DATA } from '@store/common/khxd/ykl/zclb/index';
 export default {
   inject: ['reload'],
@@ -40,33 +40,34 @@ export default {
   data () {
     return {
       data: [],
-      columns: YKL_XDXX_COLUMNS,
+      columns: XSM_XDXX_COLUMNS,
       typeDdlx: ORDER_DDLX,
       typeDdly: ORDER_DDLY
     };
   },
   computed: {
     ...mapGetters({
-      mapData: 'commonKhxdYklZclbIndex/' + GETTER_DATA
+      mapData: 'commonKhxdXsmZclbIndex/' + GETTER_DATA
     })
   },
   mounted() {
     this.getDataByTemporary();
   },
   methods: {
-    /** 获取暂存列表列表 */
+    /** 获取-暂存列表 */
     getDataByTemporary() {
-      this.$store.dispatch('commonKhxdYklZclbIndex/' + GET_DATA).then(res => {
+      this.$store.dispatch('commonKhxdXsmZclbIndex/' + GET_DATA).then(res => {
         if (this.mapData.status !== 200) {
-          this.$Message.error(this.mapData.info);
+          this.$Message.error(res.data.info);
         } else {
+          console.log(this.mapData);
           this.data = this.mapData.data.map.data;
         }
       });
     },
     /** 修改记录 */
     editInfo(row) {
-      this.$store.dispatch('commonKhxdYklJryxdIndex/' + GET_DATA_BY_BH, row.ddbh).then(res => {
+      this.$store.dispatch('commonKhxdXsmJryxdIndex/' + GET_DATA_BY_BH, row.ddbh).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {
@@ -76,7 +77,7 @@ export default {
     },
     /** 提交-正式下单 */
     submitInfo(row) {
-      this.$store.dispatch('commonKhxdYklZclbIndex/' + SUBMIT_ORDER_DATA, {ddbh: row.ddbh, zt: 1}).then(res => {
+      this.$store.dispatch('commonKhxdXsmZclbIndex/' + SUBMIT_ORDER_DATA, {ddbh: row.ddbh, zt: 1}).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {

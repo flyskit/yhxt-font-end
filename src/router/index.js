@@ -9,6 +9,7 @@ import xjbd from '@/components/content/khxd/xjbd/main';
 import mrsz from '@/components/content/cwgl/mrsz/main';
 import jgm from '@/components/content/khxd/jgm/main';
 import ykl from '@/components/content/khxd/ykl/main';
+import xsm from '@/components/content/khxd/xsm/main';
 import thj from '@/components/content/khxd/thj/main';
 
 Vue.use(Router);
@@ -49,6 +50,11 @@ export default new Router({
       path: '/khxd-ykl',
       name: 'ykl',
       component: ykl
+    },
+    {
+      path: '/khxd-xsm',
+      name: 'xsm',
+      component: xsm
     },
     {
       path: '/khxd-thj',

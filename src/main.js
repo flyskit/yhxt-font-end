@@ -8,7 +8,7 @@ import app from './components/app';
 import store from './store';
 import router from './router';
 import 'iview/dist/styles/iview.css';
-// import '../src/style/index.less';
+import '../src/style/index.less';
 
 Vue.use(VueRouter);
 Vue.use(iView);

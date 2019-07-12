@@ -1,21 +1,5 @@
-/** 板材类型 */
-export const KHXD_YKL_BCLX = [
-  {
-    value: 0,
-    label: '多层板'
-  },
-  {
-    value: 1,
-    label: '中纤板'
-  },
-  {
-    value: 2,
-    label: '颗粒板'
-  }
-];
-
 /** 尺寸信息-表头 */
-export const KHXD_YKL_DDXX = [
+export const KHXD_XSM_DDXX = [
   {
     title: '订单信息',
     align: 'center',
@@ -23,32 +7,27 @@ export const KHXD_YKL_DDXX = [
       {
         title: '订单编号',
         align: 'center',
-        slot: 'ddbh',
-        width: 100
+        slot: 'ddbh'
       },
       {
         title: '订单类型',
         align: 'center',
-        slot: 'ddlx',
-        width: 80
+        slot: 'ddlx'
       },
       {
         title: '订单来源',
         align: 'center',
-        slot: 'ddly',
-        width: 80
+        slot: 'ddly'
       },
       {
         title: '生产速率',
         align: 'center',
-        slot: 'scsl',
-        width: 80
+        slot: 'scsl'
       },
       {
         title: '工期',
         align: 'center',
-        slot: 'gq',
-        width: 80
+        slot: 'gq'
       },
       {
         title: '客户姓名',
@@ -71,68 +50,32 @@ export const KHXD_YKL_DDXX = [
       {
         title: '板材',
         align: 'center',
-        slot: 'bcmc',
-        width: 100
+        slot: 'bc'
       },
       {
-        title: '板材单价',
+        title: '单价',
         align: 'center',
-        slot: 'bcdj',
-        width: 90
-      },
-      {
-        title: '拉手',
-        align: 'center',
-        slot: 'lsmc',
-        width: 80
-      },
-      {
-        title: '拉手单价',
-        align: 'center',
-        slot: 'lsdj',
-        width: 90
-      },
-      {
-        title: '颜色',
-        align: 'center',
-        slot: 'ys',
-        width: 80
+        slot: 'dj'
       },
       {
         title: '合计平方',
         align: 'center',
-        slot: 'hjpf',
-        width: 80
-      },
-      {
-        title: '板材平方',
-        align: 'center',
-        slot: 'bcpf',
-        width: 80
-      },
-      {
-        title: '拉手米数',
-        align: 'center',
-        slot: 'lsms',
-        width: 80
+        slot: 'hjpf'
       },
       {
         title: '合计数量',
         align: 'center',
-        slot: 'hjsl',
-        width: 80
+        slot: 'hjsl'
       },
       {
         title: '合计金额',
         align: 'center',
-        slot: 'je',
-        width: 80
+        slot: 'je'
       },
       {
         title: '预计打包',
         align: 'center',
-        slot: 'yjdb',
-        width: 80
+        slot: 'yjdb'
       },
       {
         title: '备注',
@@ -141,5 +84,65 @@ export const KHXD_YKL_DDXX = [
         width: 150
       }
     ]
+  }
+];
+
+/** 尺寸信息-表头 */
+export const KHXD_XSM_CCXX = [
+  {
+    type: 'selection',
+    align: 'center',
+    width: 60
+  },
+  {
+    title: '位置',
+    align: 'center',
+    slot: 'wz'
+  },
+  {
+    title: '造型',
+    align: 'center',
+    slot: 'zx'
+  },
+  {
+    title: '颜色',
+    align: 'center',
+    slot: 'ys'
+  },
+  {
+    title: '门板尺寸',
+    align: 'center',
+    children: [
+      {
+        title: '高度',
+        align: 'center',
+        slot: 'gd'
+      },
+      {
+        title: '宽度',
+        align: 'center',
+        slot: 'kd'
+      }
+    ]
+  },
+  {
+    title: '数量',
+    align: 'center',
+    slot: 'sl'
+  },
+  {
+    title: '平方',
+    align: 'center',
+    slot: 'pf'
+  },
+  {
+    title: '备注',
+    align: 'center',
+    slot: 'bz'
+  },
+  {
+    title: '操作',
+    align: 'center',
+    slot: 'action'
   }
 ];

@@ -57,7 +57,7 @@
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
 import { mixin } from '@component/mixins/mixin';
-import { BOARD_COLUMNS } from '@store/common/khxd/ykl/xjbd/module';
+import { BOARD_COLUMNS } from '@store/common/common/module';
 import { ADD_BOARD, UPDATE_BOARD, DEL_BOARD, GET_BOARD_BY_TYPE, GETTER_BOARD_BY_TYPE } from '@store/common/common/index';
 export default {
   inject: ['reload'],
@@ -95,7 +95,11 @@ export default {
     getBoardList() {
       this.$store.dispatch('commonCommonIndex/' + GET_BOARD_BY_TYPE, this.boardDetail.splx).then(() => {
         this.boardTable = _.cloneDeep(this.boardList);
-        this.boardDetail.bh = parseInt(this.boardTable[this.boardTable.length - 1].bh) + 1;
+        if (this.boardTable.length !== 0) {
+          this.boardDetail.bh = parseInt(this.boardTable[this.boardTable.length - 1].bh) + 1;
+        } else {
+          this.boardDetail.bh = '';
+        }
       });
     },
     /** 添加板材信息 */

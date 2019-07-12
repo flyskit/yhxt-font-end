@@ -1,6 +1,6 @@
 <template lang="pug">
   div.app-menu
-    Menu(accordion active-name="1" theme="dark" width="auto")
+    Menu(accordion active-name="1" theme="light" width="auto")
       Menu-item(name="1" @click.native="routerevent('/home')")
         Icon(type="ios-home")
         span 首页
@@ -16,9 +16,18 @@
         template(slot="title")
           Icon(type="ios-infinite")
           span 客户下单
-        Menu-item(name="2-1" @click.native="routerevent('/khxd-jgm')") 晶钢门
-        Menu-item(name="2-2" @click.native="routerevent('/khxd-ykl')") 亚克力门
-        Menu-item(name="2-3" @click.native="routerevent('/khxd-thj')") 钛合金门
+        Menu-item(name="2-1" @click.native="routerevent('/khxd-jgm')")
+          Icon(type="md-radio-button-off")
+          span 晶钢门
+        Menu-item(name="2-2" @click.native="routerevent('/khxd-ykl')")
+          Icon(type="md-radio-button-off")
+          span 亚克力门
+        Menu-item(name="2-3" @click.native="routerevent('/khxd-xsm')")
+          Icon(type="md-radio-button-off")
+          span 吸塑门
+        Menu-item(name="2-4" @click.native="routerevent('/khxd-thj')")
+          Icon(type="md-radio-button-off")
+          span 钛合金门
       Submenu(name="3")
         template(slot="title")
           Icon(type="ios-cart")

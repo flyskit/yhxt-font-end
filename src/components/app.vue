@@ -1,7 +1,14 @@
 <template lang="pug">
   div.layout
     Layout(:style="{minHeight: '100vh'}")
-      Sider(collapsible :collapsed-width="78" v-model="isCollapsed")
+      Sider.sider-style(collapsible :collapsed-width="78" v-model="isCollapsed")
+        //- div(style="height:200px;text-align:center;width: 200px; min-width: 200px; max-width: 200px;")
+        //-   img(src="../assets/logo.png" style="width:180px;height:180px;box-shadow: 0 1px 2px 1px rgba(105,105,105,1);border-radius:50%;margin-top:10px;")
+        div(style="height:200px;text-align:center;width: 200px; min-width: 200px; max-width: 200px;")
+          img(src="../assets/logo4.png" style="width:180px;height:180px;")
+        div
+          appMenu
+      //- Sider(style="background:#fff" v-model="isCollapsed")
         appMenu
       Layout
         Header(:style="{background: '#F2F2F2', boxShadow: '0 2px 3px 2px rgba(0,0,0,.1)',padding: '0px 16px 0px 16px'}")
@@ -48,6 +55,23 @@ export default {
 </script>
 
 <style lang="less">
-  @import '../style/common.less';
-  @import '../style/menu.less';
+@import '../style/common.less';
+.ivu-layout-sider-trigger {
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+  cursor: pointer;
+  height: 48px;
+  line-height: 48px;
+  z-index: 1000;
+  background: #fff;
+  box-shadow: 0 1px 2px 1px rgba(25,190,107,.5);
+  color: #000;
+}
+.sider-style {
+   background:#fff;
+   // 边框阴影
+   box-shadow: 0 1px 2px 1px rgba(25,190,107,1);
+}
+  // @import '../style/menu.less';
 </style>

@@ -1,4 +1,3 @@
-
 import api from './api';
 
 // actions
@@ -24,7 +23,7 @@ export default {
     }
   },
   actions: {
-    /** 查询数据 */
+    /** 查询暂存列表 */
     async [GET_DATA]({ commit }) {
       let res = await api.getDataByTemporary();
       res && commit(SET_DATA, res);
