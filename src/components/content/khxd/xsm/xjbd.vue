@@ -23,12 +23,6 @@
         Input(v-model="row.dz"  @on-change="change(row)")
       template(slot="dh" slot-scope="{ row, index }")
         Input(v-model="row.dh"  @on-change="change(row)" autofocus=true)
-      template(slot="bc" slot-scope="{ row, index }")
-        Select(v-model="row.bc" transfer=true  @on-change="boardImport(row)")
-          Option(v-for="item in boardInfo" :value="item.label" :key="item.value") {{ item.label }}
-      template(slot="dj" slot-scope="{ row, index }")
-        Input(v-model="row.dj"  @on-change="change(row)")
-          span(slot="append") /m²
       template(slot="hjpf" slot-scope="{ row, index }")
         Input(v-model="row.hjpf" readonly=true  @on-change="change(row)")
       template(slot="hjsl" slot-scope="{ row, index }")
@@ -41,7 +35,7 @@
       template(slot="bz" slot-scope="{ row, index }")
         Input(v-model="row.bz"  @on-change="change(row)")
     Divider 尺寸信息
-    editBlisterSize(ref="editBlisterSize" @submitData="submitData" @computeTotal="computeTotal")
+    editBlisterSize(ref="editBlisterSize" :boardInfo="boardInfo" @submitData="submitData" @computeTotal="computeTotal")
     reworkModal(ref="reworkModal")
     boardModal(ref="boardModal")
 </template>
@@ -73,8 +67,6 @@ export default {
         khxm: '',
         dz: '',
         dh: '',
-        bc: '',
-        dj: '',
         hjpf: '',
         hjsl: '',
         je: '',
@@ -121,16 +113,6 @@ export default {
         });
       });
     },
-    /** 导入板材单价 */
-    boardImport(row) {
-      this.boardInfo.forEach((e) => {
-        if (e.label === row.bc) {
-          row.dj = e.dj;
-          row.je = (row.hjpf * parseFloat(row.dj)).toFixed(1);
-        }
-      });
-      this.orderDetail[0] = row;
-    },
     /** 获取客户列表信息 */
     getCustomerList(value) {
       this.$store.dispatch('commonCommonIndex/' + GET_CUSTOMER_BY_NAME, value).then(res => {
@@ -164,7 +146,7 @@ export default {
       this.orderDetail[0].hjpf = totalData.hjpf.toFixed(3);
       this.orderDetail[0].hjsl = totalData.hjsl;
       this.orderDetail[0].yjdb = Math.ceil(this.orderDetail[0].hjsl / 10);
-      this.orderDetail[0].je = (this.orderDetail[0].hjpf * parseFloat(this.orderDetail[0].dj)).toFixed(1);
+      this.orderDetail[0].je = totalData.hjje.toFixed(1);
     },
     /** 获取table表格数据-提交订单 */
     submitData(sizeDetail, orderStatus) {

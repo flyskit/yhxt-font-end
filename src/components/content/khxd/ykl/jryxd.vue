@@ -95,7 +95,8 @@ export default {
       totalReworkNum: 0,
       totalReworkDoorSquare: 0,
       totalReworkBoardSquare: 0,
-      totalReworkDoorNum: 0
+      totalReworkDoorNum: 0,
+      isTemporary: false
     };
   },
   computed: {
@@ -151,7 +152,7 @@ export default {
     },
     /** 编辑页面 */
     showEditPage(data) {
-      this.$refs.editDataModal.show(data);
+      this.$refs.editDataModal.show(data, this.isTemporary);
     },
     /** 删除记录 */
     delInfo(row) {

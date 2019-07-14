@@ -1,5 +1,5 @@
 <template lang='pug'>
-  div.khxd-thj
+  div.khxd-thj-xjbd
     Tabs(type="card" v-model="currentTab" @on-click="currentTabChange" :animated="false")
       TabPane(v-for="index in tabComponent" :label="index.label" :name="index.key" :key="index.key")
     <keep-alive>

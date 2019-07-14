@@ -25,13 +25,7 @@
           template(slot="dz" slot-scope="{ row, index }")
             Input(v-model="row.dz"  @on-change="change(row)")
           template(slot="dh" slot-scope="{ row, index }")
-            Input(v-model="row.dh"  @on-change="change(row)" autofocus=true)
-          template(slot="bc" slot-scope="{ row, index }")
-            Select(v-model="row.bc" transfer=true  @on-change="boardImport(row)")
-              Option(v-for="item in boardInfo" :value="item.label" :key="item.value") {{ item.label }}
-          template(slot="dj" slot-scope="{ row, index }")
-            Input(v-model="row.dj"  @on-change="change(row)")
-              span(slot="append") /m²
+            Input(v-model="row.dh"  @on-change="change(row)")
           template(slot="hjpf" slot-scope="{ row, index }")
             Input(v-model="row.hjpf" readonly=true  @on-change="change(row)")
           template(slot="hjsl" slot-scope="{ row, index }")
@@ -44,7 +38,7 @@
           template(slot="bz" slot-scope="{ row, index }")
             Input(v-model="row.bz"  @on-change="change(row)")
         Divider 尺寸信息
-        editBlisterSize(ref="editBlisterSize" @submitData="submitData" @computeTotal="computeTotal")
+        editBlisterSize(ref="editBlisterSize" :boardInfo="boardInfo" @submitData="submitData" @computeTotal="computeTotal")
       div(slot="footer" class="noprint")
         Button(@click="ok") 关闭
 </template>
@@ -74,8 +68,6 @@ export default {
         khxm: '',
         dz: '',
         dh: '',
-        bc: '',
-        dj: '',
         hjpf: '',
         hjsl: '',
         je: '',
@@ -101,7 +93,7 @@ export default {
   },
   methods: {
     /** 显示 */
-    show(data) {
+    show(data, isTemporary) {
       this.orderDetail[0].ddbh = data.orderDetail.ddbh;
       this.orderDetail[0].ddlx = data.orderDetail.ddlx;
       this.orderDetail[0].ddly = data.orderDetail.ddly;
@@ -113,13 +105,15 @@ export default {
       this.orderDetail[0].bz = data.orderDetail.bz;
       this.orderDetail[0].ddzt = data.orderDetail.ddzt;
 
-      this.orderDetail[0].bc = data.blisterDetail.bc;
-      this.orderDetail[0].dj = data.blisterDetail.dj;
       this.orderDetail[0].je = data.blisterDetail.je;
       this.orderDetail[0].hjpf = data.blisterDetail.hjpf;
       this.orderDetail[0].hjsl = data.blisterDetail.hjsl;
       this.orderDetail[0].yjdb = data.blisterDetail.yjdb;
-      this.$refs.editBlisterSize.showEdit(data.blisterSizes);
+      if (isTemporary) {
+        this.$refs.editBlisterSize.showSize(data.blisterSizes);
+      } else {
+        this.$refs.editBlisterSize.showEdit(data.blisterSizes);
+      }
       this.getBc();
       this.visible = true;
     },
@@ -134,16 +128,6 @@ export default {
           };
         });
       });
-    },
-    /** 导入板材单价 */
-    boardImport(row) {
-      this.boardInfo.forEach((e) => {
-        if (e.label === row.bc) {
-          row.dj = e.dj;
-          row.je = (row.hjpf * parseFloat(row.dj)).toFixed(1);
-        }
-      });
-      this.orderDetail[0] = row;
     },
     /** 获取客户列表信息 */
     getCustomerList(value) {
@@ -178,7 +162,7 @@ export default {
       this.orderDetail[0].hjpf = totalData.hjpf.toFixed(3);
       this.orderDetail[0].hjsl = totalData.hjsl;
       this.orderDetail[0].yjdb = Math.ceil(this.orderDetail[0].hjsl / 10);
-      this.orderDetail[0].je = (this.orderDetail[0].hjpf * parseFloat(this.orderDetail[0].dj)).toFixed(1);
+      this.orderDetail[0].je = totalData.hjje.toFixed(1);
     },
     /** 获取table表格数据-提交订单 */
     submitData(sizeDetail) {

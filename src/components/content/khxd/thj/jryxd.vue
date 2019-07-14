@@ -121,7 +121,8 @@ export default {
       totalReworkSwingDoorNum: 0,
       totalReworkHangingNum: 0,
       totalReworkHangingSquare: 0,
-      totalReworkHangingDoorNum: 0
+      totalReworkHangingDoorNum: 0,
+      isTemporary: false
     };
   },
   computed: {
@@ -173,10 +174,10 @@ export default {
         } else {
           if (row.splx === 3) {
             // 编辑-平开门
-            this.$refs.editPkmDataModal.show(res.data.map.data);
+            this.$refs.editPkmDataModal.show(res.data.map.data, this.isTemporary);
           } else {
             // 编辑-吊趟门
-            this.$refs.editDtmDataModal.show(res.data.map.data);
+            this.$refs.editDtmDataModal.show(res.data.map.data, this.isTemporary);
           }
         }
       });

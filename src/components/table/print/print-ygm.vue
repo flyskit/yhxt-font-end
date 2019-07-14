@@ -1,16 +1,16 @@
 <template lang='pug'>
-  div.table-print-xsm
+  div.table-print-ygm
     div
       table.print-table-style(border)
         tr
-          td.print-table-style-title(colspan="11" cellspacing="0" cellpadding="0") 艺合吸塑平开门生产订单
+          td.print-table-style-title(colspan="13" cellspacing="0" cellpadding="0") 艺合衣柜移门生产订单
         tr(style="height:30px;")
           th 编号：
           td(colspan="2" style="margin-left: 5px;") {{ data.ddbh }}
           th 客户：
           td(colspan="2" style="margin-left: 5px;") {{ data.khxm }}
           th 地址：
-          td(colspan="4") {{ data.dz }}
+          td(colspan="6") {{ data.dz }}
         tr(style="height:30px;")
           th 类型：
           td {{ data.ddlx }}
@@ -19,39 +19,46 @@
           th 速度：
           td {{ data.scsl }}
           th 备注：
-          td(colspan="4") {{ data.bz }}
+          td(colspan="6") {{ data.bz }}
         tr
           tr(style="height:30px;")
-            th(rowspan="2") 位置
             th(rowspan="2") 板材
             th(rowspan="2") 造型
             th(rowspan="2") 颜色
-            th(colspan="2") 尺寸
-            th(rowspan="2") 平方
-            th(rowspan="2") 数量
-            th(rowspan="2" colspan="3") 备注
+            th(rowspan="2") 边框
+            th(colspan="2") 内框尺寸
+            th(rowspan="2") 扇数
+            th(rowspan="2") 竖方
+            th(rowspan="2") 上下方
+            th(colspan="2") 芯板尺寸
+            th(rowspan="2") 套数
+            th(rowspan="2") 备注
           tr(style="height:30px;")
             th 高
             th 宽
         tr(v-for="item in ccxx" style="height:30px;")
-          td(style="word-break: keep-all;") {{ item.wz }}
-          td {{ item.bc }}
+          td {{ item.cz }}
           td {{ item.zx }}
           td {{ item.ys }}
-          td {{ item.gd }}
-          td {{ item.kd }}
-          td {{ item.pf }}
-          td {{ item.sl }}
-          td(colspan="3") {{ item.bz }}
+          td {{ item.bkxz }}
+          td {{ item.nkgd }}
+          td {{ item.nkkd }}
+          td {{ item.mssl }}
+          td {{ item.sf }}
+          td {{ item.sxf }}
+          td {{ item.xbgd }}
+          td {{ item.xbkd }}
+          td {{ item.ts }}
+          td {{ item.bz }}
         tr(style="height:30px;")
           td 合计
-          td(colspan="5")
-          td {{ data.hjpf }}
-          td {{ data.hjsl }}
           td(colspan="3")
+          td(colspan="2") {{ data.hjpf }}
+          td {{ data.hjsl }}
+          td(colspan="6")
         tr(style="height:30px;")
           td 配件
-          td(colspan="10") {{ accessoryListInfo }}
+          td(colspan="12") {{ accessoryListInfo }}
     div.print-span-div
       p
         span.print-span-th 制单人:
@@ -113,57 +120,11 @@ export default {
       this.data.bz = data.orderDetail.bz;
       this.data.wgsj = data.orderDetail.wgsj;
 
-      this.data.hjpf = data.blisterDetail.hjpf;
-      this.data.hjsl = data.blisterDetail.hjsl;
+      this.data.hjpf = data.wardrobeSlideDetail.hjpf;
+      this.data.hjsl = data.wardrobeSlideDetail.hjsl;
       this.changeData();
-      this.ccxx = _.cloneDeep(data.blisterSizes);
-      // this.combineCell(data.cupboardDoorSizes);
+      this.ccxx = _.cloneDeep(data.wardrobeSlideSizes);
     },
-    /** 数据处理-合并单元格 */
-    combineCell(list) {
-      for (var field in list[0]) {
-        if (field === 'lx') {
-          var k = 0;
-          while (k < list.length) {
-            list[k][field + 'span'] = 1;
-            list[k][field + 'dis'] = '';
-            for (var i = k + 1; i <= list.length - 1; i++) {
-              if (list[k][field] === list[i][field] && list[k][field] !== '' && list[k]['lx'] === list[i]['lx']) {
-                list[k][field + 'span']++;
-                list[k][field + 'dis'] = '';
-                list[i][field + 'span'] = 1;
-                list[i][field + 'dis'] = 'none';
-              } else {
-                break;
-              }
-            }
-            k = i;
-          }
-        }
-      }
-      this.ccxx = _.cloneDeep(list);
-    },
-    // combineCell(list) {
-    //   for (var field in list[0]) {
-    //     var k = 0;
-    //     while (k < list.length) {
-    //       list[k][field + 'span'] = 1;
-    //       list[k][field + 'dis'] = '';
-    //       for (var i = k + 1; i <= list.length - 1; i++) {
-    //         if (list[k][field] === list[i][field] && list[k][field] !== '') {
-    //           list[k][field + 'span']++;
-    //           list[k][field + 'dis'] = '';
-    //           list[i][field + 'span'] = 1;
-    //           list[i][field + 'dis'] = 'none';
-    //         } else {
-    //           break;
-    //         }
-    //       }
-    //       k = i;
-    //     }
-    //   }
-    //   this.ccxx = _.cloneDeep(list);
-    // },
     /** value转换label */
     changeData() {
       this.typeDdlx.forEach((e) => {
@@ -184,8 +145,8 @@ export default {
 @import '../../../style/mixin.less';
 .print-table-style {
   // 调整打印样式
-  width:94%;
-  margin-left:2.5%;
+  width:98%;
+  margin-left:1%;
   border:solid #333;
   border-width:1px 0px 0px 1px;
   font-size: 1.4em;

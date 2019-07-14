@@ -42,7 +42,8 @@ export default {
       data: [],
       columns: JGM_XDXX_COLUMNS,
       typeDdlx: ORDER_DDLX,
-      typeDdly: ORDER_DDLY
+      typeDdly: ORDER_DDLY,
+      isTemporary: true
     };
   },
   computed: {
@@ -93,7 +94,7 @@ export default {
     },
     /** 编辑页面 */
     showEditPage(data) {
-      this.$refs.editDataModal.show(data);
+      this.$refs.editDataModal.show(data, this.isTemporary);
     },
     /** 删除记录 */
     delInfo(row) {

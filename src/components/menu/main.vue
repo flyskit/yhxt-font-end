@@ -1,7 +1,7 @@
 <template lang="pug">
   div.app-menu
-    Menu(accordion active-name="1" theme="light" width="auto")
-      Menu-item(name="1" @click.native="routerevent('/home')")
+    Menu(accordion :active-name="path" theme="light" width="auto" ref="path" :open-names="['1']")
+      Menu-item(name="home" @click.native="routerevent('/home')")
         Icon(type="ios-home")
         span 首页
       Submenu(name="6")
@@ -12,22 +12,25 @@
         Menu-item(name="6-2" @click.native="routerevent('/produce-down')") 客户下单
         Menu-item(name="6-3" @click.native="routerevent('/produce-summer')") 项目结算
         Menu-item(name="6-4" @click.native="routerevent('/produce-deliver')") 当日发货
-      Submenu(name="2")
+      Submenu(name="khxd")
         template(slot="title")
           Icon(type="ios-infinite")
           span 客户下单
-        Menu-item(name="2-1" @click.native="routerevent('/khxd-jgm')")
+        Menu-item(name="khxd-jgm" @click.native="routerevent('/khxd-jgm')")
           Icon(type="md-radio-button-off")
           span 晶钢门
-        Menu-item(name="2-2" @click.native="routerevent('/khxd-ykl')")
+        Menu-item(name="khxd-ykl" @click.native="routerevent('/khxd-ykl')")
           Icon(type="md-radio-button-off")
           span 亚克力门
-        Menu-item(name="2-3" @click.native="routerevent('/khxd-xsm')")
+        Menu-item(name="khxd-xsm" @click.native="routerevent('/khxd-xsm')")
           Icon(type="md-radio-button-off")
-          span 吸塑门
-        Menu-item(name="2-4" @click.native="routerevent('/khxd-thj')")
+          span 吸塑平开门
+        Menu-item(name="khxd-thj" @click.native="routerevent('/khxd-thj')")
           Icon(type="md-radio-button-off")
           span 钛合金门
+        Menu-item(name="khxd-ygm" @click.native="routerevent('/khxd-ygm')")
+          Icon(type="md-radio-button-off")
+          span 衣柜移门
       Submenu(name="3")
         template(slot="title")
           Icon(type="ios-cart")
@@ -73,12 +76,22 @@
 export default {
   data() {
     return {
+      path: '',
       isCollapsed: false
     };
+  },
+  mounted () {
+    this.pathChange();
   },
   methods: {
     routerevent(path) {
       this.$router.push({ path: path });
+    },
+    pathChange() {
+      this.$nextTick(() => {
+        this.path = this.$route.path.slice(1);
+        this.$refs.path.updateActiveName();
+      });
     }
   }
 };

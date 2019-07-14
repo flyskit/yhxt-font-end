@@ -213,7 +213,7 @@ export default {
       }
     },
     /** 内框尺寸计算-传入原始数据 */
-    showInnerSize(data) {
+    showSize(data) {
       this.data = data;
     }
   }

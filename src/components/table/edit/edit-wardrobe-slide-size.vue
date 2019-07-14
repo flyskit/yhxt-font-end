@@ -1,40 +1,67 @@
 <template lang='pug'>
-  div.table-edit-cupboard-size
+  div.table-edit-wardrobe-slide-size
     Button.operate-button(@click="addRow" :disabled="isUpdate") 添加行
     Button.operate-button(@click="updateData" type="success" style="float:right;" v-if="isUpdate") 修改订单
     Button.operate-button(@click="addData" type="success" style="float:right;" v-else) 添加订单
     Poptip(@on-ok="storageData" title="是否暂存?" style="float:right;" confirm transfer)
       Button.operate-button(:disabled="isUpdate" type="warning") 暂存订单
     Table(:columns="columns" :data="data" size="small" border)
-      template(slot="wz" slot-scope="{ row, index }")
-        Input(v-model="row.wz" v-if="editIndex === index")
-        span(v-else) {{ row.wz }}
-      template(slot="bc" slot-scope="{ row, index }")
-        Select(v-model="row.bc" transfer=true  v-if="editIndex === index" @on-change="boardImport(row)")
+      template(slot="cz" slot-scope="{ row, index }")
+        Select(v-model="row.cz" transfer=true v-if="editIndex === index" @on-change="boardImport(row)")
           Option(v-for="item in boardInfo" :value="item.label" :key="item.value") {{ item.label }}
-        span(v-else) {{ row.bc }}
+        span(v-else) {{ row.cz }}
       template(slot="zx" slot-scope="{ row, index }")
         Input(v-model="row.zx" v-if="editIndex === index")
         span(v-else) {{ row.zx }}
       template(slot="ys" slot-scope="{ row, index }")
         Input(v-model="row.ys" v-if="editIndex === index")
         span(v-else) {{ row.ys }}
-      template(slot="gd" slot-scope="{ row, index }")
-        Input(v-model="row.gd" v-if="editIndex === index" @on-change="computedSquare(row)")
-        span(v-else) {{ row.gd }}
-      template(slot="kd" slot-scope="{ row, index }")
-        Input(v-model="row.kd" v-if="editIndex === index" @on-change="computedSquare(row)")
-        span(v-else) {{ row.kd }}
-      template(slot="sl" slot-scope="{ row, index }")
-        Input(v-model="row.sl" v-if="editIndex === index" @on-change="computedSquare(row)")
-        span(v-else) {{ row.sl }}
+      template(slot="bkxz" slot-scope="{ row, index }")
+        Select(v-model="row.bkxz" transfer=true v-if="editIndex === index" @on-change="boardShapeImport(row)")
+          Option(v-for="item in boardShapeInfo" :value="item.label" :key="item.value") {{ item.label }}
+        span(v-else) {{ row.bkxz }}
+      template(slot="bkkd" slot-scope="{ row, index }")
+        Input(v-model="row.bkkd" v-if="editIndex === index" @on-change="computeSize(row)")
+        span(v-else) {{ row.bkkd }}
+      template(slot="nkgd" slot-scope="{ row, index }")
+        Input(v-model="row.nkgd" v-if="editIndex === index" @on-change="computeSize(row)")
+        span(v-else) {{ row.nkgd }}
+      template(slot="nkkd" slot-scope="{ row, index }")
+        Input(v-model="row.nkkd" v-if="editIndex === index" @on-change="computeSize(row)")
+        span(v-else) {{ row.nkkd }}
       template(slot="pf" slot-scope="{ row, index }")
-        Input(v-model="row.pf" v-if="editIndex === index" readonly=true)
+        Input(v-model="row.pf" v-if="editIndex === index"  @on-change="computeMoney(row)")
         span(v-else) {{ row.pf }}
+      template(slot="mssl" slot-scope="{ row, index }")
+        Input(v-model="row.mssl" v-if="editIndex === index" @on-change="computeSize(row)")
+        span(v-else) {{ row.mssl }}
+      template(slot="sf" slot-scope="{ row, index }")
+        Input(v-model="row.sf" v-if="editIndex === index"  @on-change="computeSize(row)")
+        span(v-else) {{ row.sf }}
+      template(slot="sxf" slot-scope="{ row, index }")
+        Input(v-model="row.sxf" v-if="editIndex === index")
+        span(v-else) {{ row.sxf }}
+      template(slot="xbgd" slot-scope="{ row, index }")
+        Input(v-model="row.xbgd" v-if="editIndex === index")
+        span(v-else) {{ row.xbgd }}
+      template(slot="xbkd" slot-scope="{ row, index }")
+        Input(v-model="row.xbkd" v-if="editIndex === index")
+        span(v-else) {{ row.xbkd }}
+      template(slot="xbpf" slot-scope="{ row, index }")
+        Input(v-model="row.xbpf" v-if="editIndex === index")
+        span(v-else) {{ row.xbpf }}
+      template(slot="msgd" slot-scope="{ row, index }")
+        Input(v-model="row.msgd" v-if="editIndex === index")
+        span(v-else) {{ row.msgd }}
+      template(slot="mskd" slot-scope="{ row, index }")
+        Input(v-model="row.mskd" v-if="editIndex === index")
+        span(v-else) {{ row.mskd }}
       template(slot="dj" slot-scope="{ row, index }")
-        Input(v-model="row.dj" v-if="editIndex === index" @on-change="changePrice(row)")
-          span(slot="append") /m²
+        Input(v-model="row.dj" v-if="editIndex === index" @on-change="computeMoney(row)")
         span(v-else) {{ row.dj }}
+      template(slot="ts" slot-scope="{ row, index }")
+        InputNumber(v-model="row.ts" v-if="editIndex === index" :min="1"  @on-change="computeMoney(row)")
+        span(v-else) {{ row.ts }}
       template(slot="je" slot-scope="{ row, index }")
         Input(v-model="row.je" v-if="editIndex === index")
         span(v-else) {{ row.je }}
@@ -60,26 +87,36 @@
 
 <script>
 import _ from 'lodash';
-import { KHXD_XSM_CCXX } from '@store/common/khxd/xsm/xjbd/module';
+import { KHXD_YGM_CCXX, KHXD_YGM_BKKD } from '@store/common/khxd/ygm/xjbd/module';
 export default {
-  props: ['boardInfo'],
+  props: ['boardInfo', 'boardShapeInfo'],
   data () {
     return {
       data: [],
       tableData: {
-        wz: '',
-        bc: '',
+        cz: '',
         zx: '',
         ys: '',
-        gd: '',
-        kd: '',
-        sl: '',
-        pf: 0.000,
+        bkxz: '',
+        bkkd: '',
+        nkgd: '',
+        nkkd: '',
+        pf: '',
+        mssl: '',
+        sf: '',
+        sxf: '',
+        xbgd: '',
+        xbkd: '',
+        xbpf: '',
+        msgd: '',
+        mskd: '',
         dj: '',
+        ts: 1,
         je: '',
         bz: ''
       },
-      columns: KHXD_XSM_CCXX,
+      columns: KHXD_YGM_CCXX,
+      bkkdType: KHXD_YGM_BKKD,
       orderStatus: 1,
       editIndex: -1,
       editEnd: true,
@@ -87,18 +124,6 @@ export default {
     };
   },
   methods: {
-    /** 导入板材单价 */
-    boardImport(row) {
-      this.boardInfo.forEach((e) => {
-        if (e.label === row.bc) {
-          row.dj = e.dj;
-          row.je = (row.pf * parseFloat(row.dj)).toFixed(1);
-        }
-      });
-    },
-    changePrice(row) {
-      row.je = (row.pf * parseFloat(row.dj)).toFixed(1);
-    },
     /** 重新计算 */
     computeDataAgain() {
       let newData = _.cloneDeep(this.data);
@@ -109,6 +134,40 @@ export default {
       });
       this.computeTotal();
     },
+    /** 导入板材单价 */
+    boardImport(row) {
+      this.boardInfo.forEach((e) => {
+        if (e.label === row.cz) {
+          row.dj = e.dj;
+          this.computeMoney(row);
+        }
+      });
+    },
+    /** 导入边框类型 */
+    boardShapeImport(row) {
+      this.boardShapeInfo.forEach((e) => {
+        if (e.label === row.bkxz) {
+          row.bkkd = e.kd;
+          this.computeSize(row);
+        }
+      });
+    },
+    /** 金额计算 */
+    computeMoney(row) {
+      row.je = (parseFloat(row.ts) * parseFloat(row.dj) * parseFloat(row.pf)).toFixed(1);
+    },
+    /** 尺寸计算 */
+    computeSize(row) {
+      row.sf = Math.floor(parseFloat(row.nkgd) - 35);
+      row.sxf = Math.floor((parseFloat(row.nkkd) - parseFloat(row.bkkd) * (parseFloat(row.mssl) + 1)) / parseFloat(row.mssl));
+      row.xbgd = parseFloat(row.sf) - 60;
+      row.xbkd = parseFloat(row.sxf) + 14;
+      row.xbpf = (row.xbgd * 0.001 * row.xbkd * 0.001 * row.mssl).toFixed(3);
+      row.pf = (row.nkgd * 0.001 * row.nkkd * 0.001).toFixed(3);
+      row.msgd = parseFloat(row.sf) + 30;
+      row.mskd = parseFloat(row.sxf) + 16;
+      this.computeMoney(row);
+    },
     /** 添加行 */
     addRow() {
       this.computeTotal();
@@ -118,11 +177,6 @@ export default {
     /** 添加最后一条数据 */
     addLastRow(row, index) {
       this.data[index] = _.cloneDeep(row);
-      this.tableData.wz = row.wz;
-      this.tableData.bc = row.bc;
-      this.tableData.zx = row.zx;
-      this.tableData.ys = row.ys;
-      this.tableData.gd = row.gd;
       this.addRow();
     },
     /** 编辑行 */
@@ -137,21 +191,18 @@ export default {
       this.editIndex = -1;
       this.editEnd = true;
     },
-    /** 计算平方 */
-    computedSquare(row) {
-      row.pf = (row.gd * 0.001 * row.kd * 0.001 * row.sl).toFixed(3);
-      this.changePrice(row);
-    },
     /** 统计计算，回显到父组件 */
     computeTotal() {
       let totalData = {
         hjpf: 0.00,
-        hjsl: 0,
-        hjje: 0.00
+        xbpf: 0.00,
+        hjje: 0.00,
+        hjsl: 0
       };
       this.data.forEach((e) => {
         totalData.hjpf = parseFloat(e.pf) + parseFloat(totalData.hjpf);
-        totalData.hjsl = parseFloat(e.sl) + parseFloat(totalData.hjsl);
+        totalData.xbpf = parseFloat(e.xbpf) + parseFloat(totalData.xbpf);
+        totalData.hjsl = parseFloat(e.mssl) * parseFloat(e.ts) + parseFloat(totalData.hjsl);
         totalData.hjje = parseFloat(e.je) + parseFloat(totalData.hjje);
       });
       this.$emit('computeTotal', totalData);

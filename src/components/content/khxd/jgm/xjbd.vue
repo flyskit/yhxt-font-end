@@ -222,7 +222,7 @@ export default {
     },
     /** 内框计算-提交数据 */
     submitInnerData(data) {
-      this.$refs.editCupboardSize.showInnerSize(data);
+      this.$refs.editCupboardSize.showSize(data);
     },
     /** 创建返工订单-弹窗 */
     createRework() {

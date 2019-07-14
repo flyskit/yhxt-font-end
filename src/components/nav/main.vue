@@ -23,12 +23,17 @@
         Icon(type="ios-pin")
         BreadcrumbItem(to="/home")  首页
         BreadcrumbItem 客户下单
-        BreadcrumbItem 吸塑门
+        BreadcrumbItem 吸塑平开门
       Breadcrumb(separator="<b class='breadcrumb-separator'>/</b>" v-else-if="this.$route.fullPath === '/khxd-thj'")
         Icon(type="ios-pin")
         BreadcrumbItem(to="/home")  首页
         BreadcrumbItem 客户下单
         BreadcrumbItem 钛合金门
+      Breadcrumb(separator="<b class='breadcrumb-separator'>/</b>" v-else-if="this.$route.fullPath === '/khxd-ygm'")
+        Icon(type="ios-pin")
+        BreadcrumbItem(to="/home")  首页
+        BreadcrumbItem 客户下单
+        BreadcrumbItem 衣柜移门
       Breadcrumb(separator="<b class='breadcrumb-separator'>/</b>" v-else-if="this.$route.fullPath === '/produce-down'")
         Icon(type="ios-pin")
         BreadcrumbItem(to="/home")  首页

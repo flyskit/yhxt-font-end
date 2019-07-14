@@ -111,7 +111,7 @@ export default {
   },
   methods: {
     /** 显示 */
-    show(data) {
+    show(data, isTemporary) {
       this.orderDetail[0].ddbh = data.orderDetail.ddbh;
       this.orderDetail[0].ddlx = data.orderDetail.ddlx;
       this.orderDetail[0].ddly = data.orderDetail.ddly;
@@ -131,7 +131,11 @@ export default {
       this.orderDetail[0].blpf = data.crystalSteelDoorDetail.blpf;
       this.orderDetail[0].hjsl = data.crystalSteelDoorDetail.hjsl;
       this.orderDetail[0].yjdb = data.crystalSteelDoorDetail.yjdb;
-      this.$refs.editCupboardSize.showEdit(data.cupboardDoorSizes);
+      if (isTemporary) {
+        this.$refs.editCupboardSize.showSize(data.cupboardDoorSizes);
+      } else {
+        this.$refs.editCupboardSize.showEdit(data.cupboardDoorSizes);
+      }
       this.getLs();
       this.findHandle();
       this.visible = true;

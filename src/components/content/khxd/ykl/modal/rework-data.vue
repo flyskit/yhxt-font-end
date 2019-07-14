@@ -137,7 +137,7 @@ export default {
       this.orderDetail[0].bcmc = acrylicDetail.bcmc;
       this.orderDetail[0].bcdj = acrylicDetail.bcdj;
       this.orderDetail[0].ys = acrylicDetail.ys;
-      this.$refs.editCupboardSize.showInnerSize(cupboardDoorSizes);
+      this.$refs.editCupboardSize.showSize(cupboardDoorSizes);
       this.getBh();
       this.getLs();
       this.getBc();

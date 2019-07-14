@@ -29,7 +29,7 @@ import { mapGetters } from 'vuex';
 import { XSM_XDXX_COLUMNS } from '@store/common/khxd/xsm/jryxd/module.js';
 import { ORDER_DDLX, ORDER_DDLY } from '@store/common/common/module.js';
 import { GET_DATA_BY_BH } from '@store/common/khxd/xsm/jryxd/index';
-import { GET_DATA, GETTER_DATA, SUBMIT_ORDER_DATA } from '@store/common/khxd/ykl/zclb/index';
+import { GET_DATA, GETTER_DATA, SUBMIT_ORDER_DATA } from '@store/common/khxd/xsm/zclb/index';
 export default {
   inject: ['reload'],
   components: {
@@ -42,7 +42,8 @@ export default {
       data: [],
       columns: XSM_XDXX_COLUMNS,
       typeDdlx: ORDER_DDLX,
-      typeDdly: ORDER_DDLY
+      typeDdly: ORDER_DDLY,
+      isTemporary: true
     };
   },
   computed: {
@@ -60,7 +61,6 @@ export default {
         if (this.mapData.status !== 200) {
           this.$Message.error(res.data.info);
         } else {
-          console.log(this.mapData);
           this.data = this.mapData.data.map.data;
         }
       });
@@ -94,7 +94,7 @@ export default {
     },
     /** 编辑页面 */
     showEditPage(data) {
-      this.$refs.editDataModal.show(data);
+      this.$refs.editDataModal.show(data, this.isTemporary);
     },
     /** 删除记录 */
     delInfo(row) {

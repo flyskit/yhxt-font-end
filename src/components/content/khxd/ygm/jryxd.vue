@@ -1,5 +1,5 @@
 <template lang='pug'>
-  div.khxd-xsm-jryxd
+  div.khxd-ygm-jryxd
     table
       tr
         td
@@ -13,9 +13,9 @@
           span.span-content {{ totalDoorSquare }}
         td
           Divider(type="vertical")
-          span.span-color 正常-门板数量：
+          span.span-color 正常-芯板平方：
         td
-          span.span-content {{ totalDoorNum }}
+          span.span-content {{ totalCoreBoardSquare }}
         td
           Divider(type="vertical")
           span.span-color 返工-订单数：
@@ -28,9 +28,9 @@
           span.span-content {{ totalReworkDoorSquare }}
         td
           Divider(type="vertical")
-          span.span-color 返工-门板数量：
+          span.span-color 返工-芯板平方
         td
-          span.span-content {{ totalReworkDoorNum }}
+          span.span-content {{ totalReworkCoreBoardSquare }}
     Table(ref="selection" :columns="columns" :data="data" size="small" highlight-row border @on-row-dblclick="editInfo")
       template(slot="scsl" slot-scope="{ row, index }")
         Button(size="small" v-if="row.scsl === 0") 普通
@@ -61,9 +61,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { XSM_XDXX_COLUMNS } from '@store/common/khxd/xsm/jryxd/module.js';
+import { YGM_XDXX_COLUMNS } from '@store/common/khxd/ygm/jryxd/module.js';
 import { ORDER_DDLX, ORDER_DDLY } from '@store/common/common/module.js';
-import { GET_DATA, GETTER_DATA, GET_DATA_BY_BH } from '@store/common/khxd/xsm/jryxd/index';
+import { GET_DATA, GETTER_DATA, GET_DATA_BY_BH } from '@store/common/khxd/ygm/jryxd/index';
 export default {
   inject: ['reload'],
   components: {
@@ -75,21 +75,21 @@ export default {
   data () {
     return {
       data: [],
-      columns: XSM_XDXX_COLUMNS,
+      columns: YGM_XDXX_COLUMNS,
       typeDdlx: ORDER_DDLX,
       typeDdly: ORDER_DDLY,
       totalNum: 0,
       totalDoorSquare: 0,
-      totalDoorNum: 0,
+      totalCoreBoardSquare: 0,
       totalReworkNum: 0,
       totalReworkDoorSquare: 0,
-      totalReworkDoorNum: 0,
+      totalReworkCoreBoardSquare: 0,
       isTemporary: false
     };
   },
   computed: {
     ...mapGetters({
-      mapData: 'commonKhxdXsmJryxdIndex/' + GETTER_DATA
+      mapData: 'commonKhxdYgmJryxdIndex/' + GETTER_DATA
     })
   },
   mounted() {
@@ -98,23 +98,23 @@ export default {
   methods: {
     /** 获取-今日下单列表 */
     getDataByToDay() {
-      this.$store.dispatch('commonKhxdXsmJryxdIndex/' + GET_DATA).then(res => {
+      this.$store.dispatch('commonKhxdYgmJryxdIndex/' + GET_DATA).then(res => {
         if (this.mapData.status !== 200) {
           this.$Message.error(res.data.info);
         } else {
           this.totalNum = this.mapData.map.data.totalNum;
           this.totalDoorSquare = this.mapData.map.data.totalDoorSquare;
-          this.totalDoorNum = this.mapData.map.data.totalDoorNum;
+          this.totalCoreBoardSquare = this.mapData.map.data.totalCoreBoardSquare;
           this.totalReworkNum = this.mapData.map.data.totalReworkNum;
           this.totalReworkDoorSquare = this.mapData.map.data.totalReworkDoorSquare;
-          this.totalReworkDoorNum = this.mapData.map.data.totalReworkDoorNum;
+          this.totalReworkCoreBoardSquare = this.mapData.map.data.totalReworkCoreBoardSquare;
           this.data = this.mapData.map.data.list;
         }
       });
     },
     /** 查看详细信息 */
     viewInfo(row) {
-      this.$store.dispatch('commonKhxdXsmJryxdIndex/' + GET_DATA_BY_BH, row.ddbh).then(res => {
+      this.$store.dispatch('commonKhxdYgmJryxdIndex/' + GET_DATA_BY_BH, row.ddbh).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {
@@ -124,7 +124,7 @@ export default {
     },
     /** 修改记录 */
     editInfo(row) {
-      this.$store.dispatch('commonKhxdXsmJryxdIndex/' + GET_DATA_BY_BH, row.ddbh).then(res => {
+      this.$store.dispatch('commonKhxdYgmJryxdIndex/' + GET_DATA_BY_BH, row.ddbh).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {
@@ -146,7 +146,7 @@ export default {
     },
     /** 打印页面 */
     printInfo(row) {
-      this.$store.dispatch('commonKhxdXsmJryxdIndex/' + GET_DATA_BY_BH, row.ddbh).then(res => {
+      this.$store.dispatch('commonKhxdYgmJryxdIndex/' + GET_DATA_BY_BH, row.ddbh).then(res => {
         if (res.data.status !== 200) {
           this.$Message.error(res.data.info);
         } else {

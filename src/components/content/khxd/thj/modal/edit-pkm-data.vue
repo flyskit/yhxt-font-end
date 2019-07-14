@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     /** 显示 */
-    show(data) {
+    show(data, isTemporary) {
       this.orderDetail[0].ddbh = data.orderDetail.ddbh;
       this.orderDetail[0].ddlx = data.orderDetail.ddlx;
       this.orderDetail[0].ddly = data.orderDetail.ddly;
@@ -109,7 +109,11 @@ export default {
       this.orderDetail[0].hjpf = data.titaniumAlloyDoorDetail.hjpf;
       this.orderDetail[0].hjsl = data.titaniumAlloyDoorDetail.hjsl;
       this.orderDetail[0].yjdb = data.titaniumAlloyDoorDetail.yjdb;
-      this.$refs.editSwingSize.showEdit(data.swingSizeList);
+      if (isTemporary) {
+        this.$refs.editSwingSize.showSize(data.swingSizeList);
+      } else {
+        this.$refs.editSwingSize.showEdit(data.swingSizeList);
+      }
       this.getBc();
       this.visible = true;
     },

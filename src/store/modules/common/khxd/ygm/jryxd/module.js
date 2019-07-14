@@ -1,4 +1,4 @@
-export const XSM_XDXX_COLUMNS = [
+export const YGM_XDXX_COLUMNS = [
   {
     type: 'selection',
     width: 60,
@@ -43,6 +43,12 @@ export const XSM_XDXX_COLUMNS = [
   {
     title: '合计平方',
     key: 'hjpf',
+    align: 'center',
+    width: 80
+  },
+  {
+    title: '芯板平方',
+    key: 'xbpf',
     align: 'center',
     width: 80
   },

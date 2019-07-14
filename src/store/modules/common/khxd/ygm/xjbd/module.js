@@ -1,5 +1,20 @@
+export const KHXD_YGM_BKKD = [
+  {
+    value: 0,
+    label: 20
+  },
+  {
+    value: 1,
+    label: 35
+  },
+  {
+    value: 2,
+    label: 50
+  }
+];
+
 /** 订单信息-表头 */
-export const KHXD_XSM_DDXX = [
+export const KHXD_YGM_DDXX = [
   {
     title: '订单信息',
     align: 'center',
@@ -68,6 +83,11 @@ export const KHXD_XSM_DDXX = [
         slot: 'yjdb'
       },
       {
+        title: '芯板平方',
+        align: 'center',
+        slot: 'xbpf'
+      },
+      {
         title: '备注',
         align: 'center',
         slot: 'bz',
@@ -78,76 +98,156 @@ export const KHXD_XSM_DDXX = [
 ];
 
 /** 尺寸信息-表头 */
-export const KHXD_XSM_CCXX = [
+export const KHXD_YGM_CCXX = [
   {
     type: 'selection',
     align: 'center',
     width: 60
   },
   {
-    title: '位置',
+    title: '材质',
     align: 'center',
-    slot: 'wz'
-  },
-  {
-    title: '板材',
-    align: 'center',
-    slot: 'bc'
+    slot: 'cz',
+    width: 110
   },
   {
     title: '造型',
     align: 'center',
-    slot: 'zx'
+    slot: 'zx',
+    width: 110
   },
   {
     title: '颜色',
     align: 'center',
-    slot: 'ys'
+    slot: 'ys',
+    width: 80
   },
   {
-    title: '门板尺寸',
+    title: '边框形状',
+    align: 'center',
+    slot: 'bkxz',
+    width: 100
+  },
+  {
+    title: '边框宽度',
+    align: 'center',
+    slot: 'bkkd',
+    width: 80
+  },
+  {
+    title: '内框尺寸',
     align: 'center',
     children: [
       {
         title: '高度',
         align: 'center',
-        slot: 'gd'
+        slot: 'nkgd',
+        width: 80
       },
       {
         title: '宽度',
         align: 'center',
-        slot: 'kd'
+        slot: 'nkkd',
+        width: 80
       }
     ]
   },
   {
-    title: '数量',
+    title: '门扇数量',
     align: 'center',
-    slot: 'sl'
+    slot: 'mssl',
+    width: 80
   },
   {
     title: '平方',
     align: 'center',
-    slot: 'pf'
+    slot: 'pf',
+    width: 80
+  },
+  {
+    title: '竖方',
+    align: 'center',
+    slot: 'sf',
+    width: 80
+  },
+  {
+    title: '上下方',
+    align: 'center',
+    slot: 'sxf',
+    width: 80
+
+  },
+  {
+    title: '芯板尺寸',
+    align: 'center',
+    children: [
+      {
+        title: '高度',
+        align: 'center',
+        slot: 'xbgd',
+        width: 80
+      },
+      {
+        title: '宽度',
+        align: 'center',
+        slot: 'xbkd',
+        width: 80
+      }
+    ]
+  },
+  {
+    title: '芯板平方',
+    align: 'center',
+    slot: 'xbpf',
+    width: 80
   },
   {
     title: '单价',
     align: 'center',
-    slot: 'dj'
+    slot: 'dj',
+    width: 80
+  },
+  {
+    title: '套数',
+    align: 'center',
+    slot: 'ts',
+    width: 80
   },
   {
     title: '金额',
     align: 'center',
-    slot: 'je'
+    slot: 'je',
+    width: 80
   },
   {
     title: '备注',
     align: 'center',
-    slot: 'bz'
+    slot: 'bz',
+    width: 150
+  },
+  {
+    title: '门扇尺寸',
+    align: 'center',
+    children: [
+      {
+        title: '高度',
+        align: 'center',
+        slot: 'msgd',
+        width: 80
+      },
+      {
+        title: '宽度',
+        align: 'center',
+        slot: 'mskd',
+        width: 80
+      }
+    ]
   },
   {
     title: '操作',
     align: 'center',
-    slot: 'action'
+    slot: 'action',
+    width: 100,
+    fixed: 'right'
   }
 ];

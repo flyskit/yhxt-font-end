@@ -123,7 +123,7 @@ export default {
       this.orderDetail[0].ys = crystalSteelDoorDetail.ys;
       this.orderDetail[0].dj = crystalSteelDoorDetail.dj;
       // 先导入尺寸，再计算
-      this.$refs.editCupboardSize.showInnerSize(orderSize);
+      this.$refs.editCupboardSize.showSize(orderSize);
       this.getBh();
       this.getLs();
       // 重新计算

@@ -5,12 +5,12 @@ import home from '@/components/content/home/main';
 import cgrk from '@/components/content/clgl/cgrk/main';
 import kcjl from '@/components/content/clgl/kcjl/main';
 import khxd from '@/components/content/sclc/khxd/main';
-import xjbd from '@/components/content/khxd/xjbd/main';
 import mrsz from '@/components/content/cwgl/mrsz/main';
 import jgm from '@/components/content/khxd/jgm/main';
 import ykl from '@/components/content/khxd/ykl/main';
 import xsm from '@/components/content/khxd/xsm/main';
 import thj from '@/components/content/khxd/thj/main';
+import ygm from '@/components/content/khxd/ygm/main';
 
 Vue.use(Router);
 
@@ -37,11 +37,6 @@ export default new Router({
       component: khxd
     },
     {
-      path: '/order-new',
-      name: 'xjbd',
-      component: xjbd
-    },
-    {
       path: '/khxd-jgm',
       name: 'jgm',
       component: jgm
@@ -60,6 +55,11 @@ export default new Router({
       path: '/khxd-thj',
       name: 'thj',
       component: thj
+    },
+    {
+      path: '/khxd-ygm',
+      name: 'ygm',
+      component: ygm
     },
     {
       path: '/finance-everyday',
