@@ -37,7 +37,7 @@
             th 高
             th 宽
         tr(v-for="item in ccxx" style="height:30px;")
-          td(:rowspan="item.cclxspan" :style="{ display: item.cclxdis }") {{ item.cclx === 0 ? '地柜' : '吊柜' }}
+          td {{ item.lx === 0 ? '地柜' : '吊柜' }}
           td {{ data.ls }}
           td {{ data.ys }}
           td {{ item.mbgd }}
@@ -128,7 +128,8 @@ export default {
       this.data.blpf = data.crystalSteelDoorDetail.blpf;
       this.data.hjsl = data.crystalSteelDoorDetail.hjsl;
       this.changeData();
-      this.combineCell(data.cupboardDoorSizes);
+      this.ccxx = _.cloneDeep(data.cupboardDoorSizes);
+      // this.combineCell(data.cupboardDoorSizes);
     },
     /** 数据处理-合并单元格 */
     combineCell(list) {

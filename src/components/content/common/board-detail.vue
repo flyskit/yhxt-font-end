@@ -3,10 +3,10 @@
     Modal(v-model="visible" width="70vw" @on-ok="ok" @on-cancel="ok")
       p(slot="header" style="color:#f60")
         Icon(type="ios-information-circle")
-        span 板材管理
+        span 材料管理
       div(class="edit")
         Form(ref="boardDetail" :model="boardDetail" :label-width="80" inline)
-          FormItem(label="拉手名称" prop="mc")
+          FormItem(label="板材名称" prop="mc")
             Input.input-small(v-model="boardDetail.mc" placeholder="输入材料名称")
           FormItem(label="编号" prop="bh")
             Input.input-small(v-model="boardDetail.bh" placeholder="输入编号")
@@ -16,10 +16,10 @@
             Input.input-small(v-model="boardDetail.gg" placeholder="输入规格")
           FormItem(label="备注" prop="bz")
             Input.input-small(v-model="boardDetail.bz" placeholder="输入备注")
-          FormItem
-            Button(type="primary" style="margin-right: 8px" @click="addBoard") 添加
-            Button(@click="reset('boardDetail')") 重置
-        Divider 拉手列表
+        div(style="width:100%;text-align:center")
+          Button(type="primary" style="margin-right: 8px" @click="addBoard") 添加
+          Button(@click="reset('boardDetail')") 重置
+        Divider 材料列表
         Table(:columns="boardColumns" :data="boardTable" size="small" border)
           template(slot="mc" slot-scope="{ row, index }")
             Input(v-model="row.mc" v-if="editIndex === index")

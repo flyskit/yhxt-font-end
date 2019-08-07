@@ -4,14 +4,14 @@
       Sider.sider-style(collapsible :collapsed-width="78" v-model="isCollapsed")
         //- div(style="height:200px;text-align:center;width: 200px; min-width: 200px; max-width: 200px;")
         //-   img(src="../assets/logo.png" style="width:180px;height:180px;box-shadow: 0 1px 2px 1px rgba(105,105,105,1);border-radius:50%;margin-top:10px;")
-        div(style="height:200px;text-align:center;width: 200px; min-width: 200px; max-width: 200px;")
-          img(src="../assets/logo4.png" style="width:180px;height:180px;")
+        div(style="height:120px;width: 200px; min-width: 200px; max-height: 120px;text-align:center;")
+          img(src="../assets/logo1.png" style="width:200px;height:120px;")
         div
           appMenu
       //- Sider(style="background:#fff" v-model="isCollapsed")
         appMenu
       Layout
-        Header(:style="{background: '#F2F2F2', boxShadow: '0 2px 3px 2px rgba(0,0,0,.1)',padding: '0px 16px 0px 16px'}")
+        Header(:style="{background: '#FFFFFF', borderBottom: '1px solid #3CB371', boxShadow: '0 1px 2px 1px rgba(60,179,113,1)',padding: '0px 16px 0px 16px'}")
           appNav
         Content(:style="{padding: '16px 16px 16px 16px', background: '#FFF'}")
           router-view(v-if="isRouterAlive")
@@ -72,6 +72,9 @@ export default {
    background:#fff;
    // 边框阴影
    box-shadow: 0 1px 2px 1px rgba(25,190,107,1);
+}
+.header-style {
+
 }
   // @import '../style/menu.less';
 </style>

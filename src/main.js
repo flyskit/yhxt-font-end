@@ -9,7 +9,9 @@ import store from './store';
 import router from './router';
 import 'iview/dist/styles/iview.css';
 import '../src/style/index.less';
+import Print from 'vue-print-nb';
 
+Vue.use(Print);
 Vue.use(VueRouter);
 Vue.use(iView);
 // 加载axios

@@ -31,6 +31,9 @@
         Menu-item(name="khxd-ygm" @click.native="routerevent('/khxd-ygm')")
           Icon(type="md-radio-button-off")
           span 衣柜移门
+        Menu-item(name="khxd-tzm" @click.native="routerevent('/khxd-tzm')")
+          Icon(type="md-radio-button-off")
+          span 套装门
       Submenu(name="3")
         template(slot="title")
           Icon(type="ios-cart")

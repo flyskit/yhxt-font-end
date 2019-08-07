@@ -30,7 +30,7 @@
       template(slot="ys" slot-scope="{ row, index }")
         Input(v-model="row.ys"  @on-change="change(row)")
       template(slot="dj" slot-scope="{ row, index }")
-        Input(v-model="row.dj"  @on-change="change(row)")
+        Input(v-model="row.dj" @on-change="computeMoney(row)")
           span(slot="append") /m²
       template(slot="hjpf" slot-scope="{ row, index }")
         Input(v-model="row.hjpf" readonly=true  @on-change="change(row)")
@@ -176,6 +176,12 @@ export default {
           this.$refs.editCupboardSize.getHandleSize(this.handleSize);
         }
       });
+      this.computeMoney(row);
+      this.orderDetail[0] = row;
+    },
+    /** 金额计算 */
+    computeMoney(row) {
+      row.je = (row.hjpf * parseFloat(row.dj)).toFixed(1);
       this.orderDetail[0] = row;
     },
     /** 更改保证内容不变 */

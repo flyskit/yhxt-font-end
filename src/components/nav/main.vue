@@ -13,27 +13,32 @@
         Icon(type="ios-pin")
         BreadcrumbItem(to="/home")  首页
         BreadcrumbItem 客户下单
-        BreadcrumbItem 晶钢门
+        BreadcrumbItem(style="color: #3CB371;font-family:Hiragino Sans GB") 晶钢门
       Breadcrumb(separator="<b class='breadcrumb-separator'>/</b>" v-else-if="this.$route.fullPath === '/khxd-ykl'")
         Icon(type="ios-pin")
         BreadcrumbItem(to="/home")  首页
         BreadcrumbItem 客户下单
-        BreadcrumbItem 亚克力门
+        BreadcrumbItem(style="color: #3CB371;font-family:Hiragino Sans GB") 亚克力门
       Breadcrumb(separator="<b class='breadcrumb-separator'>/</b>" v-else-if="this.$route.fullPath === '/khxd-xsm'")
         Icon(type="ios-pin")
         BreadcrumbItem(to="/home")  首页
         BreadcrumbItem 客户下单
-        BreadcrumbItem 吸塑平开门
+        BreadcrumbItem(style="color: #3CB371;font-family:Hiragino Sans GB") 吸塑平开门
       Breadcrumb(separator="<b class='breadcrumb-separator'>/</b>" v-else-if="this.$route.fullPath === '/khxd-thj'")
         Icon(type="ios-pin")
         BreadcrumbItem(to="/home")  首页
         BreadcrumbItem 客户下单
-        BreadcrumbItem 钛合金门
+        BreadcrumbItem(style="color: #3CB371;font-family:Hiragino Sans GB") 钛合金门
       Breadcrumb(separator="<b class='breadcrumb-separator'>/</b>" v-else-if="this.$route.fullPath === '/khxd-ygm'")
         Icon(type="ios-pin")
         BreadcrumbItem(to="/home")  首页
         BreadcrumbItem 客户下单
-        BreadcrumbItem 衣柜移门
+        BreadcrumbItem(style="color: #3CB371;font-family:Hiragino Sans GB") 衣柜移门
+      Breadcrumb(separator="<b class='breadcrumb-separator'>/</b>" v-else-if="this.$route.fullPath === '/khxd-tzm'")
+        Icon(type="ios-pin")
+        BreadcrumbItem(to="/home")  首页
+        BreadcrumbItem 客户下单
+        BreadcrumbItem(style="color: #3CB371;font-family:Hiragino Sans GB") 套装门
       Breadcrumb(separator="<b class='breadcrumb-separator'>/</b>" v-else-if="this.$route.fullPath === '/produce-down'")
         Icon(type="ios-pin")
         BreadcrumbItem(to="/home")  首页
@@ -175,7 +180,7 @@ export default {
 }
 //面包屑分割符样式
 .breadcrumb-separator{
-  color: #ff5500;
+  color: #3CB371;
   padding: 0 1px;
 }
 </style>

@@ -1,17 +1,15 @@
 <template lang='pug'>
-  div.khxd-ykl-print-data
+  div.khxd-tzm-print-data
     Modal(v-model="visible"
       width="90vw"
-      height="90vw"
       @on-ok="ok"
       @on-cancel="ok"
       :closable="false"
       footer-hide=true)
-      div(class="print")
-        Keep-alive
-          printYklDetail(ref="printYklDetail" style="text-align:center")
+      div(class="print" id="print" style="width:100%;height:100%;page-break-before:always;")
+        printTzmDetail(ref="printTzmDetail" style="text-align:center")
       div(style="text-align:center" class="noprint")
-        Button(type="primary" @click="printPage") 打印
+        Button(type="primary" v-print="'#print'") 打印
         Button(@click="ok") 关闭
 </template>
 
@@ -19,7 +17,7 @@
 export default {
   inject: ['reload'],
   components: {
-    'printYklDetail': (resolve) => require(['@component_table/print/print-ykl.vue'], resolve)
+    'printTzmDetail': (resolve) => require(['@component_table/print/print-tzm.vue'], resolve)
   },
   data () {
     return {
@@ -30,9 +28,9 @@ export default {
   },
   methods: {
     /** 显示 */
-    show(data, czr, czsj) {
+    show(data, czr, czsj, isMain) {
       this.visible = true;
-      this.$refs.printYklDetail.show(data, czr, czsj);
+      this.$refs.printTzmDetail.show(data, czr, czsj, isMain);
     },
     /** 打印 */
     printPage() {
@@ -48,18 +46,20 @@ export default {
   }
 };
 </script>
-<style lang='less' scoped>
+<style lang='less'>
 @media print {
   .noprint {
     display:none;
   }
   .print {
     display:block;
-    margin-top: -8%;
   }
   @page {
-    size: auto;
-    margin: 0mm;
+    size: A4 auto;
+    margin: 50mm;
+    @bottom-center {
+      content: "第" counter(page) "页";
+    }
   }
 }
 </style>

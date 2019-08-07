@@ -89,13 +89,7 @@ export const KHXD_JGM_DDXX = [
         width: 80
       },
       {
-        title: '玻璃平方',
-        align: 'center',
-        slot: 'blpf',
-        width: 80
-      },
-      {
-        title: '合计数量',
+        title: '门板数量',
         align: 'center',
         slot: 'hjsl',
         width: 80
@@ -110,6 +104,12 @@ export const KHXD_JGM_DDXX = [
         title: '预计打包',
         align: 'center',
         slot: 'yjdb',
+        width: 80
+      },
+      {
+        title: '玻璃平方',
+        align: 'center',
+        slot: 'blpf',
         width: 80
       },
       {
