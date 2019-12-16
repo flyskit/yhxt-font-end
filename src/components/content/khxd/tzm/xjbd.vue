@@ -48,8 +48,8 @@
       template(slot="bz" slot-scope="{ row, index }")
         Input(v-model="row.bz"  @on-change="change(row)")
     div(style="text-align:right;margin-top:20px;")
-      Button(type="error" @click="storageData()" ghost) 暂存订单
-      Button(type="success" @click="subData()" style="margin-left:5px;" ghost) 添加订单
+      Button(type="error" size="small" @click="storageData()" ghost) 暂存订单
+      Button(type="success" size="small" @click="subData()" style="margin-left:5px;" ghost) 添加订单
     Divider 尺寸信息
     editSuit(ref="editSuit" :boardInfo="boardInfo" @submitData="submitData" @computeTotal="computeTotal")
     reworkModal(ref="reworkModal")

@@ -16,11 +16,12 @@ Vue.use(VueRouter);
 Vue.use(iView);
 // 加载axios
 Vue.prototype.axios = axios;
-axios.defaults.baseURL = 'http://192.168.3.74/back-stage';
+axios.defaults.baseURL = 'http://192.168.3.250/back-stage';
 
 const debug = process.env.NODE_ENV !== 'production';
 Vue.config.debug = debug;
 Vue.config.devtools = debug;
+
 window._vueInstance = new Vue({
   components: { app },
   template: '<app/>',

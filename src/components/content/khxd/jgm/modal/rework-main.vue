@@ -5,7 +5,7 @@
         Icon(type="ios-information-circle")
         span 返工订单-查询订单
       div
-        queryCondDetail(ref="queryCondDetail" @doSelect="doSelect")
+        queryCondDetail(ref="queryCondDetail" :isShowAll="isShowAll" @doSelect="doSelect")
         Divider 订单记录
         Table(ref="selection" :columns="orderColumns" :data="orderDetailList" size="small" highlight-row border @on-row-dblclick="getSizeDetail")
           template(slot="scsl" slot-scope="{ row, index }")
@@ -72,6 +72,7 @@ export default {
       typeDdlx: ORDER_DDLX,
       typeDdly: ORDER_DDLY,
       splx: '',
+      isShowAll: false,
       orderQueryCond: {},
       visible: false
     };

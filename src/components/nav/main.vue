@@ -39,6 +39,11 @@
         BreadcrumbItem(to="/home")  首页
         BreadcrumbItem 客户下单
         BreadcrumbItem(style="color: #3CB371;font-family:Hiragino Sans GB") 套装门
+      Breadcrumb(separator="<b class='breadcrumb-separator'>/</b>" v-else-if="this.$route.fullPath === '/ddgl-ddjl'")
+        Icon(type="ios-pin")
+        BreadcrumbItem(to="/home")  首页
+        BreadcrumbItem 订单管理
+        BreadcrumbItem(style="color: #3CB371;font-family:Hiragino Sans GB") 订单记录
       Breadcrumb(separator="<b class='breadcrumb-separator'>/</b>" v-else-if="this.$route.fullPath === '/produce-down'")
         Icon(type="ios-pin")
         BreadcrumbItem(to="/home")  首页

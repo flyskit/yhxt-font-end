@@ -12,6 +12,7 @@ import xsm from '@/components/content/khxd/xsm/main';
 import thj from '@/components/content/khxd/thj/main';
 import ygm from '@/components/content/khxd/ygm/main';
 import tzm from '@/components/content/khxd/tzm/main';
+import ddjl from '@/components/content/ddgl/ddjl/main';
 
 Vue.use(Router);
 
@@ -66,6 +67,11 @@ export default new Router({
       path: '/khxd-tzm',
       name: 'tzm',
       component: tzm
+    },
+    {
+      path: '/ddgl-ddjl',
+      name: 'ddjl',
+      component: ddjl
     },
     {
       path: '/finance-everyday',

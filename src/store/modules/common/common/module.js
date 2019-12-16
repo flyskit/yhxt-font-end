@@ -17,6 +17,50 @@ export const ORDER_DDLX = [
   }
 ];
 
+/** 商品类型 */
+export const ORDER_SPLX = [
+  {
+    value: 1,
+    label: '晶钢门'
+  },
+  {
+    value: 2,
+    label: '亚克力门'
+  },
+  {
+    value: 3,
+    label: '钛合金-平开门'
+  },
+  {
+    value: 4,
+    label: '钛合金-吊趟门'
+  },
+  {
+    value: 5,
+    label: '吸塑门'
+  },
+  {
+    value: 6,
+    label: '衣柜移门'
+  },
+  {
+    value: 7,
+    label: '强化门'
+  },
+  {
+    value: 8,
+    label: '实木贴面门'
+  },
+  {
+    value: 9,
+    label: '原木门'
+  },
+  {
+    value: 10,
+    label: '非常规门'
+  }
+];
+
 /** 订单来源 */
 export const ORDER_DDLY = [
   {
