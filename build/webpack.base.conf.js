@@ -41,6 +41,7 @@ module.exports = {
       '@component_table': path.resolve(__dirname, '../src/components/table'),
       '@store': path.resolve(__dirname, '../src/store/modules'),
       '@component': path.resolve(__dirname, '../src/components'),
+      '@absolute_route': path.resolve(__dirname, '../src/assets'),
     }
   },
   module: {
@@ -58,7 +59,8 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+        include: [resolve('src'), resolve('test'),resolve('node_modules/webpack-dev-server/client')],
+        exclude: [resolve('/node_modules/')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

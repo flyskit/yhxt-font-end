@@ -203,7 +203,7 @@ export default {
   }
 };
 </script>
-<style lang='less' scope>
+<style lang='less' scoped>
 .operate-button {
   margin-right: 5px;
   margin-bottom: 5px;

@@ -41,13 +41,19 @@
         Menu-item(name="ddgl-ddjl" @click.native="routerevent('/ddgl-ddjl')")
           Icon(type="md-radio-button-off")
           span 订单记录
-      //- Submenu(name="3")
-      //-   template(slot="title")
-      //-     Icon(type="ios-cart")
-      //-     span 材料管理
-      //-   Menu-item(name="3-1" @click.native="routerevent('/asset-stock')") 库存记录
-      //-   Menu-item(name="3-2" @click.native="routerevent('/asset-purchase')") 采购入库
-      //-   Menu-item(name="3-3" @click.native="routerevent('/asset-purchase-statistics')") 采购统计
+      Submenu(name="kcgl")
+        template(slot="title")
+          Icon(type="ios-archive")
+          span 库存管理
+        Menu-item(name="kcgl-kcjl" @click.native="routerevent('/kcgl-kcjl')")
+          Icon(type="md-radio-button-off")
+          span 库存记录
+        Menu-item(name="kcgl-cgrk" @click.native="routerevent('/kcgl-cgrk')")
+          Icon(type="md-radio-button-off")
+          span 订单记录
+        Menu-item(name="kcgl-wplq" @click.native="routerevent('/kcgl-wplq')")
+          Icon(type="md-radio-button-off")
+          span 物品领取
       //- Submenu(name="4")
       //-   template(slot="title")
       //-     Icon(type="ios-infinite")
@@ -107,5 +113,5 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 </style>

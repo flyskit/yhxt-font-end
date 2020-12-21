@@ -22,7 +22,7 @@ export default {
   methods: {
     /** 根据客户姓名查找订单列表 */
     doSelect(orderQueryCond) {
-      console.log(orderQueryCond);
+
     }
   }
 };

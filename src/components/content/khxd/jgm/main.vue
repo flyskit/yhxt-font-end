@@ -10,7 +10,7 @@
 <script>
 export default {
   components: {
-    'xjbd': (resolve) => require(['./xjbd'], resolve),
+    'xjbd': (resolve) => require(['./xjbd1'], resolve),
     'jryxd': (resolve) => require(['./jryxd'], resolve),
     'zclb': (resolve) => require(['./zclb'], resolve)
   },

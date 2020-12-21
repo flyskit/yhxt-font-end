@@ -2,18 +2,15 @@
 export const ORDER_DDLX = [
   {
     value: 0,
-    label: '新订单',
-    disabled: false
+    label: '新订单'
   },
   {
     value: 1,
-    label: '补单',
-    disabled: false
+    label: '补单'
   },
   {
     value: 2,
-    label: '返工',
-    disabled: true
+    label: '返工'
   }
 ];
 
