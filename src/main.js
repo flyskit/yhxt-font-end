@@ -1,6 +1,6 @@
 import 'babel-polyfill';
 import Vue from 'vue';
-import iView from 'iview';
+import iView from 'view-design';
 import axios from 'axios';
 
 import store from './store';

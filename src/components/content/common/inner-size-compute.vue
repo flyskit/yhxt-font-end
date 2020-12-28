@@ -54,7 +54,8 @@
             Button(style="padding: 6px 4px;" type="text" @click="delRow(index)")
               Icon(type="md-close")
       div(slot="footer")
-        Button(type="success" @click="submitInnerData") 导出
+        Button(type="warning" @click="submitInnerData(0)" ghost) 附增尺寸导出
+        Button(type="success" @click="submitInnerData(1)" ghost) 新尺寸导出
         Button(@click="ok") 关闭
 </template>
 
@@ -163,7 +164,7 @@ export default {
         if (row.rhd >= 30) {
           rhd = 13;
         } else {
-          rhd = (parseFloat(row.rhd / 2) - 2).toFixed(1);
+          rhd = (parseFloat(row.rhd / 2) - 2).toFixed(0);
         }
       } else if (row.rwz === 1) {
         // 边沿立柱
@@ -198,8 +199,8 @@ export default {
       this.visible = false;
     },
     /** 导出数据 */
-    submitInnerData() {
-      this.$emit('submitInnerData', this.handleSizeData);
+    submitInnerData(type) {
+      this.$emit('submitInnerData', this.handleSizeData, type);
       this.reset();
       this.visible = false;
     },

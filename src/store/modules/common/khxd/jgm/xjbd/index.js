@@ -1,4 +1,3 @@
-
 import api from './api';
 
 // actions
@@ -16,7 +15,8 @@ export default {
   state: {
     recordData: [],
     totalPages: 0,
-    totalElements: 0
+    totalElements: 0,
+    sizeData: []
   },
   getters: {
     GETTER_REWORK_DATA: (state) => state.recordData,

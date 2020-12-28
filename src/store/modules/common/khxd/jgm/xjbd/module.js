@@ -127,6 +127,7 @@ export const KHXD_JGM_CCXX = [
   {
     type: 'selection',
     width: 60,
+    key: 'selection',
     align: 'center'
   },
   {
@@ -153,11 +154,13 @@ export const KHXD_JGM_CCXX = [
   {
     title: '片数',
     align: 'center',
+    key: 'sl',
     slot: 'sl'
   },
   {
     title: '门板平方',
     align: 'center',
+    key: 'mbpf',
     slot: 'mbpf'
   },
   {
@@ -184,11 +187,157 @@ export const KHXD_JGM_CCXX = [
   {
     title: '玻璃平方',
     align: 'center',
+    key: 'blpf',
     slot: 'blpf'
   },
   {
     title: '操作',
     align: 'center',
     slot: 'action'
+  }
+];
+
+/** 尺寸信息-打印预览 */
+export const KHXD_JGM_CCXX_DYYL = [
+  {
+    title: '类型',
+    align: 'center',
+    slot: 'lx'
+  },
+  {
+    title: '门板尺寸',
+    align: 'center',
+    children: [
+      {
+        title: '高度',
+        align: 'center',
+        slot: 'mbgd'
+      },
+      {
+        title: '宽度',
+        align: 'center',
+        slot: 'mbkd'
+      }
+    ]
+  },
+  {
+    title: '片数',
+    align: 'center',
+    key: 'sl',
+    slot: 'sl'
+  },
+  {
+    title: '门板平方',
+    align: 'center',
+    key: 'mbpf',
+    slot: 'mbpf'
+  },
+  {
+    title: '备注',
+    align: 'center',
+    slot: 'bz'
+  }
+];
+
+/** 附加费用-表头 */
+export const KHXD_JGM_SURCHARGE = [
+  {
+    type: 'selection',
+    width: 60,
+    key: 'selection',
+    align: 'center'
+  },
+  {
+    title: '名称',
+    align: 'center',
+    slot: 'mc'
+  },
+  {
+    title: '所属类型',
+    align: 'center',
+    slot: 'sslx'
+  },
+  {
+    title: '数量',
+    align: 'center',
+    slot: 'sl'
+  },
+  {
+    title: '单位',
+    align: 'center',
+    slot: 'dw'
+  },
+  {
+    title: '单价',
+    align: 'center',
+    slot: 'dj'
+  },
+  {
+    title: '金额',
+    align: 'center',
+    key: 'je',
+    slot: 'je'
+  },
+  {
+    title: '备注',
+    align: 'center',
+    slot: 'bz'
+  },
+  {
+    title: '操作',
+    align: 'center',
+    slot: 'action'
+  }
+];
+
+/** 附加费用-打印预览 */
+export const KHXD_JGM_SURCHARGE_DYYL = [
+  {
+    title: '名称',
+    align: 'center',
+    slot: 'mc'
+  },
+  {
+    title: '所属类型',
+    align: 'center',
+    slot: 'sslx'
+  },
+  {
+    title: '数量',
+    align: 'center',
+    slot: 'sl'
+  },
+  {
+    title: '单位',
+    align: 'center',
+    slot: 'dw'
+  },
+  {
+    title: '单价',
+    align: 'center',
+    slot: 'dj'
+  },
+  {
+    title: '金额',
+    align: 'center',
+    key: 'je',
+    slot: 'je'
+  },
+  {
+    title: '备注',
+    align: 'center',
+    slot: 'bz'
+  }
+];
+
+/** 附加费用类型 */
+export const SURCHARGE_TYPE = [
+  {
+    value: 0,
+    label: '五金配件'
+  },
+  {
+    value: 1,
+    label: '加工费'
   }
 ];

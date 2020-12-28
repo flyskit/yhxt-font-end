@@ -4,7 +4,6 @@ export default {
   /** --------------------------创建订单--------------------------- */
   /** 添加订单 */
   addData(param) {
-    console.log('param:');
     console.log(param);
     return axios.post('/khxd/jgm/addData', param);
   },

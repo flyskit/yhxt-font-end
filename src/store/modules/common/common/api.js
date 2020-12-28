@@ -4,7 +4,8 @@ export default {
   /** --------------------------订单管理--------------------------- */
   /** 获取编号 */
   getOrderNumber() {
-    return axios.post('/ddcl/getOrderNumber');
+    console.log('获取编号');
+    // return axios.post('/ddcl/getOrderNumber');
   },
   /** 删除订单 */
   delOrder(param) {
@@ -68,6 +69,8 @@ export default {
   /** --------------------------客户管理--------------------------- */
   /** 根据客户姓名模糊查询客户信息 */
   getCustomerByName(param) {
-    return axios.post('/sjgl/getCustomerByName/' + param);
+    console.log('根据客户姓名查找信息，参数：');
+    console.log(param);
+    // return axios.post('/sjgl/getCustomerByName/' + param);
   }
 };

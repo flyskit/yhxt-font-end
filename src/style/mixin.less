@@ -26,7 +26,7 @@
   padding: 0 10px 0px 0;
 }
 
-/** ----------------------------- 重写 ------------------------------ **/
+/** ----------------------------- 重写原生iview样式 ------------------------------ **/
 // 表格内联单元格，不额外增加距离
 .ivu-table-cell {
   padding-left: 0px;
@@ -36,4 +36,45 @@
 // form-item 距离底部样式
 .ivu-form-item {
   margin-bottom: 10px;
+}
+
+// divider分割线高度
+.ivu-divider-horizontal.ivu-divider-with-text-center {
+  margin: 10px 0px 10px 0px;
+}
+
+// table表头高度
+.ivu-table-header thead tr th {
+  padding: 2px 0px 2px 0px;
+}
+
+.ivu-table-small td {
+  height: 30px;
+}
+// table表头背景颜色
+.ivu-table th {
+  background-color: #FFFFFF;
+}
+
+// table合计栏背景颜色
+.ivu-table-summary tr td {
+  background-color: #FFFFFF;
+}
+
+// modal弹窗样式-更改头部高度
+.ivu-modal-header {
+  padding-top: 2px;
+  padding-right: 2px;
+  padding-bottom: 2px;
+  padding-left: 2px;
+}
+
+// modal弹窗样式-更改右上角关闭按钮高度
+.ivu-modal-close {
+  top: 1px;
+}
+
+// modal弹窗样式-更改body高度
+.ivu-modal-fullscreen .ivu-modal-body {
+  top: 20px;
 }

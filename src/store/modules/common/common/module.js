@@ -6,11 +6,43 @@ export const ORDER_DDLX = [
   },
   {
     value: 1,
-    label: '补单'
+    label: '返工补单'
+  }
+];
+
+/** 订单来源 */
+export const ORDER_DDLY = [
+  {
+    value: 0,
+    label: '线下'
+  },
+  {
+    value: 1,
+    label: '1688'
   },
   {
     value: 2,
-    label: '返工'
+    label: '淘宝'
+  },
+  {
+    value: 3,
+    label: '拼多多'
+  },
+  {
+    value: 4,
+    label: '其他'
+  }
+];
+
+/** 生产速率 */
+export const ORDER_SCSL = [
+  {
+    value: 0,
+    label: '正常'
+  },
+  {
+    value: 1,
+    label: '特急'
   }
 ];
 
@@ -55,34 +87,6 @@ export const ORDER_SPLX = [
   {
     value: 10,
     label: '非常规门'
-  }
-];
-
-/** 订单来源 */
-export const ORDER_DDLY = [
-  {
-    value: 0,
-    label: '线下'
-  },
-  {
-    value: 1,
-    label: '1688'
-  },
-  {
-    value: 2,
-    label: '淘宝'
-  }
-];
-
-/** 生产速率 */
-export const ORDER_SCSL = [
-  {
-    value: 0,
-    label: '正常'
-  },
-  {
-    value: 1,
-    label: '加急'
   }
 ];
 
@@ -334,5 +338,61 @@ export const HANDLE_COLUMNS = [
     title: '操作',
     align: 'center',
     slot: 'action'
+  }
+];
+
+/** 订单来源 */
+export const UNIT_NAME = [
+  {
+    value: 0,
+    label: '副'
+  },
+  {
+    value: 1,
+    label: '个'
+  },
+  {
+    value: 2,
+    label: '块'
+  },
+  {
+    value: 3,
+    label: '扇'
+  },
+  {
+    value: 4,
+    label: '根'
+  },
+  {
+    value: 5,
+    label: '米'
+  },
+  {
+    value: 6,
+    label: '件'
+  },
+  {
+    value: 7,
+    label: '平方米'
+  },
+  {
+    value: 8,
+    label: '千克'
+  },
+  {
+    value: 9,
+    label: '套'
+  },
+  {
+    value: 10,
+    label: '箱'
+  },
+  {
+    value: 11,
+    label: '卷'
+  },
+  {
+    value: 12,
+    label: '张'
   }
 ];
